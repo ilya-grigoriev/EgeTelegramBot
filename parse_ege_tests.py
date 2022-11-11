@@ -1,3 +1,6 @@
+from urllib.request import urlopen, urlretrieve
+from io import StringIO
+
 import requests
 from bs4 import BeautifulSoup
 
@@ -17,8 +20,45 @@ headers = {
 }
 
 
-def parse_site(content: requests.Response.content) -> list:
+def get_content_from_site(url: str, mode='get') -> (
+        requests.Response | None, str | None):
+    response = None
+    status_code = None
+    if mode == 'get':
+        response: requests.Response = requests.get(url, headers=headers)
+        status_code = response.status_code
+    return response.content, status_code
+
+
+def parse_tests(urls: list, sample: str) -> list:
+    tests = []
+    for url in urls:
+        content, status_code = get_content_from_site(url)
+        if content and status_code == 200:
+            bs = BeautifulSoup(content, 'html.parser')
+
+            problem = bs.find('div', attrs={'class': 'pbody'})
+            condition = problem.select('p.left_margin:not(:empty)')[0].text
+            image_of_problem = None
+            if problem.find('img'):
+                src_image_of_problem = problem.find('img')['src']
+                total_url = f'{sample}{src_image_of_problem}'
+                path_image = urlretrieve(total_url)[0]
+                with open(path_image) as file:
+                    image_of_problem = StringIO(file.read())
+            tests.append((condition, image_of_problem, url))
+    return tests
+
+
+def get_url_of_tests(sample: str, content: requests.Response.content):
     bs = BeautifulSoup(content, 'html.parser')
+    urls = bs.find_all('span', attrs={'class': 'prob_nums'})
+    formatted_urls = []
+    for url in urls:
+        href = url.findNext()['href']
+        total_url = f'{sample}{href}'
+        formatted_urls.append(total_url)
+    return formatted_urls
 
 
 def get_data_of_url() -> list:
@@ -29,13 +69,15 @@ def get_data_of_url() -> list:
             headers=headers)
         if response.status_code == 200:
             content = response.content.decode('utf-8')  # форматируем кириллицу
-            parse_site(content)
+            urls = get_url_of_tests('https://ege.sdamgia.ru', content)
+            parse_tests(urls, 'https://ege.sdamgia.ru')
         page_n += 1
+        break
 
 
-def get_tests() -> list:
+def get_problems() -> list:
     get_data_of_url()
 
 
 if __name__ == '__main__':
-    get_tests()
+    get_problems()
