@@ -2,9 +2,10 @@ import requests
 from bs4 import BeautifulSoup
 from config import headers
 from parse_sites import parse_tests
+from get_data_for_site import get_content_from_site
 
 def get_url_of_themes(url: str):
-
+    content = get_content_from_site(url)
 def get_url_of_tests(sample: str, content: requests.Response.content):
     bs = BeautifulSoup(content, 'html.parser')
     urls = bs.find_all('span', attrs={'class': 'prob_nums'})

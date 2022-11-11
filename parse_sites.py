@@ -5,15 +5,7 @@ from config import headers
 import requests
 from bs4 import BeautifulSoup
 
-
-def get_content_from_site(url: str, mode='get') -> (
-        requests.Response | None, str | None):
-    response = None
-    status_code = None
-    if mode == 'get':
-        response: requests.Response = requests.get(url, headers=headers)
-        status_code = response.status_code
-    return response.content, status_code
+from get_data_for_site import get_content_from_site
 
 
 def parse_tests(urls: list, sample: str) -> list:
