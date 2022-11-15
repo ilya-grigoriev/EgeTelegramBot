@@ -5,15 +5,15 @@ from config import headers
 import requests
 from bs4 import BeautifulSoup
 
-from get_data_for_site import get_content_from_site
+from get_data_for_site import get_response_from_site
 
 
 def parse_tests(urls: list, sample: str) -> list:
     tests = []
     for url in urls:
-        content, status_code = get_content_from_site(url)
-        if content and status_code == 200:
-            bs = BeautifulSoup(content, 'html.parser')
+        response, status_code = get_response_from_site(url)
+        if response.content and status_code == 200:
+            bs = BeautifulSoup(response.content, 'html.parser')
 
             problem = bs.find('div', attrs={'class': 'pbody'})
             condition = problem.select('p.left_margin:not(:empty)')[0].text
