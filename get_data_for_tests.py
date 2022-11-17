@@ -1,7 +1,10 @@
+import json
+
 import loguru as loguru
 import requests
 from bs4 import BeautifulSoup
 import config
+from format_data import format_tasks
 from parse_sites import parse_tests
 from get_data_for_site import get_response_from_site
 from loguru import logger
@@ -33,7 +36,7 @@ def get_url_of_tests(sample: str, content: requests.Response.content):
     return formatted_urls
 
 
-def get_subject_ids() -> list[dict]:
+def get_json_of_subject_ids() -> list[dict]:
     headers = {
         'Accept': 'application/json, text/plain, */*',
         'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',
@@ -53,7 +56,7 @@ def get_subject_ids() -> list[dict]:
         logger.error(f"Connection is failed. URL: {url}")
 
 
-def get_tasks_for_subject(subject_id: int, n_tasks: int) -> list[dict]:
+def get_json_of_tasks_for_subject(subject_id: int, n_tasks: int) -> list[dict]:
     headers = {
         'Accept': 'application/json, text/plain, */*',
         'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',
@@ -91,7 +94,9 @@ def get_tasks_for_subject(subject_id: int, n_tasks: int) -> list[dict]:
     response = requests.post(url, headers=headers, json=json_data,
                              verify=False)
     if response.status_code == 200:
-        data = response.json()['tasks']
+        data = response.json().get('tasks')
+        with open('test.json', mode='w', encoding='utf-8') as file:
+            json.dump(data, file, ensure_ascii=False)
         return data
     else:
         logger.error(f"Connection is failed. URL: {url}")
@@ -106,5 +111,4 @@ def create_session(urls: list) -> requests.Session:
 
 if __name__ == '__main__':
     # get_subject_ids()
-    print(get_tasks_for_subject(1, 100))
-
+    print(format_tasks(get_json_of_tasks_for_subject(1, 2)))
