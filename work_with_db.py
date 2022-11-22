@@ -1,11 +1,7 @@
 import aiosqlite
 from config import translation
 import sqlite3
-
-# from format_data import format_data_from_db
-
-
-# from format_data import format_data_from_db
+from format_data import format_data_from_db
 
 
 def insert_data(subject: str, data: str) -> None:
@@ -20,10 +16,7 @@ def insert_data(subject: str, data: str) -> None:
     con.close()
 
 
-# async def get_count_tasks(subject: str) -> list[str]:
-
-
-async def select_data(subject: str) -> tuple[str] | None:
+async def select_data(subject: str) -> str | None:
     trans_subject = translation.get(subject)
     async with aiosqlite.connect('tasks_for_subjects.db') as db:
         cursor = await db.execute(f"""SELECT * FROM {trans_subject}
@@ -32,4 +25,4 @@ async def select_data(subject: str) -> tuple[str] | None:
                                       SELECT COUNT(*) 
                                       FROM {trans_subject}), 1);""")
         task = await cursor.fetchone()
-    return task
+    return format_data_from_db(task)

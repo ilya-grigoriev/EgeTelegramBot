@@ -14,7 +14,7 @@ def main():
     for task in tasks:
         formatted_task = format_data_for_db(task)
         insert_data('Русский язык', formatted_task)
-    format_data_from_db(asyncio.run(main_2()))
+    # print(asyncio.run(main_2()))
 
 
 if __name__ == '__main__':

@@ -1,5 +1,6 @@
 import re
 from dataclasses import dataclass
+
 from bs4 import BeautifulSoup
 
 
@@ -16,13 +17,14 @@ class DataFromDB:
     img: str
 
 
-@dataclass(init=True)
+@dataclass
 class DataForDB:
     level_name: str
     number_task: int
     task_title: str
+    task_text: str
     text: str
-    desc_for_task: dict[str, str]
+    answers: str
     correct_answer: str
     img: str
 
@@ -41,78 +43,83 @@ def delete_excess_data_in_tag(tag: str) -> str:
     return tag
 
 
-def format_desc_and_answers_for_task(text: str) -> dict:
+def format_desc_and_answers_for_task(text: str) -> dict | None:
     data = dict()
     soup = BeautifulSoup(text, 'html.parser')
     list_answers = soup.find_all('div', attrs={'class': 'answer'})
-    if not list_answers:
-        answers = soup.find('div', attrs={'name': 'text'}).text.replace('\n',
-                                                                        '')
-        data['answers'] = answers
-    else:
+    if list_answers:
         task_text = soup.find('div', attrs={'name': 'text'}).text
         data['task_text'] = task_text.strip().strip('\n')
         answers_options = [
             delete_excess_data_in_tag(answer.text.strip().strip('\n')) for
             answer in list_answers]
         data['answers'] = format_answers_options(answers_options)
-    return data
+        return data
+    return None
 
 
-def format_tasks(tasks: list[dict]) -> list[dict]:
+def format_tasks(tasks: list[dict]) -> list[DataForDB]:
     data = []
-    i = 0
-    for task in tasks:
-        dict_task = dict()
-
+    for n, task in enumerate(tasks):
+        if n == 6:
+            pass
         level_name = task.get('levelName', '').strip()
-        dict_task['level_name'] = level_name
 
-        number_task = task.get('numberInGroup')
-        dict_task['number_task'] = number_task
+        number_task = task.get('numberInGroup', '')
+        number_task = number_task if number_task else -1
 
         task_title = task.get('taskTitle', '').strip()
-        dict_task['task_title'] = task_title
 
-        text = task.get('docHtml')
+        text = task.get('docHtml', '')
         if text:
             text = delete_excess_data_in_tag(
                 BeautifulSoup(text, 'html.parser').text.strip())
         else:
             text = ''
-        dict_task['text'] = text
 
         correct_answer = task.get('answer', '').strip()
-        dict_task['correct_answer'] = correct_answer
 
-        correct_answer = task.get('img', '').strip()
-        dict_task['img'] = correct_answer
+        img = task.get('img', '').strip()
 
         task_text = task.get('taskText', '').strip()
         task_text = BeautifulSoup(task_text, 'html.parser').text.strip()
-        desk_for_task = format_desc_and_answers_for_task(task.get('html', ''))
-        desk_for_task['task_text'] = desk_for_task.get(
-            'task_text') or delete_excess_data_in_tag(task_text)
-        dict_task['desc_for_task'] = desk_for_task
 
-        data.append(dict_task)
+        desk_for_task = format_desc_and_answers_for_task(task.get('html', ''))
+
+        if desk_for_task:
+            answers = desk_for_task.get('answers')
+            task_text = desk_for_task.get(
+                'task_text') or delete_excess_data_in_tag(task_text)
+
+            task_data = DataForDB(level_name, number_task,
+                                  task_title, task_text,
+                                  text, answers, correct_answer, img)
+
+            data.append(task_data)
     return data
 
 
-def format_data_for_db(task: dict[str, dict[str]]) -> str:
-    data = DataForDB(*task)
-    task_text = ''
-    answers = ''
-    if data.desc_for_task:
-        task_text = data.desc_for_task.get('task_text', '')
-        answers = data.desc_for_task.get('answers')
-        if isinstance(answers, list):
-            answers = '\n'.join(data.desc_for_task.get('answers', ''))
-    total_request = f"('{data.level_name}', {data.number_task}, '{data.task_title}', '{task_text}', '{data.text}', '{answers}', '{data.correct_answer}', '{data.img}')"
+def format_data_for_db(task: DataForDB) -> str:
+    answers = task.answers
+    if isinstance(answers, list):
+        answers = '\n'.join(task.answers)
+    total_request = f"('{task.level_name}', {task.number_task}, '{task.task_title}', '{task.task_text}', '{task.text}', '{answers}', '{task.correct_answer}', '{task.img}')"
     return total_request
 
 
-def format_data_from_db(data: tuple[str]) -> list[str]:
+def format_data_from_db(data: tuple[str] | None) -> str:
+    total_text = ''
     if data is not None:
         data = DataFromDB(*data)
-        print(data)
+        total_text += f"Уровень: {data.level_name}\n"
+        total_text += f"{data.task_title}\n"
+        if data.number_task != -1:
+            total_text += f"Номер задания: {data.number_task}\n"
+        if data.text:
+            total_text += f"Текст задания:\n"
+            total_text += f"{data.text}\n"
+        total_text += f"Задание:\n"
+        total_text += f"{data.task_text}\n"
+        total_text += f"Варианты ответов:\n"
+        total_text += f"{data.answers}"
+    return total_text
