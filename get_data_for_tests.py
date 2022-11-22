@@ -110,5 +110,4 @@ def create_session(urls: list) -> requests.Session:
 
 
 if __name__ == '__main__':
-    # get_subject_ids()
     print(format_tasks(get_json_of_tasks_for_subject(1, 2)))
