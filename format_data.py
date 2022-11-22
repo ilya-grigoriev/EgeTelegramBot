@@ -60,9 +60,7 @@ def format_desc_and_answers_for_task(text: str) -> dict | None:
 
 def format_tasks(tasks: list[dict]) -> list[DataForDB]:
     data = []
-    for n, task in enumerate(tasks):
-        if n == 6:
-            pass
+    for task in tasks:
         level_name = task.get('levelName', '').strip()
 
         number_task = task.get('numberInGroup', '')
@@ -112,9 +110,9 @@ def format_data_from_db(data: tuple[str] | None) -> str:
     if data is not None:
         data = DataFromDB(*data)
         total_text += f"Уровень: {data.level_name}\n"
-        total_text += f"{data.task_title}\n"
         if data.number_task != -1:
             total_text += f"Номер задания: {data.number_task}\n"
+        total_text += f"{data.task_title}\n"
         if data.text:
             total_text += f"Текст задания:\n"
             total_text += f"{data.text}\n"
