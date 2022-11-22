@@ -14,7 +14,7 @@ def insert_data(subject: str, data: str) -> None:
     cur = con.cursor()
     total_request = f"""INSERT OR IGNORE INTO {subject}
                         (level_name, number_task, task_title, task_text, 
-                        text, answers, correct_answer) VALUES {data}"""
+                        text, answers, correct_answer, img) VALUES {data}"""
     cur.execute(total_request)
     con.commit()
     con.close()
@@ -23,7 +23,7 @@ def insert_data(subject: str, data: str) -> None:
 # async def get_count_tasks(subject: str) -> list[str]:
 
 
-async def select_data(subject: str) -> tuple[str]:
+async def select_data(subject: str) -> tuple[str] | None:
     trans_subject = translation.get(subject)
     async with aiosqlite.connect('tasks_for_subjects.db') as db:
         cursor = await db.execute(f"""SELECT * FROM {trans_subject}
