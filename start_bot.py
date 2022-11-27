@@ -5,7 +5,7 @@ from aiogram.dispatcher.filters.state import StatesGroup, State
 from aiogram.utils import executor
 from os import getenv
 from keyboards.subjects import keyboard_subjects
-from handlers import greeting, get_data, check_response, returning
+from handlers import greeting, get_data, check_response
 
 TELEGRAM_TOKEN = getenv('TOKEN')
 bot = Bot(token=TELEGRAM_TOKEN)
