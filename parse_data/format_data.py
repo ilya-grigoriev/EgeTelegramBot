@@ -97,7 +97,7 @@ def format_tasks(tasks: list[dict]) -> list[DataForDB]:
     return data
 
 
-def format_data_for_db(task: DataForDB) -> str:
+def format_data_for_db(*, task: DataForDB) -> str:
     answers = task.answers
     if isinstance(answers, list):
         answers = '\n'.join(task.answers)
