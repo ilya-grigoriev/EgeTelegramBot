@@ -31,8 +31,10 @@ headers_for_get_subject_ids = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36',
 }
 translation_from_telegram = {
-    'russian': 'Русский язык'
+    'russian': 'Русский язык',
+    'math': 'Математика профильная'
 }
 translation_for_db = {
-    'Русский язык': 'russian'
+    'Русский язык': 'russian',
+    'Математика профильная': 'math'
 }

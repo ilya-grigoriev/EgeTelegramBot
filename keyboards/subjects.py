@@ -1,7 +1,7 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
 RUSSIAN = KeyboardButton('Русский язык')
-MATH = KeyboardButton('Математика')
+MATH = KeyboardButton('Математика профильная')
 
 buttons = [
     [RUSSIAN, MATH]
