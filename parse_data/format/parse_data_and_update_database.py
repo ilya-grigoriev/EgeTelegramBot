@@ -18,9 +18,12 @@ def parse_data_and_update_db(*, subject_name: str, n_tasks: int) -> None:
     if current_subject_id:
         tasks = format_tasks(
             get_json_of_tasks_for_subject(subject_id=current_subject_id,
-                                          n_tasks=n_tasks), current_subject_id)
+                                          n_tasks=n_tasks))
         logger.info('Tasks formatted')
         for task in tasks:
-            formatted_task = format_data_for_db(subject_id=current_subject_id,
-                                                task=task)
+            formatted_task = format_data_for_db(task=task)
             insert_tasks(subject=subject_name, data=formatted_task)
+
+
+if __name__ == '__main__':
+    parse_data_and_update_db(subject_name='Математика профильная', n_tasks=100)
