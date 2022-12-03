@@ -1,20 +1,13 @@
+from parse_data.format.format_data_for_database import format_data_for_db
 from parse_data.typing_for_parsing import DataForDB
+from parse_data.get_data.get_data_for_db import get_data_from_json
+from work_with_db.insert_data import insert_tasks
 
 
-def format_tasks(tasks: list[dict]) -> list[DataForDB]:
+def format_tasks(*, tasks: list[dict], subject_name: str) -> list[DataForDB]:
     data = []
     for task in tasks:
-        level_name = task.get('levelName', '').strip()
-
-        number_task = task.get('numberInGroup', '')
-        number_task = number_task if number_task else -1
-
-        correct_answer = task.get('answer', '').strip()
-
-        html_code = task.get('html').strip()
-
-        task_data = DataForDB(level_name=level_name, number_task=number_task,
-                              img=html_code, correct_answer=correct_answer)
-
-        data.append(task_data)
+        task_data = get_data_from_json(task=task)
+        formatted_task = format_data_for_db(task=task_data)
+        insert_tasks(subject=subject_name, data=formatted_task)
     return data

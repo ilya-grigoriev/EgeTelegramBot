@@ -1,16 +1,15 @@
 import asyncio
-import os
 import traceback
 import aiosqlite
 from loguru import logger
 
 from parse_data.format.format_data_from_database import format_data_from_db
+from parse_data.get_data.get_path import get_path_for_file
 
 
 async def select_task(*, subject: str) -> tuple[str, None] | None:
     try:
-        par_dir = os.path.dirname(f'{os.path.dirname(__file__)}')
-        path = os.path.join(par_dir, r'db\tasks_for_subjects.db')
+        path = get_path_for_file(path_dir_file=r'db\tasks_for_subjects.db')
         async with aiosqlite.connect(path) as db:
             cursor = await db.execute(f"""SELECT * FROM {subject}
                                           LIMIT 1 
