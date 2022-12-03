@@ -4,7 +4,7 @@ from parse_data.get_data.get_data_for_db import get_data_from_json
 from work_with_db.insert_data import insert_tasks
 
 
-def format_tasks(*, tasks: list[dict], subject_name: str) -> list[DataForDB]:
+def format_tasks(tasks: list[dict], subject_name: str) -> list[DataForDB]:
     data = []
     for task in tasks:
         task_data = get_data_from_json(task=task)

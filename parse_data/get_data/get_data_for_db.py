@@ -1,4 +1,5 @@
 from parse_data.convert.convert_html import convert_html_code_to_image
+from parse_data.format.format_data_in_tag import delete_excess_data_in_tag
 from parse_data.typing_for_parsing import DataForDB
 
 
@@ -12,12 +13,12 @@ def get_data_from_json(*, task: dict) -> DataForDB:
 
     correct_answer = task.get('answer', '')
 
-    html_code = task.get('html').strip()
-    converted_html_code = convert_html_code_to_image(html_code=html_code,
-                                                     file_name=str(id))
+    html_code = task.get('taskTextWord').strip().replace('\n', ' ').replace(
+        '\r', ' ')
+    html_code = delete_excess_data_in_tag(html_code)
 
-    task_data = DataForDB(level_name=level_name, number_task=number_task,
-                          img=converted_html_code,
+    task_data = DataForDB(level_name=level_name, html=html_code,
+                          number_task=number_task, id_task=id,
                           correct_answer=correct_answer)
 
     return task_data

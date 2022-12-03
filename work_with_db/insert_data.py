@@ -4,6 +4,8 @@ from parse_data.get_data.get_path import get_path_for_file
 import sqlite3
 from config_for_parsing import translation_for_db
 from loguru import logger
+from parse_data.format.format_data_for_database import format_data_for_db
+from parse_data.typing_for_parsing import DataForDB
 
 
 def insert_tasks(*, subject: str, data: str) -> None:
@@ -12,10 +14,9 @@ def insert_tasks(*, subject: str, data: str) -> None:
     con = sqlite3.connect(database=path)
     cur = con.cursor()
     try:
-        total_request = f"""INSERT OR IGNORE INTO {subject_name}
-                            (level_name, number_task, html, 
-                            correct_answer) VALUES {data}"""
-        cur.execute(total_request)
+        request = f"INSERT OR IGNORE INTO {subject_name} (id_task, " \
+                  f"level_name, number_task, html, correct_answer) VALUES {data}"
+        cur.execute(request)
         con.commit()
     except Exception as e:
         logger.error(traceback.format_exc())
@@ -24,4 +25,4 @@ def insert_tasks(*, subject: str, data: str) -> None:
 
 
 if __name__ == '__main__':
-    insert_tasks(subject='Математика профильная', data='a')
+    pass
