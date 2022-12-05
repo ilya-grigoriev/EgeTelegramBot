@@ -1,3 +1,6 @@
+import os
+
+from PIL import Image
 from aiogram import types, Bot
 from aiogram.dispatcher import FSMContext
 from keyboards.menu import keyboard_menu
@@ -15,14 +18,18 @@ async def get_task(*, message: types.Message, state: FSMContext,
         data = await state.get_data()
         subject = data.get('subject')
 
-    task, img, correct_answer = await select_task(subject=subject)
+    task, id_task, correct_answer = await select_task(subject=subject)
+    file_name = f'{id_task}.png'
     await state.update_data({'correct_answer': correct_answer})
 
     if task:
-        await bot.send_photo(chat_id=message.chat.id,
-                             photo=convert_image_to_bytes(img))
         await message.answer(text=task,
                              reply_markup=types.ReplyKeyboardRemove())
+
+        await bot.send_photo(message.chat.id, open(file_name, 'rb'))
+        os.remove(file_name)
+
+        await message.answer(text='Введите ответ:')
     else:
         await message.answer(text='В базе данных на данный момент нет задач')
         await message.answer(text='Выберите другой предмет:',

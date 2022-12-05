@@ -19,6 +19,7 @@ def insert_tasks(*, subject: str, data: str) -> None:
         cur.execute(request)
         con.commit()
     except Exception as e:
+        print(request)
         logger.error(traceback.format_exc())
     finally:
         con.close()
