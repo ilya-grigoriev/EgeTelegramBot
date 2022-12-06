@@ -18,15 +18,17 @@ async def get_task(*, message: types.Message, state: FSMContext,
         data = await state.get_data()
         subject = data.get('subject')
 
-    task, id_task, correct_answer = await select_task(subject=subject)
-    file_name = f'{id_task}.png'
-    await state.update_data({'correct_answer': correct_answer})
+    response = await select_task(subject=subject)
+    if response:
+        task, id_task, correct_answer = response
+        file_name = f'{id_task}.jpg'
+        await state.update_data({'correct_answer': correct_answer})
 
-    if task:
         await message.answer(text=task,
                              reply_markup=types.ReplyKeyboardRemove())
 
-        await bot.send_photo(message.chat.id, open(file_name, 'rb'))
+        await bot.send_document(message.chat.id, open(file_name, 'rb'))
+
         os.remove(file_name)
 
         await message.answer(text='Введите ответ:')
