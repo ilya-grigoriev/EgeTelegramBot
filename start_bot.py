@@ -5,12 +5,17 @@ from aiogram.dispatcher.filters.state import StatesGroup, State
 from aiogram.utils import executor
 from os import getenv
 from keyboards.subjects import keyboard_subjects
+from keyboards.menu import keyboard_menu
 from handlers import greeting, get_data, check_response
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from parse_data.parse_ege_tests import parse_tasks
+from config_for_parsing import subjects
 
 TELEGRAM_TOKEN = getenv('TOKEN')
 bot = Bot(token=TELEGRAM_TOKEN)
 storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
+scheduler = AsyncIOScheduler()
 
 
 class Response(StatesGroup):
@@ -27,9 +32,17 @@ async def send_welcome_(message: types.Message):
 
 @dp.message_handler(state=Response.subject)
 async def get_task_(message: types.Message, state: FSMContext):
-    await get_data.get_task(message=message, state=state,
-                            after_subject_selection=True, bot=bot)
-    await Response.next()
+    if message.text.strip() in subjects:
+        await message.answer('Отправка задания...',
+                             reply_markup=types.ReplyKeyboardRemove())
+        await get_data.get_task(message=message, state=state,
+                                after_subject_selection=True, bot=bot)
+        await Response.next()
+    else:
+        await message.answer('Данного предмета нет в списке')
+        await message.answer('Выберите предмет:',
+                             reply_markup=keyboard_subjects)
+        await Response.subject.set()
 
 
 @dp.message_handler(state=Response.answer)
@@ -50,9 +63,14 @@ async def back_or_get(message: types.Message, state: FSMContext):
     elif response == 'Вернуться в главное меню':
         await Response.subject.set()
         await message.answer('Главное меню:', reply_markup=keyboard_subjects)
+    else:
+        await Response.back_or_get.set()
+        await message.answer('Некорректный ответ', reply_markup=keyboard_menu)
 
 
 def main() -> None:
+    scheduler.add_job(parse_tasks, trigger='cron', hour='0')
+    scheduler.start()
     executor.start_polling(dp, skip_updates=True)
 
 

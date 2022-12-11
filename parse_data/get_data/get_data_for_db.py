@@ -1,4 +1,3 @@
-from parse_data.convert.convert_html import convert_html_code_to_image
 from parse_data.format.format_data_in_tag import delete_excess_data_in_tag
 from parse_data.typing_for_parsing import DataForDB
 

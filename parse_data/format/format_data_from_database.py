@@ -16,6 +16,6 @@ async def format_data_from_db(*, data: tuple[str] | None) -> tuple[
             total_text += f"Номер задания: {data.number_task}\n"
         file_path = await convert_html_code_to_image(html_code=data.html,
                                                      id_task=data.id_task)
-        crop_image(file_path=file_path)
+        # crop_image(file_path=file_path)
 
     return total_text, data.id_task, data.correct_answer, file_path

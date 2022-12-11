@@ -3,30 +3,17 @@ import json
 import requests
 from loguru import logger
 
-from config_for_parsing import headers_for_get_tasks_of_subjects
+from config_for_parsing import headers_for_get_tasks_of_subjects, json_data
 
 
 def get_json_of_tasks_for_subject(*, subject_id: int, n_tasks: int) -> list[
     dict]:
-    json_data = {
-        'subjectId': str(subject_id),
-        'levelIds': [],
-        'themeIds': [],
-        'typeIds': [],
-        'id': '',
-        'favorites': 0,
-        'answerStatus': 0,
-        'themeSectionIds': [],
-        'published': 0,
-        'extId': '',
-        'fipiCode': '',
-        'docId': '',
-        'isAdmin': False,
-        'loadDates': [],
-        'isPublished': False,
-        'pageSize': n_tasks,
-        'pageNumber': 1,
-    }
+    json_data.update(
+        {
+            'subjectId': str(subject_id),
+            'pageSize': n_tasks
+        }
+    )
 
     url = 'http://os.fipi.ru/api/tasks'
     response = requests.post(url, headers=headers_for_get_tasks_of_subjects,
