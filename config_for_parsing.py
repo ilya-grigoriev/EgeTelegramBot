@@ -38,3 +38,4 @@ translation_for_db = {
     'Русский язык': 'russian',
     'Математика профильная': 'math'
 }
+path_dir = '\\'.join(str(__file__).rsplit('\\')[:-1])
