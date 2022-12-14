@@ -1,0 +1,3 @@
+import io
+
+def convert_image_to_bytes(*, file_name: str) -> io.BytesIO: ...

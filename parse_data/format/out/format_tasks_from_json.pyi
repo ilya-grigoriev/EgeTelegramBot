@@ -1,0 +1,3 @@
+from parse_data.typing_for_parsing import DataForDB as DataForDB
+
+def format_tasks(tasks: list[dict], subject_name: str) -> list[DataForDB]: ...

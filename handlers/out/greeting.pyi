@@ -1,0 +1,3 @@
+from aiogram import types as types
+
+async def send_welcome(*, message: types.Message): ...
