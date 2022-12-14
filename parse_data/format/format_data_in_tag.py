@@ -2,11 +2,9 @@ import re
 
 
 def delete_excess_data_in_tag(tag: str) -> str:
-    # tag = re.sub(r'<math>[\w\W]+</math>', '', tag)
     tag = re.sub(
         r'<annotation[\s\d\w=\'-]+>((?!<)[\s\d\w=\'-@])+<\/annotation>', '',
         tag)
-    # tag = re.sub(r'MathType[A-Za-z\d@+=]+', '', tag)
     tag = re.sub(r'\s{2,}', ' ', tag)
     tag = re.sub('"', "'", tag)
 
@@ -22,13 +20,15 @@ def delete_excess_data_in_tag(tag: str) -> str:
     sources = re.findall(pattern, tag)
     pattern_for_href = r'(docs\/[\d\w]+\/[\d\w]+\/[\d\w]+\/[\d\w]+\.png)'
     for source in sources:
-        href = re.search(pattern_for_href, source).group()
-        source = re.sub(r'/', r'\/', source)
-        source = re.sub(r'\(', r'\(', source)
-        source = re.sub(r'\)', r'\)', source)
-        source = re.sub(r'\.', r'\.', source)
-        image = f'<img src="http://os.fipi.ru/{href}">'
-        tag = re.sub(source, image, tag)
+        result_search = re.search(pattern_for_href, source)
+        if result_search:
+            href = result_search.group()
+            source = re.sub(r'/', r'\/', source)
+            source = re.sub(r'\(', r'\(', source)
+            source = re.sub(r'\)', r'\)', source)
+            source = re.sub(r'\.', r'\.', source)
+            image = f'<img src="http://os.fipi.ru/{href}">'
+            tag = re.sub(source, image, tag)
 
     tag = re.sub('"', "'", tag)
 

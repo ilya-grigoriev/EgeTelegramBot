@@ -1,13 +1,9 @@
 import os
-
-from PIL import Image
 from aiogram import types, Bot
 from aiogram.dispatcher import FSMContext
-from keyboards.menu import keyboard_menu
 from keyboards.subjects import keyboard_subjects
 from work_with_db.select_data import select_task
 from config_for_parsing import translation_for_db
-from config_for_parsing import path_dir
 
 
 async def get_task(*, message: types.Message, state: FSMContext,

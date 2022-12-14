@@ -4,7 +4,7 @@ from parse_data.typing_for_parsing import DataForDB
 
 def get_data_from_json(*, task: dict) -> DataForDB | None:
     if task.get('answer') and task.get('id'):
-        id = task.get('id')
+        id = task.get('id', -1)
 
         level_name = task.get('levelName', '').strip()
 
@@ -13,8 +13,9 @@ def get_data_from_json(*, task: dict) -> DataForDB | None:
 
         correct_answer = task.get('answer', '')
 
-        html_code = task.get('html').strip().replace('\n', ' ').replace('\r',
-                                                                        ' ')
+        html_code = task.get('html', '')
+        html_code = html_code.strip().replace('\n', ' ').replace('\r', ' ')
+
         html_code = delete_excess_data_in_tag(html_code)
 
         task_data = DataForDB(level_name=level_name, html=html_code,
@@ -22,3 +23,4 @@ def get_data_from_json(*, task: dict) -> DataForDB | None:
                               correct_answer=correct_answer)
 
         return task_data
+    return None
