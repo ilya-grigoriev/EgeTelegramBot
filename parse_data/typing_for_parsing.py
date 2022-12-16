@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from pydantic import BaseModel, Field, validator
+from typing import Optional
 
 from parse_data.format.format_data_in_tag import delete_excess_data_in_tag
 
@@ -17,9 +18,9 @@ class DataForDB:
 
 
 class Task(BaseModel):
-    id: int | None = Field(default=-1)
+    id: Optional[int]
     level_name: str = Field(alias='levelName')
-    number_task: int | None = Field(default=-1, alias='numberInGroup')
+    number_task: Optional[int] = Field(alias='numberInGroup')
     answer: str
     html: str
 
