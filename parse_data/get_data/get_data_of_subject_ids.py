@@ -1,10 +1,11 @@
 import requests
 from loguru import logger
-
+from parse_data.typing_for_parsing import data_subjects
+from typing import Any
 from config_for_parsing import headers_for_get_subject_ids
 
 
-def get_json_of_subject_ids() -> list[dict]:
+def get_json_of_subject_ids() -> data_subjects | Any:
     url = 'http://os.fipi.ru/api/dictionaries'
     response = requests.get(url, headers=headers_for_get_subject_ids,
                             verify=False)
@@ -14,3 +15,4 @@ def get_json_of_subject_ids() -> list[dict]:
         return data
     else:
         logger.error(f"Connection is failed. URL: {url}")
+        return None

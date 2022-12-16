@@ -1,7 +1,9 @@
-from parse_data.typing_for_parsing import DataForDB, Task, data_from_json
+from typing import Optional
+
+from parse_data.typing_for_parsing import DataForDB, Task, data_task
 
 
-def get_data_from_json(*, task: data_from_json) -> DataForDB | None:
+def get_data_from_json(*, task: data_task) -> Optional[DataForDB]:
     formatted_task = Task(**task)
     if formatted_task.answer and formatted_task.id:
         task_data = DataForDB(level_name=formatted_task.level_name,

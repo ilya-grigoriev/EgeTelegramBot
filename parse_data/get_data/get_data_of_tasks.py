@@ -2,12 +2,13 @@ import json
 
 import requests
 from loguru import logger
-
+from parse_data.typing_for_parsing import data_from_json
+from typing import Any
 from config_for_parsing import headers_for_get_tasks_of_subjects, json_data
 
 
-def get_json_of_tasks_for_subject(*, subject_id: int, n_tasks: int) -> list[
-                                                                           dict] | None:
+def get_json_of_tasks_for_subject(*, subject_id: int,
+                                  n_tasks: int) -> data_from_json | Any:
     json_data.update(
         {
             'subjectId': str(subject_id),
@@ -29,3 +30,4 @@ def get_json_of_tasks_for_subject(*, subject_id: int, n_tasks: int) -> list[
         return data
     else:
         logger.error(f"Connection is failed. URL: {url}")
+        return None

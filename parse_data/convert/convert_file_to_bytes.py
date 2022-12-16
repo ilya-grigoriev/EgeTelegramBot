@@ -19,7 +19,4 @@ def convert_image_to_bytes(*, file_name: str) -> io.BytesIO:
 
 
 if __name__ == '__main__':
-    image = convert_image_to_bytes(
-        file_name=r'C:\Users\ilia0\PycharmProjects\EgeTelegramBot\test\image_for_test.jpg')
-    image = Image.open(image)
-    image.show()
+    pass

@@ -2,26 +2,26 @@ import os
 
 from config_for_parsing import path_dir
 from parse_data.format.format_data_in_tag import delete_excess_data_in_tag
-from parse_data.typing_for_parsing import DataForDB
+from parse_data.typing_for_parsing import id_task_from_db
 from parse_data.browser_for_parsing import make_screenshot
 
 
 async def convert_html_code_to_image(*, html_code: str,
-                                     id_task: DataForDB.id_task) -> str:
+                                     id_task: id_task_from_db) -> str:
     formatted_html = delete_excess_data_in_tag(tag=html_code)
 
     file_path = f'{path_dir}\\{id_task}'
     html_file = f'{file_path}.html'
     jpg_file = f'{file_path}.jpg'
-    with open(html_file, mode='w', encoding='utf-8') as file:
-        file.write(formatted_html)
+    try:
+        with open(html_file, mode='w', encoding='utf-8') as file:
+            file.write(formatted_html)
 
-    await make_screenshot(file_path_for_open=html_file,
-                          file_path_for_save=jpg_file)
-
-    os.remove(html_file)
-
-    return jpg_file
+        await make_screenshot(file_path_for_open=html_file,
+                              file_path_for_save=jpg_file)
+    finally:
+        os.remove(html_file)
+        return jpg_file
 
 
 if __name__ == '__main__':
@@ -125,4 +125,4 @@ if __name__ == '__main__':
 </div>
 </body>
 </html>
-"""))
+""", id_task=123))
