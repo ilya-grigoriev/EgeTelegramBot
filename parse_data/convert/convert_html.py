@@ -1,4 +1,3 @@
-import asyncio
 import os
 
 from parse_data.config_for_parsing import path_dir

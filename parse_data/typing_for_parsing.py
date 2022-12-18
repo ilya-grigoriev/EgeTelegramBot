@@ -9,8 +9,8 @@ type_subject_id = int
 data_task = Dict[str, Optional[str | int]]
 data_subjects = Optional[List[Dict[str, str]]]
 data_from_json = Optional[List[data_task]]
-converted_image_to_bytes = bytes
-converted_images = Dict[str, Optional[converted_image_to_bytes]]
+converted_image_to_bytes = Optional[bytes]
+converted_images = Dict[str, Optional[bytes]]
 
 
 @dataclass
@@ -28,7 +28,7 @@ class DataForTG:
     id: int
     correct_answer: str
     file_path: str
-    converted_image: bytes
+    converted_image: converted_image_to_bytes
 
 
 class Task(BaseModel):
