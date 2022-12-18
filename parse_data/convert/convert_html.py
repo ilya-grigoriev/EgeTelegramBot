@@ -1,31 +1,41 @@
+import asyncio
 import os
 
-from config_for_parsing import path_dir
+from parse_data.config_for_parsing import path_dir
 from parse_data.format.format_data_in_tag import delete_excess_data_in_tag
 from parse_data.typing_for_parsing import id_task_from_db, \
-    converted_image_to_bytes
+    converted_image_to_bytes, converted_images
 from parse_data.browser_for_parsing import make_screenshot
 from parse_data.convert.convert_file_to_bytes import convert_image_to_bytes
 
 
 async def convert_html_code_to_image(*, html_code: str,
-                                     id_task: id_task_from_db) -> converted_image_to_bytes:
+                                     id_task: id_task_from_db,
+                                     is_created_images: converted_images = dict()) -> converted_image_to_bytes:
     formatted_html = delete_excess_data_in_tag(tag=html_code)
 
     file_path = f'{path_dir}\\{id_task}'
     html_file = f'{file_path}.html'
     jpg_file = f'{file_path}.jpg'
     try:
-        with open(html_file, mode='w', encoding='utf-8') as file:
-            file.write(formatted_html)
+        if jpg_file not in is_created_images:
+            is_created_images[jpg_file] = None
+            with open(html_file, mode='w', encoding='utf-8') as file:
+                file.write(formatted_html)
 
-        await make_screenshot(file_path_for_open=html_file,
-                              file_path_for_save=jpg_file)
+            await make_screenshot(file_path_for_open=html_file,
+                                  file_path_for_save=jpg_file)
+            os.remove(html_file)
+            converted_image = convert_image_to_bytes(file_name=jpg_file)
+            os.remove(jpg_file)
+            is_created_images[jpg_file] = converted_image
+        else:
+            if not is_created_images[jpg_file]:
+                while True:
+                    if os.path.isfile(jpg_file):
+                        break
     finally:
-        os.remove(html_file)
-        converted_image = convert_image_to_bytes(file_name=jpg_file)
-        os.remove(jpg_file)
-        return converted_image
+        return is_created_images[jpg_file]
 
 
 if __name__ == '__main__':

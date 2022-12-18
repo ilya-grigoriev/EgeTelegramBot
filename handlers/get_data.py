@@ -1,9 +1,8 @@
-import os
 from aiogram import types, Bot
 from aiogram.dispatcher import FSMContext
 from keyboards.subjects import keyboard_subjects
 from work_with_db.select_data import select_task
-from config_for_parsing import translation_for_db
+from parse_data.config_for_parsing import translation_for_db
 
 
 async def get_task(*, message: types.Message, state: FSMContext,
@@ -27,6 +26,7 @@ async def get_task(*, message: types.Message, state: FSMContext,
                              reply_markup=types.ReplyKeyboardRemove())
 
         await bot.send_photo(message.chat.id, converted_image)
+        await state.update_data({'image_sent': True})
 
         await message.answer(text='Введите ответ:')
     else:

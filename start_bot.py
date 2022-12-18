@@ -9,7 +9,7 @@ from keyboards.menu import keyboard_menu
 from handlers import greeting, get_data, check_response
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from parse_data.parse_ege_tests import parse_tasks
-from config_for_parsing import subjects
+from parse_data.config_for_parsing import subjects
 
 TELEGRAM_TOKEN = getenv('TOKEN')
 bot = Bot(token=TELEGRAM_TOKEN)
@@ -33,11 +33,14 @@ async def send_welcome_(message: types.Message):
 @dp.message_handler(state=Response.subject)
 async def get_task_(message: types.Message, state: FSMContext):
     if message.text.strip() in subjects:
+        await state.update_data({'image_sent': False})
+
         await message.answer('Отправка задания...',
                              reply_markup=types.ReplyKeyboardRemove())
+
+        await Response.next()
         await get_data.get_task(message=message, state=state,
                                 after_subject_selection=True, bot=bot)
-        await Response.next()
     else:
         await message.answer('Данного предмета нет в списке')
         await message.answer('Выберите предмет:',
@@ -47,9 +50,14 @@ async def get_task_(message: types.Message, state: FSMContext):
 
 @dp.message_handler(state=Response.answer)
 async def process_name(message: types.Message, state: FSMContext):
-    await check_response.check_answer_from_user(message=message,
-                                                state=state)
-    await Response.next()
+    data = await state.get_data()
+
+    if not data.get('image_sent'):
+        await message.answer('Задание ещё не отправлено. Подождите немного')
+    else:
+        await check_response.check_answer_from_user(message=message,
+                                                    state=state)
+        await Response.next()
 
 
 @dp.message_handler(state=Response.back_or_get)
@@ -58,6 +66,11 @@ async def back_or_get(message: types.Message, state: FSMContext):
 
     if response == 'Получить задание':
         await Response.answer.set()
+
+        await message.answer('Отправка задания...',
+                             reply_markup=types.ReplyKeyboardRemove())
+
+        await state.update_data({'image_sent': False})
         await get_data.get_task(message=message, state=state,
                                 after_subject_selection=False, bot=bot)
     elif response == 'Вернуться в главное меню':

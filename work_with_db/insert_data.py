@@ -2,10 +2,8 @@ import traceback
 
 from parse_data.get_data.get_path import get_path_for_file
 import sqlite3
-from config_for_parsing import translation_for_db
+from parse_data.config_for_parsing import translation_for_db
 from loguru import logger
-from parse_data.format.format_data_for_database import format_data_for_db
-from parse_data.typing_for_parsing import DataForDB
 
 
 def insert_tasks(*, subject: str, data: str) -> None:

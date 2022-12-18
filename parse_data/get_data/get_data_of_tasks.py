@@ -4,7 +4,7 @@ import requests
 from loguru import logger
 from parse_data.typing_for_parsing import data_from_json
 from typing import Any
-from config_for_parsing import headers_for_get_tasks_of_subjects, json_data
+from parse_data.config_for_parsing import headers_for_get_tasks_of_subjects, json_data
 
 
 def get_json_of_tasks_for_subject(*, subject_id: int,
