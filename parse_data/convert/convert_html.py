@@ -2,12 +2,14 @@ import os
 
 from config_for_parsing import path_dir
 from parse_data.format.format_data_in_tag import delete_excess_data_in_tag
-from parse_data.typing_for_parsing import id_task_from_db
+from parse_data.typing_for_parsing import id_task_from_db, \
+    converted_image_to_bytes
 from parse_data.browser_for_parsing import make_screenshot
+from parse_data.convert.convert_file_to_bytes import convert_image_to_bytes
 
 
 async def convert_html_code_to_image(*, html_code: str,
-                                     id_task: id_task_from_db) -> str:
+                                     id_task: id_task_from_db) -> converted_image_to_bytes:
     formatted_html = delete_excess_data_in_tag(tag=html_code)
 
     file_path = f'{path_dir}\\{id_task}'
@@ -21,7 +23,9 @@ async def convert_html_code_to_image(*, html_code: str,
                               file_path_for_save=jpg_file)
     finally:
         os.remove(html_file)
-        return jpg_file
+        converted_image = convert_image_to_bytes(file_name=jpg_file)
+        os.remove(jpg_file)
+        return converted_image
 
 
 if __name__ == '__main__':
