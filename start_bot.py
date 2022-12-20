@@ -9,7 +9,7 @@ from keyboards.menu import keyboard_menu
 from handlers import greeting, get_data, check_response
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from parse_data.parse_ege_tests import parse_tasks
-from parse_data.config_for_parsing import subjects
+from parse_data.config_for_parsing import subjects_ru
 
 TELEGRAM_TOKEN = getenv('TOKEN')
 bot = Bot(token=TELEGRAM_TOKEN)
@@ -32,7 +32,7 @@ async def send_welcome_(message: types.Message):
 
 @dp.message_handler(state=Response.subject)
 async def get_task_(message: types.Message, state: FSMContext):
-    if message.text.strip() in subjects:
+    if message.text.strip() in subjects_ru:
         await state.update_data({'image_sent': False})
 
         await message.answer('Отправка задания...',
