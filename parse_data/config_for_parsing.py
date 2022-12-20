@@ -61,5 +61,5 @@ json_data = {
     'pageNumber': 1,
 }
 
-path_dir = '\\'.join(str(__file__).rsplit('\\')[:-1])
+path_dir = '\\'.join(str(__file__).rsplit('\\')[:-2])
 subjects = ['Русский язык', 'Математика профильная']
