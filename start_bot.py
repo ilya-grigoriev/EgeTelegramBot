@@ -10,12 +10,14 @@ from handlers import greeting, get_data, check_response
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from parse_data.parse_ege_tests import parse_tasks
 from parse_data.config_for_parsing import subjects_ru
+from work_with_db.check_existing_db import check_db
 
 TELEGRAM_TOKEN = getenv('TOKEN')
 bot = Bot(token=TELEGRAM_TOKEN)
 storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
 scheduler = AsyncIOScheduler()
+check_db()
 
 
 class Response(StatesGroup):
