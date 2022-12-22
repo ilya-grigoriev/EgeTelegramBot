@@ -9,7 +9,7 @@ from parse_data.format.parse_data_and_update_database import \
     parse_data_and_update_db
 
 
-def check_data_of_tables(*, db_file_path: db_path):
+def check_data_of_tables(*, db_file_path: db_path) -> None:
     con = None
     try:
         con = sqlite3.connect(db_file_path)
