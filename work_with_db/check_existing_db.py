@@ -2,7 +2,7 @@ import os
 from work_with_db.check_tables_db import check_existing_tables_db
 from work_with_db.create_db_or_tables import create_db, create_tables
 from work_with_db.config_for_db import file_path
-from work_with_db.check_data import check_data_of_tables
+from work_with_db.check_data_db import check_data_of_tables
 
 
 def check_db():
