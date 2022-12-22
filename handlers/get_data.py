@@ -2,13 +2,13 @@ from aiogram import types, Bot
 from aiogram.dispatcher import FSMContext
 from keyboards.subjects import keyboard_subjects
 from work_with_db.select_data import select_task
-from parse_data.config_for_parsing import translation_for_db
+from parse_data.config_for_parsing import translation_from_rus
 
 
 async def get_task(*, message: types.Message, state: FSMContext,
                    after_subject_selection: bool, bot: Bot) -> None:
     if after_subject_selection:
-        subject = translation_for_db.get(message.text)
+        subject = translation_from_rus.get(message.text)
         await state.update_data({'subject': subject})
     else:
         data = await state.get_data()

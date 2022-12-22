@@ -9,8 +9,8 @@ def get_subject_id_from_json(*, subjects: data_subjects,
         for subject in subjects:
             if subject.get('name') == subject_name:
                 subject_id = subject.get('id')
-                if isinstance(subject_id, str):
-                    current_subject_id = int(current_subject_id)
+                if isinstance(subject_id, int):
+                    current_subject_id = subject.get('id')
                     logger.info('Set id for subject')
                     break
         return current_subject_id

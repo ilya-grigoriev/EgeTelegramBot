@@ -1,5 +1,4 @@
 from parse_data.format.format_data_for_database import format_data_for_db
-from parse_data.typing_for_parsing import DataForDB
 from parse_data.get_data.get_data_for_db import get_data_from_json
 from parse_data.typing_for_parsing import data_from_json
 from work_with_db.insert_data import insert_tasks
