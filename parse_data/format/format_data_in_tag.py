@@ -6,17 +6,17 @@ def delete_excess_data_in_tag(tag: str) -> str:
         r'<annotation[\s\d\w=\'-]+>((?!<)[\s\d\w=\'-@])+<\/annotation>', '',
         tag)
     tag = re.sub(r'\s{2,}', ' ', tag)
-    tag = re.sub('"', "'", tag)
+    tag = re.sub("'", '"', tag)
 
     sources = re.findall(r'\/api\/docs\/byid\/\d+', tag)
     for source in sources:
         tag = re.sub(source, f'http://os.fipi.ru{source}', tag)
 
-    tag = re.sub(r"<body (class='[\w\-\s]+')", "<body bgcolor='#f5f5f5'", tag)
+    tag = re.sub(r'<body (class="[\w\-\s]+")', '<body bgcolor="#f5f5f5"', tag)
 
     tag = re.sub(r'<input[\w\s\dА-Яа-яЁё=\'_]+>', '', tag)
 
-    pattern = r"<script language='javascript'> ShowPictureQ\([\w\d\/_\.\']+\);<\/script>"
+    pattern = r'<script language="javascript"> ShowPictureQ\([\w\d\/_\.\']+\);<\/script>'
     sources = re.findall(pattern, tag)
     pattern_for_href = r'(docs\/[\d\w]+\/[\d\w]+\/[\d\w]+\/[\d\w]+\.png)'
     for source in sources:
@@ -30,7 +30,7 @@ def delete_excess_data_in_tag(tag: str) -> str:
             image = f'<img src="http://os.fipi.ru/{href}">'
             tag = re.sub(source, image, tag)
 
-    tag = re.sub('"', "'", tag)
+    tag = re.sub("'", '"', tag)
 
     return tag
 

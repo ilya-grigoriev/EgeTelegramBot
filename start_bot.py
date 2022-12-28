@@ -3,16 +3,16 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import StatesGroup, State
 from aiogram.utils import executor
-from os import getenv
+import os
 from keyboards.subjects import keyboard_subjects
 from keyboards.menu import keyboard_menu
 from handlers import greeting, get_data, check_response
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from parse_data.parse_ege_tests import parse_tasks
 from parse_data.config_for_parsing import subjects_ru
-from work_with_db.check_existing_db import check_db
+from work_with_db.check_data.check_existing_db import check_db
 
-TELEGRAM_TOKEN = getenv('TOKEN')
+TELEGRAM_TOKEN = os.getenv('TOKEN')
 bot = Bot(token=TELEGRAM_TOKEN)
 storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
