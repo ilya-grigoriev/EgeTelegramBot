@@ -64,3 +64,4 @@ json_data = {
 path_dir = '\\'.join(str(__file__).rsplit('\\')[:-2])
 subjects_ru = ['Русский язык', 'Математика профильная']
 subjects_en = ['russian', 'math']
+n_tasks = 500

@@ -17,6 +17,7 @@ def format_and_insert_tasks(tasks: data_from_json, subject_name: str,
                 if task_data:
                     formatted_task = format_data_for_db(task=task_data)
                     formatted_tasks.append(formatted_task)
-        asyncio.run(insert_tasks(subject=subject_name,
-                                 values_for_inserting=formatted_tasks))
+        asyncio.get_event_loop().run_until_complete(
+            insert_tasks(subject=subject_name,
+                         values_for_inserting=formatted_tasks))
     task_ids_in_db.clear()
