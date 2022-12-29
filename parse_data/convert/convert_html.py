@@ -1,4 +1,5 @@
 import os
+from typing import Optional
 
 from parse_data.config_for_parsing import path_dir
 from parse_data.format.format_data_in_tag import delete_excess_data_in_tag
@@ -25,9 +26,13 @@ async def convert_html_code_to_image(*, html_code: str,
             await make_screenshot(file_path_for_open=html_file,
                                   file_path_for_save=jpg_file)
             os.remove(html_file)
-            converted_image = convert_image_to_bytes(file_name=jpg_file)
-            os.remove(jpg_file)
-            is_created_images[jpg_file] = converted_image
+
+            if os.path.isfile(jpg_file):
+                converted_image = convert_image_to_bytes(file_name=jpg_file)
+                os.remove(jpg_file)
+                is_created_images[jpg_file] = converted_image
+            else:
+                return None
         else:
             if not is_created_images[jpg_file]:
                 while True:

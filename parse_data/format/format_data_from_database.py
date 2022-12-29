@@ -14,6 +14,10 @@ async def format_data_from_db(*, data: Optional[DataForDB]) -> Optional[
             total_text += f"Номер задания: {data.number_task}\n"
         converted_image = await convert_html_code_to_image(html_code=data.html,
                                                            id_task=data.id_task)
-        return DataForTG(total_text, data.id_task, data.correct_answer,
-                         file_path, converted_image)
+
+        if converted_image:
+            return DataForTG(total_text, data.id_task, data.correct_answer,
+                             file_path, converted_image)
+        else:
+            return None
     return None

@@ -48,8 +48,10 @@ async def select_task(*, subject: str) -> Optional[DataForTG]:
                                 password=PASSWORD_DB, host=HOST_DB,
                                 port=PORT_DB)
         cursor = conn.cursor()
+
         cursor.execute(code_for_get_task.format(subject))
         conn.commit()
+
         task = cursor.fetchone()
         if task:
             data = DataForDB(*task)
