@@ -2,6 +2,7 @@ import pyppeteer
 import asyncio
 from loguru import logger
 import traceback
+import re
 
 
 async def make_screenshot(*, file_path_for_open: str,
@@ -16,12 +17,24 @@ async def make_screenshot(*, file_path_for_open: str,
         options = {'waitUntil': 'domcontentloaded'}
         await page.goto(fr"file:{file_path_for_open}", options=options)
 
-        check_mathjax = await page.xpath(
-            '//script/@src[contains(., "mathjax")]')
+        html_code = await page.content()
+        check_mathjax = re.search('<math>', html_code)
         if check_mathjax:
-            await page.waitForXPath('//span[@class="MathJax"]')
+            options_for_search = {'timeout': 5000}
+            try:
+                await page.waitForXPath(
+                    '//span[@class="math"]',
+                    options=options_for_search)
+                await page.waitForXPath('//span[@class="semantics"]',
+                                        options=options_for_search)
+                await page.waitForXPath('//nobr', options=options_for_search)
+                await page.waitForXPath('//span[@class="mrow"]',
+                                        options=options_for_search)
+            except pyppeteer.errors.TimeoutError:
+                logger.error(traceback.format_exc())
+                logger.error(f'File: {file_path_for_open}')
 
-        check_img = await page.xpath('img')
+        check_img = await page.xpath('//img')
         if check_img:
             await asyncio.sleep(1)
 
