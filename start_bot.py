@@ -1,3 +1,4 @@
+from loguru import logger
 from aiogram import Dispatcher, Bot, types
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher import FSMContext
@@ -16,8 +17,8 @@ TELEGRAM_TOKEN = os.getenv('TOKEN')
 bot = Bot(token=TELEGRAM_TOKEN)
 storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
+# check_db()
 scheduler = AsyncIOScheduler()
-check_db()
 
 
 class Response(StatesGroup):
@@ -53,8 +54,18 @@ async def get_task_(message: types.Message, state: FSMContext):
 @dp.message_handler(state=Response.answer)
 async def process_name(message: types.Message, state: FSMContext):
     data = await state.get_data()
+    response = message.text
 
-    if not data.get('image_sent'):
+    if response == 'Сообщить об ошибке':
+        data.update({'correct_answer': None})
+        await message.answer('Спасибо за помощь в выявлении ошибок!')
+
+        id_task = data.get('cur_id_task')
+        logger.error(f'Некорректный вывод изображения. ID задачи: {id_task}')
+
+        await Response.subject.set()
+        await message.answer('Главное меню:', reply_markup=keyboard_subjects)
+    elif not data.get('image_sent'):
         await message.answer('Задание ещё не отправлено. Подождите немного')
     else:
         await check_response.check_answer_from_user(message=message,
@@ -65,6 +76,9 @@ async def process_name(message: types.Message, state: FSMContext):
 @dp.message_handler(state=Response.back_or_get)
 async def back_or_get(message: types.Message, state: FSMContext):
     response = message.text
+    data = await state.get_data()
+    data.update({'correct_answer': None})
+    data.update({'cur_id_task': None})
 
     if response == 'Получить задание':
         await Response.answer.set()

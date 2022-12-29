@@ -3,6 +3,7 @@ from aiogram.dispatcher import FSMContext
 from keyboards.subjects import keyboard_subjects
 from work_with_db.get_data.select_data import select_task
 from parse_data.config_for_parsing import translation_from_rus
+from keyboards.btn_report import BTN_REPORT
 
 
 async def get_task(*, message: types.Message, state: FSMContext,
@@ -21,9 +22,11 @@ async def get_task(*, message: types.Message, state: FSMContext,
             response.correct_answer, response.file_path, \
             response.converted_image
         await state.update_data({'correct_answer': correct_answer})
+        await state.update_data({'cur_id_task': id_task})
 
         await message.answer(text=task_text,
-                             reply_markup=types.ReplyKeyboardRemove())
+                             reply_markup=types.ReplyKeyboardMarkup(
+                                 [[BTN_REPORT]]))
 
         await bot.send_photo(message.chat.id, converted_image)
         await state.update_data({'image_sent': True})
