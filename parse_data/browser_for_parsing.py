@@ -1,6 +1,6 @@
 import pyppeteer
 import asyncio
-from loguru import logger
+from logger_for_project import logger
 import traceback
 import re
 
@@ -20,7 +20,7 @@ async def make_screenshot(*, file_path_for_open: str,
         html_code = await page.content()
         check_mathjax = re.search('<math>', html_code)
         if check_mathjax:
-            options_for_search = {'timeout': 5000}
+            options_for_search = {'timeout': 10000}
             try:
                 await page.waitForXPath(
                     '//span[@class="math"]',
@@ -36,7 +36,7 @@ async def make_screenshot(*, file_path_for_open: str,
 
         check_img = await page.xpath('//img')
         if check_img:
-            await asyncio.sleep(1)
+            await asyncio.sleep(2)
 
         await page.screenshot({"path": file_path_for_save})
 
