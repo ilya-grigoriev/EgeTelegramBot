@@ -1,5 +1,4 @@
-from loguru import logger
-
+from logger_for_project import logger
 from parse_data.format.format_tasks_from_json import format_and_insert_tasks
 from parse_data.get_data.get_data_of_tasks import get_json_of_tasks_for_subject
 from parse_data.get_data.get_data_of_subject_ids import get_json_of_subject_ids

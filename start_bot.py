@@ -1,4 +1,4 @@
-from loguru import logger
+from logger_for_project import logger
 from aiogram import Dispatcher, Bot, types
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher import FSMContext

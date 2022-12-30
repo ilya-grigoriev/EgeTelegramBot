@@ -1,7 +1,7 @@
 import traceback
 
 import psycopg2.errors
-from loguru import logger
+from logger_for_project import logger
 from parse_data.config_for_parsing import translation_from_eng, subjects_en, \
     n_tasks
 from parse_data.format.parse_data_and_update_database import \

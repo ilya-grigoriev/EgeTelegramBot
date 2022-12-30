@@ -5,7 +5,7 @@ import psycopg2.errors
 from parse_data.config_for_parsing import subjects_en
 from work_with_db.create_data.create_db_or_tables import create_tables
 import traceback
-from loguru import logger
+from logger_for_project import logger
 
 
 def check_existing_tables_db(*, conn) -> None:

@@ -3,7 +3,7 @@ import sqlite3
 import traceback
 
 import psycopg2
-from loguru import logger
+from logger_for_project import logger
 from work_with_db.config_for_db import code_for_creating_table
 from parse_data.config_for_parsing import subjects_en
 

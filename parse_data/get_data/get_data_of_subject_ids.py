@@ -1,5 +1,5 @@
 import requests
-from loguru import logger
+from logger_for_project import logger
 from parse_data.typing_for_parsing import data_subjects
 from typing import Any
 from parse_data.config_for_parsing import headers_for_get_subject_ids

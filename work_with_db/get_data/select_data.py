@@ -3,7 +3,7 @@ import traceback
 from parse_data.typing_for_parsing import DataForDB, DataForTG
 from typing import Optional, List
 import psycopg2
-from loguru import logger
+from logger_for_project import logger
 from work_with_db.config_for_db import USER_DB, PASSWORD_DB, HOST_DB, PORT_DB
 from parse_data.format.format_data_from_database import format_data_from_db
 from work_with_db.create_data.create_db_or_tables import create_tables

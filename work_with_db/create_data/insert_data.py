@@ -5,7 +5,7 @@ import asyncpg
 from parse_data.config_for_parsing import translation_from_rus
 from work_with_db.config_for_db import USER_DB, PASSWORD_DB, HOST_DB, PORT_DB, \
     code_for_insert_data_in_table
-from loguru import logger
+from logger_for_project import logger
 
 
 async def insert_tasks(*, subject: str,

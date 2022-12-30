@@ -1,4 +1,4 @@
-from loguru import logger
+from logger_for_project import logger
 from parse_data.typing_for_parsing import data_subjects, type_subject_id
 
 
