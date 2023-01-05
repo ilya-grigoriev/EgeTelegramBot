@@ -3,7 +3,7 @@ import sqlite3
 import traceback
 
 import psycopg2
-from logger_for_project import logger
+from logger_for_project import my_logger
 from work_with_db.config_for_db import code_for_creating_table
 from parse_data.config_for_parsing import subjects_en
 
@@ -16,7 +16,7 @@ def create_tables(*, conn, tables_name=subjects_en):
             cursor.execute(code)
     except Exception as e:
         conn.rollback()
-        logger.error(traceback.format_exc(e))
+        my_logger.error(traceback.format_exc(e))
     else:
         conn.commit()
 

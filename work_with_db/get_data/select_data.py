@@ -1,9 +1,9 @@
 import asyncio
 import traceback
-from parse_data.typing_for_parsing import DataForDB, DataForTG
+from parse_data.typing_for_parsing import DataSubtopic, DataForTG
 from typing import Optional, List
 import psycopg2
-from logger_for_project import logger
+from logger_for_project import my_logger
 from work_with_db.config_for_db import USER_DB, PASSWORD_DB, HOST_DB, PORT_DB
 from parse_data.format.format_data_from_database import format_data_from_db
 from work_with_db.create_data.create_db_or_tables import create_tables
@@ -24,16 +24,16 @@ async def select_tasks(*, subject: str) -> Optional[List[DataForTG]]:
         formatted_tasks = []
         for task in tasks:
             if task:
-                data = DataForDB(*task)
+                data = DataSubtopic(*task)
                 formatted_data = await format_data_from_db(data=data)
                 formatted_tasks.append(formatted_data)
         return formatted_tasks
     except psycopg2.errors.UndefinedTable:
-        logger.error(traceback.format_exc())
+        my_logger.error(traceback.format_exc())
         create_tables(conn=conn, tables_name=[subject])
-        logger.info(f'Table {subject} created')
+        my_logger.info(f'Table {subject} created')
     except Exception as e:
-        logger.error(traceback.format_exc())
+        my_logger.error(traceback.format_exc())
     finally:
         if conn:
             cursor.close()
@@ -59,11 +59,11 @@ async def select_task(*, subject: str) -> Optional[DataForTG]:
             return formatted_data
         return None
     except psycopg2.errors.UndefinedTable:
-        logger.error(traceback.format_exc())
+        my_logger.error(traceback.format_exc())
         create_tables(conn=conn, tables_name=[subject])
-        logger.info(f'Table {subject} created')
+        my_logger.info(f'Table {subject} created')
     except Exception as e:
-        logger.error(traceback.format_exc())
+        my_logger.error(traceback.format_exc())
     finally:
         if conn:
             cursor.close()

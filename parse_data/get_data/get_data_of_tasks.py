@@ -1,34 +1,18 @@
-import json
+import asyncio
+import copy
+import time
 
-import requests
-from logger_for_project import logger
+import aiohttp
+
+from logger_for_project import my_logger
 from parse_data.typing_for_parsing import data_from_json
 from typing import Any
-from parse_data.config_for_parsing import headers_for_get_tasks_of_subjects, \
-    json_data
+from parse_data.create_data.create_urls import create_urls_for_request
+from parse_data.get_data import make_request
 
 
-def get_json_of_tasks_for_subject(*, subject_id: int,
-                                  n_tasks: int) -> data_from_json | Any:
-    json_data.update(
-        {
-            'subjectId': str(subject_id),
-            'pageSize': n_tasks
-        }
-    )
-    url = 'http://os.fipi.ru/api/tasks'
-
-    response = requests.post(url, headers=headers_for_get_tasks_of_subjects,
-                             json=json_data,
-                             verify=False)
-
-    with open('test.json', mode='w', encoding='utf-8') as f:
-        json.dump(response.json(), f, ensure_ascii=False)
-
-    if response.status_code == 200:
-        logger.info('Get tasks for subject from json')
-        data = response.json().get('tasks')
-        return data
-    else:
-        logger.error(f"Connection is failed. URL: {url}")
-        return None
+async def get_data_of_tasks_for_subtopic(*, urls, n_issue: int,
+                                         is_detailed: str):
+    tasks = await make_request.main(urls_with_data=urls, n_issue=n_issue,
+                                    is_detailed=is_detailed)
+    return tasks

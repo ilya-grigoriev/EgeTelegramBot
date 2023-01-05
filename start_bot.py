@@ -1,4 +1,4 @@
-from logger_for_project import logger
+from logger_for_project import my_logger
 from aiogram import Dispatcher, Bot, types
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher import FSMContext
@@ -23,8 +23,10 @@ scheduler = AsyncIOScheduler()
 
 class Response(StatesGroup):
     subject = State()
+    subtopic = State()
     answer = State()
     back_or_get = State()
+    check_message = State()
 
 
 @dp.message_handler(commands=['start', 'help'], state=None)
@@ -61,7 +63,7 @@ async def process_name(message: types.Message, state: FSMContext):
         await message.answer('Спасибо за помощь в выявлении ошибок!')
 
         id_task = data.get('cur_id_task')
-        logger.error(f'Некорректный вывод изображения. ID задачи: {id_task}')
+        my_logger.error(f'Некорректный вывод изображения. ID задачи: {id_task}')
 
         await Response.subject.set()
         await message.answer('Главное меню:', reply_markup=keyboard_subjects)

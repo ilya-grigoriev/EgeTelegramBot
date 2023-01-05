@@ -161,4 +161,4 @@ cython_debug/
 #.idea/
 
 parse_data/test.json
-db/tasks_for_subjects.db
+setenv.sh

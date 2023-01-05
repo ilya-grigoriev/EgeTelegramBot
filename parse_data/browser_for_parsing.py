@@ -1,6 +1,6 @@
 import pyppeteer
 import asyncio
-from logger_for_project import logger
+from logger_for_project import my_logger
 import traceback
 import re
 
@@ -12,7 +12,7 @@ async def make_screenshot(*, file_path_for_open: str,
             {'--headless': True, '--start-maxsized': False})
         page = await browser.newPage()
 
-        logger.info('Starting to take screenshot...')
+        my_logger.info('Starting to take screenshot...')
 
         options = {'waitUntil': 'domcontentloaded'}
         await page.goto(fr"file:{file_path_for_open}", options=options)
@@ -31,8 +31,8 @@ async def make_screenshot(*, file_path_for_open: str,
                 await page.waitForXPath('//span[@class="mrow"]',
                                         options=options_for_search)
             except pyppeteer.errors.TimeoutError:
-                logger.error(traceback.format_exc())
-                logger.error(f'File: {file_path_for_open}')
+                my_logger.error(traceback.format_exc())
+                my_logger.error(f'File: {file_path_for_open}')
 
         check_img = await page.xpath('//img')
         if check_img:
@@ -41,9 +41,9 @@ async def make_screenshot(*, file_path_for_open: str,
         await page.screenshot({"path": file_path_for_save})
 
         await browser.close()
-        logger.info('Screenshot taken')
+        my_logger.info('Screenshot taken')
     except Exception:
-        logger.error(traceback.format_exc())
+        my_logger.error(traceback.format_exc())
 
 
 if __name__ == '__main__':
