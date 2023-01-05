@@ -22,7 +22,6 @@ async def parse_data_and_update_db(*, subject_name_en: str) -> None:
     my_logger.info('Getting subject data from json...')
     formatted_data = get_data_subject_from_json(data_subject=data_subject)
     my_logger.success('Getting subject data is finished')
-    converted_data = []
     if formatted_data:
         for ind_issue, num_issue in enumerate([formatted_data[14]], start=15):
             is_detailed = False
