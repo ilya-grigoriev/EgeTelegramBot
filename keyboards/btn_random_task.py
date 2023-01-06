@@ -1,0 +1,3 @@
+from aiogram.types import KeyboardButton
+
+BTN_RANDOM_TASK = KeyboardButton('❔ Получить случайное задание')
