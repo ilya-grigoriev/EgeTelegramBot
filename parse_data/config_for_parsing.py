@@ -53,11 +53,12 @@ headers_for_get_subject_ids = {
 
 translation_from_eng = {
     'russian': 'Русский язык',
-    'math': 'Математика'
+    'math': 'Математика',
+    'inf': 'Информатика'
 }
 
 translation_from_rus = {
-    'Русский язык': 'russian',
+    'Русский язык': 'rus',
     'Математика профильная': 'math',
     'Информатика': 'inf'
 }
