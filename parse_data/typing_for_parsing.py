@@ -1,7 +1,7 @@
 import json
 from dataclasses import dataclass, field
 from pydantic import BaseModel, Field, validator
-from typing import Optional, Dict, List, Any
+from typing import Optional, Dict, List, Any, TypedDict
 
 id_task_from_db = int
 type_subject_id = int
@@ -55,17 +55,39 @@ class Subtopic(BaseModel):
     amount: int = Field(alias='amount')
 
 
+@dataclass
+class DataSubtopicForTG:
+    n_subtopic: str
+    title: str
+
+
 class DataTask(BaseModel):
     issue: int | str = Field(alias='issue')
     title: str = Field(alias='title')
     type: str = Field(alias='type')
-    subtopics: List[Subtopic] = Field(alias='subtopics')
+    subtopics: Any = Field(alias='subtopics')
 
     @validator('issue')
     def check_number_task(cls, val):
         if isinstance(val, str):
             return val if val.isdigit() else 0
         return val if isinstance(val, int) else 0
+
+    @validator('subtopics')
+    def check_subtopics(cls, val):
+        formatted_subtopics = []
+        if isinstance(val, list):
+            for ind_subtopic, subtopic in enumerate(val, start=1):
+                data_subtopic = DataSubtopicForTG(n_subtopic=ind_subtopic,
+                                                  title=subtopic['title'])
+                formatted_subtopics.append(data_subtopic)
+            return formatted_subtopics
+        return formatted_subtopics
+
+
+class DataSubjectForTG(TypedDict):
+    title: str
+    issues: List[DataTask]
 
 
 if __name__ == '__main__':

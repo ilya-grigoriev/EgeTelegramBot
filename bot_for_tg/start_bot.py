@@ -10,19 +10,16 @@ from keyboards.menu import keyboard_menu
 from handlers import greeting, get_data, check_response
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from parse_data.parse_ege_tests import parse_tasks
-from parse_data.config_for_parsing import subjects_ru
+from parse_data.config_for_parsing import subjects_ru, translation_from_rus
 from work_with_db.check_data.check_existing_db import check_db
-
-TELEGRAM_TOKEN = os.getenv('TOKEN')
-bot = Bot(token=TELEGRAM_TOKEN)
-storage = MemoryStorage()
-dp = Dispatcher(bot, storage=storage)
-# check_db()
-scheduler = AsyncIOScheduler()
+from bot_for_tg.init_for_bot import TELEGRAM_TOKEN, bot, storage, dp, \
+    scheduler, subjects_data_for_keyboard
+from keyboards.issues import get_keyboard_for_issue
 
 
 class Response(StatesGroup):
     subject = State()
+    issue = State()
     subtopic = State()
     answer = State()
     back_or_get = State()
@@ -36,16 +33,23 @@ async def send_welcome_(message: types.Message):
 
 
 @dp.message_handler(state=Response.subject)
-async def get_task_(message: types.Message, state: FSMContext):
-    if message.text.strip() in subjects_ru:
-        await state.update_data({'image_sent': False})
+async def get_subtopics(message: types.Message, state: FSMContext):
+    data = await state.get_data()
+    subject_name = message.text.strip()
+    if subject_name in subjects_ru:
+        subject_en = translation_from_rus.get(subject_name)
+        data.update({'subject': subject_en})
 
-        await message.answer('Отправка задания...',
-                             reply_markup=types.ReplyKeyboardRemove())
+        for subject in subjects_data_for_keyboard:
+            if subject['title'] == subject_en:
+                issues = subject['issues']
+                data.update({'issues': issues})
+                keyboard_issues = get_keyboard_for_issue(issue_data=issues)
+                await message.answer('Выберите номер задания:',
+                                     reply_markup=keyboard_issues)
+                await Response.issue.set()
 
-        await Response.next()
-        await get_data.get_task(message=message, state=state,
-                                after_subject_selection=True, bot=bot)
+                return None
     else:
         await message.answer('Данного предмета нет в списке')
         await message.answer('Выберите предмет:',
@@ -63,7 +67,8 @@ async def process_name(message: types.Message, state: FSMContext):
         await message.answer('Спасибо за помощь в выявлении ошибок!')
 
         id_task = data.get('cur_id_task')
-        my_logger.error(f'Некорректный вывод изображения. ID задачи: {id_task}')
+        my_logger.error(
+            f'Некорректный вывод изображения. ID задачи: {id_task}')
 
         await Response.subject.set()
         await message.answer('Главное меню:', reply_markup=keyboard_subjects)
