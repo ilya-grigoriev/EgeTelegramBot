@@ -22,7 +22,7 @@ async def make_pdf(*, file_path_for_open: str,
         if check_img:
             await page.waitFor(5000)
 
-        await page.pdf(path=file_path_for_save)
+        await page.pdf(path=file_path_for_save, printBackground=True)
         await browser.close()
         my_logger.success('PDF taken')
     except Exception as e:
