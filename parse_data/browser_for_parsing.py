@@ -5,48 +5,32 @@ import traceback
 import re
 
 
-async def make_screenshot(*, file_path_for_open: str,
-                          file_path_for_save: str) -> None:
+async def make_pdf(*, file_path_for_open: str,
+                   file_path_for_save: str) -> None:
     try:
         browser = await pyppeteer.launch(
             {'--headless': True, '--start-maxsized': True})
         page = await browser.newPage()
+        await page.setViewport(viewport={'width': 1920, 'height': 1080})
 
-        my_logger.info('Starting to take screenshot...')
+        my_logger.info('Starting to create PDF...')
 
         options = {'waitUntil': 'domcontentloaded'}
         await page.goto(fr"file:{file_path_for_open}", options=options)
 
-        html_code = await page.content()
-        check_mathjax = re.search('<math>', html_code)
-        if check_mathjax:
-            options_for_search = {'timeout': 10000}
-            try:
-                await page.waitForXPath(
-                    '//span[@class="math"]',
-                    options=options_for_search)
-                await page.waitForXPath('//span[@class="semantics"]',
-                                        options=options_for_search)
-                await page.waitForXPath('//nobr', options=options_for_search)
-                await page.waitForXPath('//span[@class="mrow"]',
-                                        options=options_for_search)
-            except pyppeteer.errors.TimeoutError:
-                my_logger.error(traceback.format_exc())
-                my_logger.error(f'File: {file_path_for_open}')
-
         check_img = await page.xpath('//img')
         if check_img:
-            await asyncio.sleep(3)
+            await page.waitFor(5000)
 
-        await page.screenshot({"path": file_path_for_save})
-
+        await page.pdf(path=file_path_for_save)
         await browser.close()
-        my_logger.success('Screenshot taken')
-    except Exception:
-        my_logger.error(traceback.format_exc())
+        my_logger.success('PDF taken')
+    except Exception as e:
+        my_logger.error(e)
 
 
 if __name__ == '__main__':
-    asyncio.run(make_screenshot(
-        file_path_for_open=r'C:\Users\ilia0\PycharmProjects\EgeTelegramBot\parse_data\test.html',
-        file_path_for_save=r'C:\Users\ilia0\PycharmProjects\EgeTelegramBot\parse_data\test_2.png'))
+    for_open = r'C:\Users\ilia0\PycharmProjects\EgeTelegramBot\parse_data\convert\tests\test.html'
+    for_save = r'C:\Users\ilia0\PycharmProjects\EgeTelegramBot\parse_data\convert\tests\test.pdf'
+    asyncio.run(make_pdf(file_path_for_open=for_open,
+                         file_path_for_save=for_save))
