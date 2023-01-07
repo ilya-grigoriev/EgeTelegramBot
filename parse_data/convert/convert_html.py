@@ -55,7 +55,7 @@ async def convert_html_code_to_image(
                     path_pdf_file=pdf_file, path_image=jpg_file)
                 my_logger.success('Converting pdf is finished')
 
-                # os.remove(pdf_file)
+                os.remove(pdf_file)
                 is_created_pdf_files[pdf_file] = converted_images
             else:
                 return None
