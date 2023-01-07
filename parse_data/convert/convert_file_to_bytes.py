@@ -9,6 +9,7 @@ def convert_image_to_bytes(*, file_name: str) -> bytes:
     file_name : str
         Image path.
     """
+
     converted_image = None
     with open(file_name, "rb") as image:
         to_bytes = image.read()

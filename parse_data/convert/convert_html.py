@@ -33,6 +33,7 @@ async def convert_html_code_to_image(
     is_created_pdf_files: dict
         Dictionary of already created pdf files to save work time.
     """
+
     formatted_html = html_code
     file_path = f"{path_dir}\\{id_task}_{type_html}"
     html_file = f"{file_path}.html"

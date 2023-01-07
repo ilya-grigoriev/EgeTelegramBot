@@ -28,6 +28,7 @@ async def convert_subtopic_to_dataclass(
     is_detailed: bool
         Check issue for non-text answer.
     """
+
     url = f"https://{subject_name_en}-ege.sdamgia.ru/test?theme={data_subtopic.id}"
     urls = await create_urls_for_request(url=url, max_skip=data_subtopic.amount)
 

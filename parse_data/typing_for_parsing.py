@@ -8,7 +8,7 @@ type_subject_id = int
 data_task = Dict[str, Optional[str | int]]
 data_subjects = Optional[List[Dict[str, str]]]
 data_from_json = Optional[List[data_task]]
-converted_images_to_bytes = List[Optional[bytes]]
+converted_images_to_bytes = List[bytes]
 type_converted_images = Dict[str, Optional[bytes]]
 
 
