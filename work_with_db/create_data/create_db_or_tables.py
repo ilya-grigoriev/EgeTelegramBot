@@ -21,5 +21,5 @@ def create_tables(*, conn, tables_name=subjects_en):
         conn.commit()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     pass

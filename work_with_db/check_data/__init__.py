@@ -1,1 +1,1 @@
-print('work_with_db/check_data')
+print("work_with_db/check_data")

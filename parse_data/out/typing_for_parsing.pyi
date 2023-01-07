@@ -4,4 +4,6 @@ class DataForDB:
     number_task: int
     html: str
     correct_answer: str
-    def __init__(self, id_task, level_name, number_task, html, correct_answer) -> None: ...
+    def __init__(
+        self, id_task, level_name, number_task, html, correct_answer
+    ) -> None: ...

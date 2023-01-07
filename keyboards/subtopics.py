@@ -6,10 +6,11 @@ from parse_data.typing_for_parsing import DataTask
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
 
-def get_keyboard_for_subtopic(*, issue_data: DataTask,
-                              num_issue: str) -> ReplyKeyboardMarkup:
+def get_keyboard_for_subtopic(
+    *, issue_data: DataTask, num_issue: str
+) -> ReplyKeyboardMarkup:
     subtopic_buttons = [
-        [KeyboardButton(f'{num_issue}{ind_subtopic}. {subtopic.title}')]
+        [KeyboardButton(f"{num_issue}{ind_subtopic}. {subtopic.title}")]
         for ind_subtopic, subtopic in enumerate(issue_data.subtopics, start=1)
     ]
     total_keyboard = [*subtopic_buttons, [BTN_RANDOM_TASK], [BTN_BACK]]

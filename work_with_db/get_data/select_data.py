@@ -40,21 +40,24 @@ from work_with_db.config_for_db import code_for_getting_task
 #             conn.close()
 
 
-async def select_task(*, subject_name: str, task_section: str) -> Optional[
-    DataFromDB]:
+async def select_task(*, subject_name: str, task_section: str) -> Optional[DataFromDB]:
     conn = None
     cursor = None
     try:
-        conn = psycopg2.connect(dbname='subjects', user=USER_DB,
-                                password=PASSWORD_DB, host=HOST_DB,
-                                port=PORT_DB)
+        conn = psycopg2.connect(
+            dbname="subjects",
+            user=USER_DB,
+            password=PASSWORD_DB,
+            host=HOST_DB,
+            port=PORT_DB,
+        )
         cursor = conn.cursor()
 
-        my_logger.info('Getting task from db...')
+        my_logger.info("Getting task from db...")
         request = code_for_getting_task.format(subject_name, task_section)
         cursor.execute(request)
         conn.commit()
-        my_logger.success('Getting task is finished')
+        my_logger.success("Getting task is finished")
 
         task = cursor.fetchone()
         if task:
@@ -63,7 +66,7 @@ async def select_task(*, subject_name: str, task_section: str) -> Optional[
     except psycopg2.errors.UndefinedTable:
         my_logger.error(traceback.format_exc())
         create_tables(conn=conn, tables_name=[subject_name])
-        my_logger.info(f'Table {subject_name} created')
+        my_logger.info(f"Table {subject_name} created")
     except Exception as e:
         my_logger.error(traceback.format_exc())
     finally:
@@ -72,7 +75,7 @@ async def select_task(*, subject_name: str, task_section: str) -> Optional[
             conn.close()
 
 
-if __name__ == '__main__':
-    resp = asyncio.run(select_task(subject_name='math', task_section='1/%'))
+if __name__ == "__main__":
+    resp = asyncio.run(select_task(subject_name="math", task_section="1/%"))
     if resp:
         print(resp)

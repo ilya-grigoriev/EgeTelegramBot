@@ -11,8 +11,9 @@ from work_with_bot.init_for_bot import subjects_data_for_keyboard
 from keyboards.issues import get_keyboard_for_issue
 
 
-async def get_data_for_issues(*, message: types.Message, state: FSMContext,
-                              response: str):
+async def get_data_for_issues(
+    *, message: types.Message, state: FSMContext, response: str
+):
     subject_en = translation_from_rus.get(response)
     await state.update_data({"subject": subject_en})
 
@@ -31,22 +32,25 @@ async def get_data_for_issues(*, message: types.Message, state: FSMContext,
             return None
 
 
-async def get_data_for_subtopics(*, message: types.Message, state: FSMContext,
-                                 response: str, issues_data: List[DataTask]):
+async def get_data_for_subtopics(
+    *,
+    message: types.Message,
+    state: FSMContext,
+    response: str,
+    issues_data: List[DataTask]
+):
     num_issue = re.search("\d+\.", response)
     num_issue = num_issue.group()
-    await state.update_data({'issue': num_issue.strip('.')})
+    await state.update_data({"issue": num_issue.strip(".")})
     response = re.sub("\d+\.", "", response).strip()
     for issue in issues_data:
         if issue.title == response:
             keyboard_subtopics = get_keyboard_for_subtopic(
                 issue_data=issue, num_issue=num_issue
             )
-            await state.update_data(
-                {"keyboard_subtopics": keyboard_subtopics})
+            await state.update_data({"keyboard_subtopics": keyboard_subtopics})
             await message.answer(
-                "Выберите подраздел задания:",
-                reply_markup=keyboard_subtopics
+                "Выберите подраздел задания:", reply_markup=keyboard_subtopics
             )
 
             break

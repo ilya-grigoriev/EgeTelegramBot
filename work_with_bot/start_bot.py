@@ -25,13 +25,12 @@ async def get_issues(message: types.Message, state: FSMContext):
     response = message.text.strip()
     if response in subjects_ru:
         await Response.subtopic.set()
-        await get_data_for_keyboard.get_data_for_issues(message=message,
-                                                        state=state,
-                                                        response=response)
+        await get_data_for_keyboard.get_data_for_issues(
+            message=message, state=state, response=response
+        )
     else:
         await message.answer("Данного предмета нет в списке")
-        await message.answer("Выберите предмет:",
-                             reply_markup=keyboard_subjects)
+        await message.answer("Выберите предмет:", reply_markup=keyboard_subjects)
         await Response.issue.set()
 
 
@@ -42,32 +41,29 @@ async def get_subtopics(message: types.Message, state: FSMContext):
     issues_data = data.get("issues")
     keyboard_issues = data.get("keyboard_issues")
     issue_titles = [btn[0]["text"] for btn in keyboard_issues["keyboard"]]
-    is_sending = data.get('is_sending')
+    is_sending = data.get("is_sending")
 
     if is_sending:
-        await message.answer('Задание ещё не отправлено. Подождите немного')
+        await message.answer("Задание ещё не отправлено. Подождите немного")
     elif response == "❔ Получить случайное задание":
-        await state.update_data({'task_section': '%/%'})
+        await state.update_data({"task_section": "%/%"})
 
         try:
-            await handlers_for_task.send_task(message=message, state=state,
-                                              bot=bot)
+            await handlers_for_task.send_task(message=message, state=state, bot=bot)
         except Exception as e:
-            await state.update_data({'is_sending': True})
+            await state.update_data({"is_sending": True})
             my_logger.error(traceback.format_exc())
-            await message.answer('Произошла ошибка. Повторите запрос позже')
+            await message.answer("Произошла ошибка. Повторите запрос позже")
 
         await Response.back_or_get.set()
     elif response == "🏠 Вернуться в главное меню":
-        await message.answer("Выберите предмет:",
-                             reply_markup=keyboard_subjects)
+        await message.answer("Выберите предмет:", reply_markup=keyboard_subjects)
         await Response.issue.set()
     elif response in issue_titles:
         await Response.task.set()
-        await get_data_for_keyboard.get_data_for_subtopics(message=message,
-                                                           state=state,
-                                                           response=response,
-                                                           issues_data=issues_data)
+        await get_data_for_keyboard.get_data_for_subtopics(
+            message=message, state=state, response=response, issues_data=issues_data
+        )
     else:
         await message.answer("Данного задания нет в списке")
         await message.answer("Выберите задание:", reply_markup=keyboard_issues)
@@ -80,45 +76,41 @@ async def get_task(message: types.Message, state: FSMContext):
     response = message.text
     keyboard_issues = data.get("keyboard_issues")
     keyboard_subtopics = data.get("keyboard_subtopics")
-    subtopic_titles = [btn[0]["text"] for btn in
-                       keyboard_subtopics["keyboard"]]
-    is_sending = data.get('is_sending')
+    subtopic_titles = [btn[0]["text"] for btn in keyboard_subtopics["keyboard"]]
+    is_sending = data.get("is_sending")
 
     if is_sending:
-        await message.answer('Задание ещё не отправлено. Подождите немного')
+        await message.answer("Задание ещё не отправлено. Подождите немного")
     elif response == "❔ Получить случайное задание":
-        num_issue = data.get('issue')
-        task_section = f'{num_issue}/%'
+        num_issue = data.get("issue")
+        task_section = f"{num_issue}/%"
         await state.update_data({"task_section": task_section})
         await Response.back_or_get.set()
 
         try:
-            await handlers_for_task.send_task(message=message, state=state,
-                                              bot=bot)
+            await handlers_for_task.send_task(message=message, state=state, bot=bot)
         except Exception as e:
             my_logger.error(traceback.format_exc())
-            await message.answer('Произошла ошибка. Повторите запрос позже')
+            await message.answer("Произошла ошибка. Повторите запрос позже")
     elif response == "🔙 Вернуться обратно":
         await message.answer(
             "Выберите подраздел задания:", reply_markup=keyboard_issues
         )
         await Response.issue.set()
     elif response in subtopic_titles:
-        num_issue, num_subtopic = re.findall(r'\d+\.', response)
+        num_issue, num_subtopic = re.findall(r"\d+\.", response)
         task_section = f'{num_issue.strip(".")}/{num_subtopic.strip(".")}'
         await state.update_data({"task_section": task_section})
         await Response.back_or_get.set()
 
         try:
-            await handlers_for_task.send_task(message=message, state=state,
-                                              bot=bot)
+            await handlers_for_task.send_task(message=message, state=state, bot=bot)
         except Exception as e:
             my_logger.error(traceback.format_exc())
-            await message.answer('Произошла ошибка. Повторите запрос позже')
+            await message.answer("Произошла ошибка. Повторите запрос позже")
     else:
         await message.answer("Данного подраздела нет в списке")
-        await message.answer("Выберите подраздел:",
-                             reply_markup=keyboard_subtopics)
+        await message.answer("Выберите подраздел:", reply_markup=keyboard_subtopics)
         await Response.subtopic.set()
 
 
@@ -126,36 +118,31 @@ async def get_task(message: types.Message, state: FSMContext):
 async def back_or_get(message: types.Message, state: FSMContext):
     response = message.text
     data = await state.get_data()
-    is_sending = data.get('is_sending')
+    is_sending = data.get("is_sending")
 
     if is_sending:
-        await message.answer('Задание ещё не отправлено. Подождите немного')
+        await message.answer("Задание ещё не отправлено. Подождите немного")
     elif response == "Получить задание":
 
         try:
-            await handlers_for_task.send_task(message=message, state=state,
-                                              bot=bot)
+            await handlers_for_task.send_task(message=message, state=state, bot=bot)
         except Exception as e:
             my_logger.error(traceback.format_exc())
-            await message.answer(
-                'Произошла ошибка. Повторите запрос позже')
+            await message.answer("Произошла ошибка. Повторите запрос позже")
 
         await Response.back_or_get.set()
     elif response == "🏠 Вернуться в главное меню":
         await Response.issue.set()
-        await message.answer("Главное меню:",
-                             reply_markup=keyboard_subjects)
-    elif response == 'Сообщить об ошибке':
+        await message.answer("Главное меню:", reply_markup=keyboard_subjects)
+    elif response == "Сообщить об ошибке":
         await Response.issue.set()
-        await message.answer('Спасибо за обратную связь!')
-        await message.answer('Главное меню:',
-                             reply_markup=keyboard_subjects)
-        my_logger.error('Incorrect photo sending')
+        await message.answer("Спасибо за обратную связь!")
+        await message.answer("Главное меню:", reply_markup=keyboard_subjects)
+        my_logger.error("Incorrect photo sending")
         my_logger.error(f'ID task: {data.get("id_task")}')
     else:
         await Response.back_or_get.set()
-        await message.answer("Некорректный ответ",
-                             reply_markup=keyboard_menu)
+        await message.answer("Некорректный ответ", reply_markup=keyboard_menu)
 
 
 def main():

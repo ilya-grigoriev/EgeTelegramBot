@@ -3,7 +3,7 @@ from PIL import Image
 
 def crop_image(*, file_path: str) -> None:
     image = Image.open(file_path)
-    image = image.convert('RGB')
+    image = image.convert("RGB")
     pixels = image.load()
     w, h = image.size
     access = True
@@ -33,6 +33,5 @@ def crop_image(*, file_path: str) -> None:
     image.crop((0, 0, hor_x, vert_y + 10)).save(file_path)
 
 
-if __name__ == '__main__':
-    crop_image(
-        file_path=r'C:\Users\ilia0\PycharmProjects\EgeTelegramBot\4076.jpg')
+if __name__ == "__main__":
+    crop_image(file_path=r"C:\Users\ilia0\PycharmProjects\EgeTelegramBot\4076.jpg")

@@ -1,1 +1,1 @@
-print('__init__.py work_with_db')
+print("__init__.py work_with_db")

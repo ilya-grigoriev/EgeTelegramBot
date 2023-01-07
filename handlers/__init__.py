@@ -1,1 +1,1 @@
-print('__init__.py handlers')
+print("__init__.py handlers")

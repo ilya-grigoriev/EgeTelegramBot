@@ -12,12 +12,12 @@ def convert_pdf_to_images(*, path_pdf_file: str, path_image: str):
     converted_images = []
 
     try:
-        my_logger.info('Saving images...')
+        my_logger.info("Saving images...")
         for image in images:
             image.save(fp=path_image)
             converted_image = convert_image_to_bytes(file_name=path_image)
             converted_images.append(converted_image)
-        my_logger.success('Images saved')
+        my_logger.success("Images saved")
     except Exception as e:
         my_logger.error(traceback.format_exc())
     finally:

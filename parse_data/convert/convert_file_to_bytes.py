@@ -17,5 +17,5 @@ def convert_image_to_bytes(*, file_name: str) -> bytes:
     return converted_image
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     pass
