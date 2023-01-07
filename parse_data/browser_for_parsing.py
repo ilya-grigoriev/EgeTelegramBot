@@ -9,7 +9,7 @@ async def make_screenshot(*, file_path_for_open: str,
                           file_path_for_save: str) -> None:
     try:
         browser = await pyppeteer.launch(
-            {'--headless': True, '--start-maxsized': False})
+            {'--headless': True, '--start-maxsized': True})
         page = await browser.newPage()
 
         my_logger.info('Starting to take screenshot...')
@@ -36,12 +36,12 @@ async def make_screenshot(*, file_path_for_open: str,
 
         check_img = await page.xpath('//img')
         if check_img:
-            await asyncio.sleep(2)
+            await asyncio.sleep(3)
 
         await page.screenshot({"path": file_path_for_save})
 
         await browser.close()
-        my_logger.info('Screenshot taken')
+        my_logger.success('Screenshot taken')
     except Exception:
         my_logger.error(traceback.format_exc())
 
