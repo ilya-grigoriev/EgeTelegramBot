@@ -7,7 +7,6 @@ from parse_data.config_for_parsing import translation_for_requests
 from parse_data.format.format_tasks_from_json import format_and_insert_tasks
 from parse_data.get_data.get_data_of_subject import get_json_of_data_subject
 from parse_data.get_data.get_subject_id import get_data_subject_from_json
-from work_with_db.get_data.select_data import select_tasks
 from parse_data.create_data.create_urls import create_urls_for_subject
 from parse_data.convert.convert_data import convert_subtopic_to_dataclass
 from parse_data.typing_for_parsing import DataIssue
