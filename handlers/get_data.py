@@ -4,36 +4,20 @@ from keyboards.subjects import keyboard_subjects
 from work_with_db.get_data.select_data import select_task
 from parse_data.config_for_parsing import translation_from_rus
 from keyboards.btn_report import BTN_REPORT
+from parse_data.format.format_data_from_database import \
+    format_data_for_tg_and_send_photo
 
 
-async def get_task(*, message: types.Message, state: FSMContext,
-                   after_subject_selection: bool, bot: Bot) -> None:
-    if after_subject_selection:
-        subject = translation_from_rus.get(message.text)
-        await state.update_data({'subject': subject})
-    else:
-        data = await state.get_data()
-        subject = data.get('subject')
+async def get_random_task(*, message: types.Message, state: FSMContext,
+                          bot: Bot):
+    data = await state.get_data()
+    task_section = data.get('task_section')
+    subject_name = data.get('subject')
 
-    response = await select_task(subject=subject)
-    if response:
-        task_text, id_task, correct_answer, file_path, \
-            converted_image = response.text, response.id, \
-            response.correct_answer, response.file_path, \
-            response.converted_image
-        await state.update_data({'correct_answer': correct_answer})
-        await state.update_data({'cur_id_task': id_task})
+    data_from_db = await select_task(subject_name=subject_name,
+                                     task_section=task_section)
 
-        await message.answer(text=task_text,
-                             reply_markup=types.ReplyKeyboardMarkup(
-                                 [[BTN_REPORT]]))
-
-        await bot.send_photo(message.chat.id, converted_image)
-        await state.update_data({'image_sent': True})
-
-        await message.answer(text='Введите ответ:')
-    else:
-        await message.answer(text='Произошла ошибка. Повторите попытку позже.')
-        await message.answer(text='Выберите другой предмет:',
-                             reply_markup=keyboard_subjects)
-        await state.finish()
+    if data_from_db:
+        await state.update_data({'id_task': data_from_db.id_task})
+        await format_data_for_tg_and_send_photo(data=data_from_db, bot=bot,
+                                                chat_id=message.chat.id)
