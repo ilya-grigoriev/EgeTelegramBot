@@ -8,12 +8,14 @@ def delete_excess_data_in_tag(*, template_url: str, tag: str) -> str:
     tag = re.sub(r'\s{2,}', ' ', tag)
     tag = re.sub("'", '"', tag)
 
-    sources = re.findall('src="[\w\d\-\.\/]+"', tag)
+    sources = re.findall(r'src="[\w\d\-\.\/\?=]+"', tag)
     for source in sources:
         url = source.lstrip('src="').rstrip('"')
         if url:
             total_url = f'{template_url}{url}'
             new_source = f'src="{total_url}"'
+            source = re.sub('\?', '\\?', source)
+            source = re.sub('\.', '\\.', source)
             tag = re.sub(source, new_source, tag)
 
     tag = re.sub(r'<body (class="[\w\-\s]+")', '<body bgcolor="#f5f5f5"', tag)
@@ -64,5 +66,11 @@ def format_answer_from_tag(*, html: str):
 
 
 if __name__ == '__main__':
-    print(format_answer_from_tag(
-        html=open('test12.html', encoding='utf-8').read()))
+    # print(format_answer_from_tag(
+    #     html=open('test12.html', encoding='utf-8').read()))
+    html_code = open(
+        r'C:\Users\ilia0\PycharmProjects\EgeTelegramBot\parse_data\convert\tests\test.html',
+        encoding='utf-8').read()
+    delete_excess_data_in_tag(template_url='https://math-ege.sdamgia.ru',
+                              tag=html_code
+                              )
