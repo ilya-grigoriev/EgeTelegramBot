@@ -1,5 +1,3 @@
-import sqlite3
-
 import psycopg2.errors
 
 from parse_data.config_for_parsing import subjects_en
