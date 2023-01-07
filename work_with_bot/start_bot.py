@@ -10,8 +10,8 @@ from keyboards.subjects import keyboard_subjects
 from keyboards.menu import keyboard_menu
 from handlers import greeting, get_data_for_keyboard, handlers_for_task
 from parse_data.config_for_parsing import subjects_ru
-from parse_data.parse_ege_tests import parse_tasks
 from work_with_bot.init_for_bot import bot, dp, scheduler, Response
+from parse_data.parse_ege_tests import parse_tasks
 
 
 @dp.message_handler(commands=["start", "help"], state=None)

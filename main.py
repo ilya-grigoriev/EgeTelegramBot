@@ -1,6 +1,5 @@
 from work_with_bot.init_for_bot import scheduler, dp
-
-from parse_data.parse_ege_tests import parse_tasks
+from work_with_bot.start_bot import parse_tasks
 from aiogram import executor
 
 
