@@ -16,7 +16,8 @@ code_for_insert_data_in_table = "INSERT INTO {} (task_section, id_task, " \
                                 "is_detailed, task_desc_html, " \
                                 "text_for_task_html, solution_html, answer) " \
                                 "VALUES {} ON CONFLICT DO NOTHING"
-code_for_get_task = "SELECT * FROM {} ORDER BY RANDOM() LIMIT 1;"
+code_for_getting_task = "SELECT * FROM {} WHERE TASK_SECTION LIKE '{}' " \
+                        "ORDER BY RANDOM() LIMIT 1;"
 file_path = rf'{path_dir}\db\tasks_for_subjects.db'
 USER_DB = os.getenv('USER_DB')
 PASSWORD_DB = os.getenv('PASSWORD_DB')
