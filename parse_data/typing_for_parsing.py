@@ -49,6 +49,17 @@ class DataForTG:
     converted_image: converted_image_to_bytes
 
 
+@dataclass(frozen=True)
+class DataFromDB:
+    task_section: str
+    id_task: int
+    is_detailed: bool
+    task_desc_html: str
+    text_for_task_html: str
+    solution_html: str
+    answer: str
+
+
 class Subtopic(BaseModel):
     id: int = Field(alias='id')
     title: str = Field(alias='title')
