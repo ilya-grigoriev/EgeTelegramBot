@@ -12,9 +12,9 @@ from keyboards.issues import get_keyboard_for_issue
 
 
 async def get_data_for_issues(
-    *, message: types.Message, state: FSMContext, response: str
+    *, message: types.Message, state: FSMContext, subject_rus: str
 ):
-    subject_en = translation_from_rus.get(response)
+    subject_en = translation_from_rus.get(subject_rus)
     await state.update_data({"subject": subject_en})
 
     for subject in subjects_data_for_keyboard:
@@ -38,9 +38,11 @@ async def get_data_for_subtopics(
     state: FSMContext,
     response: str,
     issues_data: List[DataTask]
-):
-    num_issue = re.search("\d+\.", response)
-    num_issue = num_issue.group()
+) -> None:
+    result_search = re.search("\d+\.", response)
+    if not result_search:
+        return None
+    num_issue = result_search.group()
     await state.update_data({"issue": num_issue.strip(".")})
     response = re.sub("\d+\.", "", response).strip()
     for issue in issues_data:

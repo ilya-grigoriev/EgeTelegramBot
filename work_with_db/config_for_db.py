@@ -7,6 +7,7 @@ code_for_creating_table = """CREATE TABLE {} (
                             id_task            INTEGER  NOT NULL UNIQUE,
                             is_detailed        BOOLEAN  NOT NULL,
                             task_desc_html     VARCHAR  NOT NULL,
+                            file_urls_for_task VARCHAR  NOT NULL,
                             text_for_task_html VARCHAR  NOT NULL,
                             solution_html      VARCHAR  NOT NULL,
                             answer             VARCHAR  NOT NULL
@@ -14,7 +15,7 @@ code_for_creating_table = """CREATE TABLE {} (
 """
 code_for_insert_data_in_table = (
     "INSERT INTO {} (task_section, id_task, "
-    "is_detailed, task_desc_html, "
+    "is_detailed, task_desc_html, file_urls_for_task,"
     "text_for_task_html, solution_html, answer) "
     "VALUES {} ON CONFLICT DO NOTHING"
 )

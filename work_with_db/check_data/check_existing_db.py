@@ -1,3 +1,4 @@
+"""This module help to check existing database."""
 import psycopg2
 
 from logger_for_project import my_logger
@@ -7,6 +8,7 @@ from work_with_db.check_data.check_data_db import check_data_of_tables
 
 
 def check_db():
+    """Check PostgreSQL database (data from environment of Python)."""
     my_logger.info("Connect with postgres db...")
     conn = psycopg2.connect(
         dbname="subjects",

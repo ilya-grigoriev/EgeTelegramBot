@@ -1,10 +1,25 @@
+"""This module help to format data in html code."""
 import re
-import traceback
-
-from logger_for_project import my_logger
+from typing import Tuple
 
 
 def delete_excess_data_in_tag(*, template_url: str, tag: str) -> str:
+    """
+    Delete excess data from html code.
+
+    Parameters
+    ----------
+    template_url: str
+        Template url for formatting internal links.
+    tag: str
+        Html code.
+
+    Returns
+    -------
+    str
+        Formatting html code.
+    """
+
     tag = re.sub(r"\s{2,}", " ", tag)
     tag = re.sub("'", '"', tag)
 
@@ -14,8 +29,8 @@ def delete_excess_data_in_tag(*, template_url: str, tag: str) -> str:
         if url:
             total_url = f"{template_url}{url}"
             new_source = f'src="{total_url}"'
-            source = re.sub("\?", "\\?", source)
-            source = re.sub("\.", "\\.", source)
+            source = re.sub(r"\?", "\\?", source)
+            source = re.sub(r"\.", "\\.", source)
             tag = re.sub(source, new_source, tag)
 
     tag = re.sub(r'<body (class="[\w\-\s]+")', '<body bgcolor="#f5f5f5"', tag)
@@ -45,7 +60,21 @@ def delete_excess_data_in_tag(*, template_url: str, tag: str) -> str:
     return tag
 
 
-def format_table_in_html(*, html):
+def format_table_in_html(*, html) -> Tuple[str, str]:
+    """
+    Format tag table in html code.
+
+    Parameters
+    ----------
+    html: str
+        Html code.
+
+    Returns
+    -------
+    Tuple[str, str]
+        Solution text without information and answer text.
+    """
+
     answer = []
     table_with_answer = html.find_all("tr")[-1]
     for number in table_with_answer.find_all("td"):
@@ -53,27 +82,31 @@ def format_table_in_html(*, html):
     return "", "".join(answer)
 
 
-def format_answer_from_tag(*, html: str):
-    pattern = re.compile("Ответ:((?!<\/p>)[\w\W])*")
+def format_answer_from_tag(*, html: str) -> Tuple[str, str]:
+    """
+    Format answer from html code.
+
+    Parameters
+    ----------
+    html: str
+        Html code.
+
+    Returns
+    -------
+    Tuple[str, str]
+        Solution text and answer text.
+    """
+    pattern = re.compile(r"Ответ:((?!<\/p>)[\w\W])*")
     tag_answer = re.search(pattern, html)
     solution_html = ""
     answer_text = ""
     if tag_answer:
-        tag_answer = re.sub(r"</span>", "", tag_answer.group())
-        tag_answer = re.sub(r"<p>", "", tag_answer)
+        result_search = tag_answer.group()
+        formatted_result = re.sub(r"</span>", "", result_search)
+        formatted_result = re.sub(r"<p>", "", formatted_result)
         solution_html = re.sub("'", '"', html)
-        if tag_answer:
-            answer_text = tag_answer.split(":")
-            answer_text = " ".join(answer_text[1:])
+        if formatted_result:
+            _, *answer = formatted_result.split(":")
+            answer_text = " ".join(answer)
             answer_text = answer_text.strip().strip(".")
     return solution_html, answer_text.strip()
-
-
-if __name__ == "__main__":
-    # print(format_answer_from_tag(
-    #     html=open('test12.html', encoding='utf-8').read()))
-    html_code = open(
-        r"C:\Users\ilia0\PycharmProjects\EgeTelegramBot\parse_data\convert\tests\test.html",
-        encoding="utf-8",
-    ).read()
-    delete_excess_data_in_tag(template_url="https://math-ege.sdamgia.ru", tag=html_code)

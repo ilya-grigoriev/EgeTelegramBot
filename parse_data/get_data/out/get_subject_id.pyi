@@ -1,3 +1,0 @@
-def get_subject_id_from_json(
-    *, subjects: list[dict], subject_name: str
-) -> int | None: ...

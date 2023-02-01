@@ -1,63 +1,81 @@
-from parse_data.convert.convert_html import convert_html_code_to_image
-from parse_data.format.format_data_in_tag import delete_excess_data_in_tag
+"""This module help to format data from database."""
+import traceback
+
+from logger_for_project import my_logger
+import aiogram
+from parse_data.convert.convert_html import convert_html_code_to_bytes
 from parse_data.typing_for_parsing import DataFromDB
-from aiogram import Bot
 
 
 async def format_data_for_tg_and_send_photo(
-    *, data: DataFromDB, bot: Bot, chat_id: str, subject_name_en: str
-):
+    *, data: DataFromDB, bot: aiogram.Bot, chat_id: str, subject_name_en: str
+) -> None:
+    """
+    Format data for Telegram and sending converted images to bytes.
+
+    Parameters
+    ----------
+    data: DataFromDB
+        Dataclass DataFromDB.
+    bot: aiogram.Bot
+        Telegram bot from aiogram.
+    chat_id: int
+        Telegram chat id.
+    subject_name_en: str
+        The name of the subject in English.
+    """
+
     template_url = f"https://{subject_name_en}-ege.sdamgia.ru"
 
-    formatted_task_desc_html = delete_excess_data_in_tag(
-        template_url=template_url, tag=data.task_desc_html
-    )
-
-    task_images = await convert_html_code_to_image(
-        html_code=formatted_task_desc_html, type_html="task", id_task=data.id_task
-    )
-
-    await bot.send_message(chat_id=chat_id, text="Условия задания:")
-    for task_image in task_images:
-        await bot.send_photo(chat_id=chat_id, photo=task_image)
-
-    if data.text_for_task_html:
-        formatted_text_for_task_html = delete_excess_data_in_tag(
-            template_url=template_url, tag=data.text_for_task_html
+    try:
+        task_images = await convert_html_code_to_bytes(
+            html_code=data.task_desc_html,
+            type_html="task",
+            data=data,
+            template_url=template_url,
         )
 
-        text_for_task_images = await convert_html_code_to_image(
-            html_code=formatted_text_for_task_html,
-            type_html="text_for_task",
-            id_task=data.id_task,
-        )
+        await bot.send_message(chat_id=chat_id, text="Условия задания:")
+        if task_images:
+            for task_image in task_images:
+                await bot.send_photo(chat_id=chat_id, photo=task_image)
 
-        await bot.send_message(chat_id=chat_id, text="Текст задания:")
-        for text_for_task_image in text_for_task_images:
-            await bot.send_photo(chat_id=chat_id, photo=text_for_task_image)
+        if data.text_for_task_html:
+            text_for_task_images = await convert_html_code_to_bytes(
+                html_code=data.text_for_task_html,
+                type_html="text_for_task",
+                data=data,
+                template_url=template_url,
+            )
 
-    if not data.solution_html:
-        converted_answer_text_to_html = f"<p>Ответ: {data.answer}</p>"
-        answer_images = await convert_html_code_to_image(
-            html_code=converted_answer_text_to_html,
-            type_html="answer",
-            id_task=data.id_task,
-        )
+            await bot.send_message(chat_id=chat_id, text="Текст задания:")
+            if text_for_task_images:
+                for text_for_task_image in text_for_task_images:
+                    await bot.send_photo(chat_id=chat_id, photo=text_for_task_image)
 
-        await bot.send_message(chat_id=chat_id, text="Ответ на задание:")
-        for answer_image in answer_images:
-            await bot.send_photo(chat_id=chat_id, photo=answer_image)
-    else:
-        formatted_solution_html = delete_excess_data_in_tag(
-            template_url=template_url, tag=data.solution_html
-        )
+        if not data.solution_html:
+            answer_images = await convert_html_code_to_bytes(
+                html_code=data.answer,
+                type_html="answer",
+                data=data,
+                template_url=template_url,
+            )
 
-        solution_images = await convert_html_code_to_image(
-            html_code=formatted_solution_html,
-            type_html="solution",
-            id_task=data.id_task,
-        )
+            await bot.send_message(chat_id=chat_id, text="Ответ на задание:")
+            if answer_images:
+                for answer_image in answer_images:
+                    await bot.send_photo(chat_id=chat_id, photo=answer_image)
+        else:
+            solution_images = await convert_html_code_to_bytes(
+                html_code=data.solution_html,
+                type_html="solution",
+                data=data,
+                template_url=template_url,
+            )
 
-        await bot.send_message(chat_id=chat_id, text="Пояснение к задаче:")
-        for solution_image in solution_images:
-            await bot.send_photo(chat_id=chat_id, photo=solution_image)
+            await bot.send_message(chat_id=chat_id, text="Пояснение к задаче:")
+            if solution_images:
+                for solution_image in solution_images:
+                    await bot.send_photo(chat_id=chat_id, photo=solution_image)
+    except Exception:
+        my_logger.error(traceback.format_exc())

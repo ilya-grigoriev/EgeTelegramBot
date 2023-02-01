@@ -1,30 +1,35 @@
+"""This module help to parse data and insert them to database."""
 import asyncio
-import copy
 import time
 
 from logger_for_project import my_logger
-from parse_data.config_for_parsing import translation_for_requests
-from parse_data.format.format_tasks_from_json import format_and_insert_tasks
+from parse_data.format.format_data_for_database import format_and_insert_tasks
 from parse_data.get_data.get_data_of_subject import get_json_of_data_subject
 from parse_data.get_data.get_subject_id import get_data_subject_from_json
-from parse_data.create_data.create_urls import create_urls_for_subject
 from parse_data.convert.convert_data import convert_subtopic_to_dataclass
 from parse_data.typing_for_parsing import DataIssue
-import aiohttp
 
 
 async def parse_data_and_update_db(*, subject_name_en: str) -> None:
+    """
+    Parse data from https://ege.sdamgia.ru/ and insert them to database.
+
+    Parameters
+    ----------
+    subject_name_en: str
+        The name of the subject in English.
+    """
     my_logger.info("Getting json of subject data...")
-    data_subject = get_json_of_data_subject(subject_name_en=subject_name_en)
+    data_subjects = get_json_of_data_subject(subject_name_en=subject_name_en)
     my_logger.success("Getting json of subject data is finished")
 
     my_logger.info("Getting subject data from json...")
-    formatted_data = get_data_subject_from_json(data_subject=data_subject)
+    formatted_data = get_data_subject_from_json(data_subjects=data_subjects)
     my_logger.success("Getting subject data is finished")
     if formatted_data:
-        for ind_issue, num_issue in enumerate([formatted_data[14]], start=15):
+        for ind_issue, num_issue in enumerate(formatted_data, start=1):
             is_detailed = False
-            if num_issue.type == "detailed":
+            if num_issue.type_issue == "detailed":
                 is_detailed = True
 
             async_subtopics = [
@@ -42,7 +47,7 @@ async def parse_data_and_update_db(*, subject_name_en: str) -> None:
             my_logger.success("Converting subtopic is finished")
 
             data_issue = DataIssue(
-                number_issue=num_issue.issue,
+                number_issue=int(num_issue.issue),
                 title=num_issue.title,
                 is_detailed=is_detailed,
                 subtopics=formatted_subtopics,
@@ -61,4 +66,4 @@ async def parse_data_and_update_db(*, subject_name_en: str) -> None:
 if __name__ == "__main__":
     # asyncio.run(
     #     parse_data_and_update_db(subject_name_en='rus'))
-    asyncio.run(parse_data_and_update_db(subject_name_en="math"))
+    asyncio.run(parse_data_and_update_db(subject_name_en="inf"))

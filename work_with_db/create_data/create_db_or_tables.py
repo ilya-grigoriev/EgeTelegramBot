@@ -1,14 +1,22 @@
-import os
-import sqlite3
+"""This module help to create database or tables of database."""
 import traceback
 
-import psycopg2
 from logger_for_project import my_logger
 from work_with_db.config_for_db import code_for_creating_table
 from parse_data.config_for_parsing import subjects_en
 
 
 def create_tables(*, conn, tables_name=subjects_en):
+    """
+    Create tables of database.
+
+    Parameters
+    ----------
+    conn: psycopg2.connection
+        Connection to PostgreSQL.
+    tables_name: str, default=subjects_en
+        Name of tables (default, subjects_en from config_for_db.py).
+    """
     try:
         cursor = conn.cursor()
         for table in tables_name:

@@ -1,25 +1,22 @@
-"""This module help to converting html"""
-import asyncio
+"""This module help to converting html."""
 import os
+import traceback
+
+import aiocache
 
 from logger_for_project import my_logger
+from aiocache.serializers import PickleSerializer
 from parse_data.config_for_parsing import path_dir
-from parse_data.typing_for_parsing import (
-    id_task_from_db,
-    converted_images_to_bytes,
-    type_converted_images,
-)
 from parse_data.browser_for_parsing import make_pdf
 from parse_data.convert.convert_pdf import convert_pdf_to_images
+from parse_data.format.format_data_in_tag import delete_excess_data_in_tag
+from parse_data.typing_for_parsing import typing_converted_images_to_bytes, DataFromDB
 
 
+@aiocache.cached(serializer=PickleSerializer())
 async def convert_html_code_to_image(
-    *,
-    html_code: str,
-    id_task: id_task_from_db,
-    type_html: str,
-    is_created_pdf_files: type_converted_images = {},
-) -> converted_images_to_bytes:
+    *, html_code: str, id_task: int, type_html: str
+) -> typing_converted_images_to_bytes:
     """Converting html code to image.
 
     Parameters
@@ -30,8 +27,11 @@ async def convert_html_code_to_image(
         Id_task column from database.
     type_html: str
         Part of the task (list of parts: 'task', 'text', 'solution', 'answer').
-    is_created_pdf_files: dict
-        Dictionary of already created pdf files to save work time.
+
+    Returns
+    -------
+    converted_images_to_bytes: Optional[List[bytes]]
+        List of images converted to bytes.
     """
 
     formatted_html = html_code
@@ -40,38 +40,74 @@ async def convert_html_code_to_image(
     pdf_file = f"{file_path}.pdf"
     jpg_file = f"{file_path}.jpg"
     try:
-        if pdf_file not in is_created_pdf_files:
-            is_created_pdf_files[pdf_file] = None
-
-            with open(html_file, mode="w", encoding="utf-8") as file:
-                file.write(formatted_html)
-
-            await make_pdf(file_path_for_open=html_file, file_path_for_save=pdf_file)
-            os.remove(html_file)
-
-            if os.path.isfile(pdf_file):
-                my_logger.info("Converting pdf to images...")
-                converted_images = convert_pdf_to_images(
-                    path_pdf_file=pdf_file, path_image=jpg_file
-                )
-                my_logger.success("Converting pdf is finished")
-
-                os.remove(pdf_file)
-                is_created_pdf_files[pdf_file] = converted_images
-            else:
-                return None
-        else:
-            # Checking converted image. Waiting if image is converted.
-            if not is_created_pdf_files[pdf_file]:
+        while True:
+            try:
                 while True:
-                    if os.path.isfile(pdf_file):
+                    try:
+                        with open(html_file, mode="w", encoding="utf-8") as file:
+                            file.write(formatted_html)
+
+                        await make_pdf(
+                            file_path_for_open=html_file, file_path_for_save=pdf_file
+                        )
+
+                        os.remove(html_file)
+                    except Exception:
+                        my_logger.error(traceback.format_exc())
+                    else:
                         break
-    finally:
-        return is_created_pdf_files[pdf_file]
+
+                if os.path.isfile(pdf_file):
+                    my_logger.info("Converting pdf to images...")
+                    converted_images = convert_pdf_to_images(
+                        path_pdf_file=pdf_file, path_image=jpg_file
+                    )
+                    my_logger.success("Converting pdf is finished")
+
+                    os.remove(pdf_file)
+
+                    return converted_images
+                return None
+            except Exception:
+                my_logger.error(traceback.format_exc())
+    except Exception:
+        my_logger.error(traceback.format_exc())
 
 
-if __name__ == "__main__":
-    html_code = open("tests/test.html", encoding="utf-8").read()
-    asyncio.run(
-        convert_html_code_to_image(html_code=html_code, id_task=0, type_html="text")
+async def convert_html_code_to_bytes(
+    *, html_code: str, type_html: str, data: DataFromDB, template_url: str
+) -> typing_converted_images_to_bytes:
+    """
+    Converting html code to list of images is converted to bytes.
+
+    Parameters
+    ----------
+    html_code: str
+        Html code.
+    type_html: str
+        Part of the task (list of parts: 'task', 'text', 'solution', 'answer').
+    data: DataFromDB
+        Dataclass with data from database.
+    template_url: str
+        Template url for formatting internal links.
+
+    Returns
+    -------
+    Optional[List[IO[bytes]]]
+        List of images is converted to bytes.
+    """
+
+    if type_html == "answer":
+        converted_text_to_html = f"<p>Ответ: {data.answer}</p>"
+    else:
+        converted_text_to_html = html_code
+
+    formatted_html = delete_excess_data_in_tag(
+        template_url=template_url, tag=converted_text_to_html
     )
+    images = await convert_html_code_to_image(
+        html_code=formatted_html,
+        type_html=type_html,
+        id_task=data.id_task,
+    )
+    return images

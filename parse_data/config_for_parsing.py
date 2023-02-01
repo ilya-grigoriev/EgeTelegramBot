@@ -52,8 +52,8 @@ headers_for_get_subject_ids = {
 }
 
 translation_from_eng = {
-    "russian": "Русский язык",
-    "math": "Математика",
+    "rus": "Русский язык",
+    "math": "Математика профильная",
     "inf": "Информатика",
 }
 
@@ -63,7 +63,11 @@ translation_from_rus = {
     "Информатика": "inf",
 }
 
-translation_for_requests = {"Русский язык": "rus", "Математика": "math"}
+translation_for_requests = {
+    "Русский язык": "rus",
+    "Математика": "math",
+    "Информатика": "inf",
+}
 
 json_data = {
     "levelIds": [],
@@ -84,6 +88,5 @@ json_data = {
 }
 
 path_dir = "\\".join(str(__file__).rsplit("\\")[:-2])
-subjects_ru = ["Русский язык", "Математика профильная"]
-subjects_en = ["rus", "math"]
-n_tasks = 500
+subjects_ru = ["Русский язык", "Математика профильная", "Информатика"]
+subjects_en = ["inf"]

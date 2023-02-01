@@ -1,12 +1,30 @@
-from typing import List, Optional
+"""This module help to get subject id."""
+from parse_data.typing_for_parsing import (
+    DataTask,
+    typing_data_subjects,
+    formatted_data_subjects,
+)
 
-from parse_data.typing_for_parsing import DataTask
 
+def get_data_subject_from_json(
+    *, data_subjects: typing_data_subjects
+) -> formatted_data_subjects:
+    """
+    Get list of dataclass with data of tasks.
 
-def get_data_subject_from_json(*, data_subject) -> Optional[List[DataTask]]:
+    Parameters
+    ----------
+    data_subjects: typing_data_subjects
+        List of data of subjects.
+
+    Returns
+    -------
+    formatted_data_subjects
+        List of dataclass with data of subjects.
+    """
     formatted_data = []
-    if data_subject:
-        for task in data_subject:
+    if data_subjects:
+        for task in data_subjects:
             data = DataTask(**task)
             if data.issue != 0:
                 formatted_data.append(data)

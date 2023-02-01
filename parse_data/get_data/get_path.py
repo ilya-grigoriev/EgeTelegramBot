@@ -1,7 +1,21 @@
+"""This module help to get path name."""
 import os
 
 
 def get_path_for_file(*, path_dir_file: str) -> str:
+    """
+    Get absolute path name for file.
+
+    Parameters
+    ----------
+    path_dir_file: str
+        Path name to file with directory (example, 'db\\db.sql').
+
+    Returns
+    -------
+    str
+        Absolute path name to file.
+    """
     par_dir = os.path.dirname(f"{os.path.dirname(__file__)}")
     ind_last_backslash = par_dir.rindex("\\")
     par_dir = par_dir[:ind_last_backslash]

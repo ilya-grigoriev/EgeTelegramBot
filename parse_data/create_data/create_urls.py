@@ -1,42 +1,51 @@
+"""This module help to create urls."""
 import asyncio
-import copy
-from typing import List, Dict, Tuple
 
-from parse_data.typing_for_parsing import DataTask
-
-
-def create_urls_for_subject(*, subject_name_en: str, data):
-    formatted_data = []
-    for task in data_subject:
-        formatted_dict = copy.deepcopy(task.dict())
-        task = task.dict()
-        if "subtopics" in task:
-            subtopics = task.get("subtopics")
-            for ind, subtopic in enumerate(subtopics):
-                id = subtopic.get("id")
-                total_url = f"https://{subject_name_en}-ege.sdamgia.ru/test?theme={id}"
-                cur_subtopic_dict = formatted_dict.get("subtopics")[ind]
-                cur_subtopic_dict.update({"url": total_url})
-                formatted_dict["subtopics"][ind] = cur_subtopic_dict
-            formatted_data.append(formatted_dict)
-    return formatted_data
+from parse_data.typing_for_parsing import (
+    typing_urls_with_data,
+    typing_url,
+    typing_data_payload,
+)
 
 
-async def create_urls_for_request(*, url: str, max_skip: int):
+async def create_urls_for_request(
+    *, url: typing_url, max_skip: int
+) -> typing_urls_with_data:
+    """
+    Create urls to https://ege.sdamgia.ru/ for request.
+
+    Parameters
+    ----------
+    url: typing_url
+        Link to the website.
+    max_skip: int
+        Value for data payload of request.
+    Returns
+    -------
+    type_urls_with_data
+        List of urls with data payload for request.
+    """
+
     urls_with_data = []
     skip = 5
     max_amount = max_skip
     if url:
         while max_amount >= 5:
             max_amount -= 5
-            urls_with_data.append(
-                (url, {"ajax": "1", "skip": skip, "max_skip": max_skip})
-            )
+            data_payload: typing_data_payload = {
+                "ajax": "1",
+                "skip": skip,
+                "max_skip": max_skip,
+            }
+            urls_with_data.append((url, data_payload))
             skip += 5
-        urls_with_data.append(
-            (url, {"ajax": "1", "skip": max_skip, "max_skip": max_skip})
-        )
-        urls_with_data.append((url, dict()))
+        final_data_payload: typing_data_payload = {
+            "ajax": "1",
+            "skip": max_skip,
+            "max_skip": max_skip,
+        }
+        urls_with_data.append((url, final_data_payload))
+        urls_with_data.append((url, {}))  # for first call website
     return urls_with_data
 
 

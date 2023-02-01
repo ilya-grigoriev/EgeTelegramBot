@@ -1,4 +1,4 @@
-"""This module help to converting file to bytes"""
+"""This module help to converting file to bytes."""
 
 
 def convert_image_to_bytes(*, file_name: str) -> bytes:

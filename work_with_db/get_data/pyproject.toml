@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = 'get_data'
+description = 'This package using for getting data from database'
+author = 'Ilya Grigoryev'
+author_email = 'ilia092006grig@gmail.com'
+version = '0.1.0'
+
+[project.optional-dependencies]
+dev = [
+    "tox",
+    "pre-commit",
+    "bump2version"
+]

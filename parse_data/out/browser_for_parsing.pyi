@@ -1,3 +1,0 @@
-async def make_screenshot(
-    *, file_path_for_open: str, file_path_for_save: str
-) -> None: ...

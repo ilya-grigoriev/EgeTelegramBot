@@ -1,4 +1,6 @@
-"""This module help to converting data to dataclass"""
+"""This module help to converting data to dataclass."""
+from typing import Optional
+
 from logger_for_project import my_logger
 from parse_data.create_data.create_urls import create_urls_for_request
 from parse_data.typing_for_parsing import DataSubtopic, Subtopic
@@ -11,21 +13,21 @@ async def convert_subtopic_to_dataclass(
     subject_name_en: str,
     n_issue: int,
     n_subtopic: int,
-    is_detailed: str,
-) -> DataSubtopic:
+    is_detailed: bool,
+) -> Optional[DataSubtopic]:
     """Function for converting pydantic model to dataclass.
 
     Parameters
     ----------
     data_subtopic : Subtopic
         Pydantic model with subtopic data.
-    subject_name_en: str
+    subject_name_en : str
         The name of subject in English.
-    n_issue: int
+    n_issue : int
         The serial number of the issue.
-    n_subtopic: int
+    n_subtopic : int
         The serial number of the subtopic.
-    is_detailed: bool
+    is_detailed : bool
         Check issue for non-text answer.
     """
 

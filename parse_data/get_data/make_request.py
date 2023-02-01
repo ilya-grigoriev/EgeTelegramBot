@@ -1,25 +1,41 @@
+"""This module help to make requests."""
 import random
 import traceback
-from typing import Dict
+from typing import Dict, Sequence, Optional
+import asyncio
+import aiohttp
 
 from logger_for_project import my_logger
 from parse_data.config_for_parsing import headers_for_get_data_tasks
-import aiohttp
-import asyncio
-from parse_data.format.format_html import format_html_code
-from parse_data.format.format_data_in_tag import delete_excess_data_in_tag
-from parse_data.get_data.get_answer import get_answer_task
-from parse_data.typing_for_parsing import DataTaskOfSubtopic
-from parse_data.get_data.get_data_from_html import get_tasks_from_html
+from parse_data.typing_for_parsing import typing_data_of_tasks, DataTaskOfSubtopic
+from parse_data.convert.convert_task import get_tasks_from_html
 
 
 async def request_to_url(
-    *, url: str, data: Dict[str, str | int], n_issue: int, is_detailed: str
-):
-    time = 2
+    *, url: str, data: Dict[str, str | int], n_issue: int, is_detailed: bool
+) -> typing_data_of_tasks:
+    """
+    Make request to url.
+
+    Parameters
+    ----------
+    url: str
+    data: Dict[str, str | int]
+        Data payload for request.
+    n_issue: int
+        Number issue.
+    is_detailed: bool
+        Is the task with detailed answer?
+
+    Returns
+    -------
+    typing_data_of_tasks
+        List of dataclass with data of subtopic's tasks.
+    """
+    time = 3
     session = aiohttp.ClientSession()
     while True:
-        if time > 5:
+        if time > 6:
             await session.close()
             return []
         try:
@@ -30,16 +46,21 @@ async def request_to_url(
             response = await session.post(
                 url, data=data, headers=headers_for_get_data_tasks
             )
-        except aiohttp.client_exceptions.ClientConnectorError:
+        except (
+            aiohttp.client_exceptions.ClientConnectorError,
+            aiohttp.client_exceptions.ClientOSError,
+        ):
             await session.close()
             my_logger.error(traceback.format_exc())
             my_logger.info(f"Repeat the request to {url}")
-            await asyncio.sleep(random.randint(0, time))
+            await asyncio.sleep(random.randint(2, time))
             session = aiohttp.ClientSession()
             time += 2
         else:
             html = await response.text()
-            if "prob_maindiv" in html:
+            if data.get("skip") == data.get("max_skip") and data:
+                await session.close()
+            elif "prob_maindiv" in html:
                 formatted_html_codes = await get_tasks_from_html(
                     html=html,
                     template_url=template_url,
@@ -50,12 +71,31 @@ async def request_to_url(
                 await asyncio.sleep(random.randint(0, 2))
                 await session.close()
                 return formatted_html_codes
-            elif data["skip"] == data["max_skip"]:
+            else:
                 await session.close()
-                return None
+            return [None]
 
 
-async def main(*, urls_with_data, n_issue: int, is_detailed: str):
+async def main(
+    *, urls_with_data, n_issue: int, is_detailed: bool
+) -> typing_data_of_tasks:
+    """
+    Run requests.
+
+    Parameters
+    ----------
+    urls_with_data: typing_request_data
+        List of urls with data payload.
+    n_issue: int
+        Number issue.
+    is_detailed: bool
+        Is the task with detailed answer?
+
+    Returns
+    -------
+    typing_data_of_tasks
+        List of dataclass with data of subtopic's tasks.
+    """
     async_requests = [
         request_to_url(
             url=url[0], data=url[1], n_issue=n_issue, is_detailed=is_detailed
@@ -64,7 +104,9 @@ async def main(*, urls_with_data, n_issue: int, is_detailed: str):
     ]
 
     my_logger.info("Starting make requests...")
-    tasks = await asyncio.gather(*async_requests)
+    tasks: Sequence[Sequence[Optional[DataTaskOfSubtopic]]] = await asyncio.gather(
+        *async_requests
+    )
     my_logger.success("Tasks received")
 
     formatted_tasks = []
@@ -74,41 +116,3 @@ async def main(*, urls_with_data, n_issue: int, is_detailed: str):
                 if html_code:
                     formatted_tasks.append(html_code)
     return formatted_tasks
-
-
-if __name__ == "__main__":
-    tasks = [
-        ("https://math-ege.sdamgia.ru/test?theme=79", {"ajax": "1", "skip": 5}),
-        ("https://math-ege.sdamgia.ru/test?theme=79", {"ajax": "1", "skip": 8}),
-        ("https://math-ege.sdamgia.ru/test?theme=79", {"ajax": "1", "skip": 11}),
-        ("https://math-ege.sdamgia.ru/test?theme=79", {"ajax": "1", "skip": 14}),
-        ("https://math-ege.sdamgia.ru/test?theme=79", {"ajax": "1", "skip": 17}),
-        ("https://math-ege.sdamgia.ru/test?theme=79", {"ajax": "1", "skip": 20}),
-        ("https://math-ege.sdamgia.ru/test?theme=79", {"ajax": "1", "skip": 23}),
-        ("https://math-ege.sdamgia.ru/test?theme=79", {"ajax": "1", "skip": 26}),
-        ("https://math-ege.sdamgia.ru/test?theme=79", {"ajax": "1", "skip": 29}),
-        ("https://math-ege.sdamgia.ru/test?theme=79", {"ajax": "1", "skip": 32}),
-        ("https://math-ege.sdamgia.ru/test?theme=79", {"ajax": "1", "skip": 35}),
-        ("https://math-ege.sdamgia.ru/test?theme=79", {"ajax": "1", "skip": 38}),
-        ("https://math-ege.sdamgia.ru/test?theme=79", {"ajax": "1", "skip": 41}),
-        ("https://math-ege.sdamgia.ru/test?theme=79", {"ajax": "1", "skip": 44}),
-        ("https://math-ege.sdamgia.ru/test?theme=79", {"ajax": "1", "skip": 47}),
-        ("https://math-ege.sdamgia.ru/test?theme=79", {"ajax": "1", "skip": 50}),
-        ("https://math-ege.sdamgia.ru/test?theme=79", {"ajax": "1", "skip": 53}),
-        ("https://math-ege.sdamgia.ru/test?theme=79", {"ajax": "1", "skip": 56}),
-        ("https://math-ege.sdamgia.ru/test?theme=79", {"ajax": "1", "skip": 59}),
-        ("https://math-ege.sdamgia.ru/test?theme=79", {"ajax": "1", "skip": 62}),
-        ("https://math-ege.sdamgia.ru/test?theme=79", {"ajax": "1", "skip": 65}),
-        ("https://math-ege.sdamgia.ru/test?theme=79", {"ajax": "1", "skip": 68}),
-        ("https://math-ege.sdamgia.ru/test?theme=79", {"ajax": "1", "skip": 71}),
-        ("https://math-ege.sdamgia.ru/test?theme=79", {"ajax": "1", "skip": 74}),
-        ("https://math-ege.sdamgia.ru/test?theme=79", {"ajax": "1", "skip": 77}),
-        ("https://math-ege.sdamgia.ru/test?theme=79", {"ajax": "1", "skip": 80}),
-        ("https://math-ege.sdamgia.ru/test?theme=79", {"ajax": "1", "skip": 83}),
-        ("https://math-ege.sdamgia.ru/test?theme=79", {"ajax": "1", "skip": 86}),
-        ("https://math-ege.sdamgia.ru/test?theme=79", {"ajax": "1", "skip": 89}),
-        ("https://math-ege.sdamgia.ru/test?theme=79", {"ajax": "1", "skip": 92}),
-        ("https://math-ege.sdamgia.ru/test?theme=79", {"ajax": "1", "skip": 95}),
-        ("https://math-ege.sdamgia.ru/test?theme=79", {"ajax": "1", "skip": 98}),
-    ]
-    print(asyncio.get_event_loop().run_until_complete(main(urls_with_data=tasks)))

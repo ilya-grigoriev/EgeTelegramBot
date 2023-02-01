@@ -1,3 +1,4 @@
+"""This module help to check database."""
 import asyncio
 import random
 import time
@@ -6,11 +7,20 @@ import traceback
 import aiohttp.client_exceptions
 import psycopg2.errors
 from logger_for_project import my_logger
-from parse_data.config_for_parsing import translation_from_eng, subjects_en
+from parse_data.config_for_parsing import subjects_en
 from parse_data.format.parse_data_and_update_database import parse_data_and_update_db
 
 
 def check_data_of_tables(*, conn) -> None:
+    """
+    Check tables of database.
+
+    Parameters
+    ----------
+    conn: psycopg2.connection
+        Connection to PostgreSQL.
+    """
+
     try:
         cursor = conn.cursor()
         for subject in subjects_en:
@@ -21,7 +31,7 @@ def check_data_of_tables(*, conn) -> None:
                 my_logger.info(f"Parsing for {subject}...")
                 count_time = 5
                 while True:
-                    if count_time > 15:
+                    if count_time > 10:
                         break
                     try:
                         my_logger.info(f"Starting parsing data for {subject}")
@@ -33,9 +43,11 @@ def check_data_of_tables(*, conn) -> None:
 
                         time.sleep(random.randint(3, count_time))
                         count_time += 2
+                    else:
+                        break
                 my_logger.success(f"End parsing for {subject}")
             time.sleep(3)
     except psycopg2.errors.InFailedSqlTransaction:
         conn.rollback()
-    except Exception as e:
-        my_logger.error(traceback.format_exc(e))
+    except Exception:
+        my_logger.error(traceback.format_exc())

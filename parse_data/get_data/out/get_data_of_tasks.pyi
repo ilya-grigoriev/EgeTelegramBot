@@ -1,3 +1,0 @@
-def get_json_of_tasks_for_subject(
-    *, subject_id: int, n_tasks: int
-) -> list[dict] | None: ...

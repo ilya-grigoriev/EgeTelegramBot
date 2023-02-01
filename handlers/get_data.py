@@ -1,9 +1,6 @@
 from aiogram import types, Bot
 from aiogram.dispatcher import FSMContext
-from keyboards.subjects import keyboard_subjects
 from work_with_db.get_data.select_data import select_task
-from parse_data.config_for_parsing import translation_from_rus
-from keyboards.btn_report import BTN_REPORT
 from parse_data.format.format_data_from_database import (
     format_data_for_tg_and_send_photo,
 )

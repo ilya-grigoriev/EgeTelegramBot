@@ -9,13 +9,17 @@ def get_subjects_data() -> List[DataSubjectForTG]:
     data_for_tg = []
     for subject in subjects_en:
         issues = get_json_of_data_subject(subject_name_en=subject)
-        converted_data = [DataTask(**issue) for issue in issues]
-        formatted_data = [
-            issue for issue in converted_data if issue.subtopics and issue.issue != 0
-        ]
 
-        subject_dict = {"title": subject, "issues": formatted_data}
-        data_for_tg.append(DataSubjectForTG(**subject_dict))
+        if issues:
+            converted_data = [DataTask(**issue) for issue in issues]
+            formatted_data = [
+                issue
+                for issue in converted_data
+                if issue.subtopics and issue.issue != 0
+            ]
+
+            subject_dict = {"title": subject, "issues": formatted_data}
+            data_for_tg.append(DataSubjectForTG(**subject_dict))
     return data_for_tg
 
 

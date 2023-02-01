@@ -4,7 +4,6 @@ from aiogram import Bot, Dispatcher
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher.filters.state import StatesGroup, State
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from work_with_db.check_data.check_existing_db import check_db
 from keyboards.get_data_for_keyboard.get_data_for_subjects import get_subjects_data
 
 TELEGRAM_TOKEN = os.getenv("TOKEN")

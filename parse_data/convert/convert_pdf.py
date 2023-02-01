@@ -6,14 +6,14 @@ from pdf2image import convert_from_path
 
 from logger_for_project import my_logger
 from parse_data.convert.convert_file_to_bytes import convert_image_to_bytes
-from parse_data.typing_for_parsing import converted_images_to_bytes
+from parse_data.typing_for_parsing import typing_converted_images_to_bytes
+from parse_data.format.format_image import crop_image
 
 
 def convert_pdf_to_images(
     *, path_pdf_file: str, path_image: str
-) -> converted_images_to_bytes:
-    """
-    Converting pdf to images
+) -> typing_converted_images_to_bytes:
+    """Converting pdf to images.
 
     Parameters
     ----------
@@ -23,7 +23,7 @@ def convert_pdf_to_images(
         Path existing image.
     Returns
     -------
-    converted_images_to_bytes: list[bytes]
+    type_converted_images_to_bytes: Optional[List[bytes]]
         List of images converted to bytes.
     """
 
@@ -34,11 +34,21 @@ def convert_pdf_to_images(
         my_logger.info("Saving images...")
         for image in images:
             image.save(fp=path_image)
+
+            my_logger.info("Start converting image to bytes...")
             converted_image = convert_image_to_bytes(file_name=path_image)
-            converted_images.append(converted_image)
+            my_logger.success("Converting image is finished")
+
+            my_logger.info("Start cropping image...")
+            image_without_empty_space = crop_image(image_to_bytes=converted_image)
+            my_logger.success("Cropping image is finished")
+
+            converted_images.append(image_without_empty_space)
         my_logger.success("Images saved")
     except Exception:
         my_logger.error(traceback.format_exc())
     finally:
-        os.remove(path_image)
-        return converted_images
+        if os.path.isfile(path_image):
+            os.remove(path_image)
+
+    return converted_images

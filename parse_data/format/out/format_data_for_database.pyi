@@ -1,3 +1,0 @@
-from parse_data.typing_for_parsing import DataForDB as DataForDB
-
-def format_data_for_db(*, task: DataForDB) -> str: ...

@@ -1,3 +1,0 @@
-from parse_data.typing_for_parsing import DataForDB
-
-def get_data_from_json(*, task: dict) -> DataForDB | None: ...
