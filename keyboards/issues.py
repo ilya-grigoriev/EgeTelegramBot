@@ -1,3 +1,4 @@
+"""This module help to get keyboard for issues."""
 from typing import List
 
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
@@ -8,6 +9,19 @@ from parse_data.typing_for_parsing import DataTask
 
 
 def get_keyboard_for_issue(*, issues_data: List[DataTask]) -> ReplyKeyboardMarkup:
+    """
+    Getting keyboards for issues.
+
+    Parameters
+    ----------
+    issues_data: List[DataTask]
+        List of Pydantic model with data of tasks.
+
+    Returns
+    -------
+    ReplyKeyboardMarkup
+        Keyboards issues.
+    """
     issue_buttons = [
         [KeyboardButton(f"{ind_issue}. {issue.title}")]
         for ind_issue, issue in enumerate(issues_data, start=1)

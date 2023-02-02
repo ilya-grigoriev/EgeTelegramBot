@@ -1,3 +1,4 @@
+"""This module is designed for button back home."""
 from aiogram.types import KeyboardButton, ReplyKeyboardMarkup
 
 BTN_BACK_HOME = KeyboardButton("🏠 Вернуться в главное меню")
