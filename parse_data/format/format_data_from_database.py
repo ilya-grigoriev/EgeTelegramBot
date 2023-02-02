@@ -1,8 +1,8 @@
 """This module help to format data from database."""
 import traceback
 
-from logger_for_project import my_logger
 import aiogram
+from logger_for_project import my_logger
 from parse_data.convert.convert_html import convert_html_code_to_bytes
 from parse_data.typing_for_parsing import DataFromDB
 
@@ -77,5 +77,5 @@ async def format_data_for_tg_and_send_photo(
             if solution_images:
                 for solution_image in solution_images:
                     await bot.send_photo(chat_id=chat_id, photo=solution_image)
-    except Exception:
+    except Exception:  # pylint: disable=broad-except
         my_logger.error(traceback.format_exc())

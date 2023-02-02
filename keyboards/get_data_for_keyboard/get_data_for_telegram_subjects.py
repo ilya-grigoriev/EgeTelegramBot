@@ -1,3 +1,4 @@
+"""This module help to getting data for subjects."""
 from typing import List
 
 from parse_data.config_for_parsing import subjects_en
@@ -6,6 +7,14 @@ from parse_data.typing_for_parsing import DataTask, DataSubjectForTG
 
 
 def get_subjects_data() -> List[DataSubjectForTG]:
+    """
+    Getting data of subjects.
+
+    Returns
+    -------
+    List[DataSubjectForTG]
+        List of TypedDict with data of subject for Telegram.
+    """
     data_for_tg = []
     for subject in subjects_en:
         issues = get_json_of_data_subject(subject_name_en=subject)
@@ -19,7 +28,7 @@ def get_subjects_data() -> List[DataSubjectForTG]:
             ]
 
             subject_dict = {"title": subject, "issues": formatted_data}
-            data_for_tg.append(DataSubjectForTG(**subject_dict))
+            data_for_tg.append(DataSubjectForTG(**subject_dict))  # type: ignore
     return data_for_tg
 
 

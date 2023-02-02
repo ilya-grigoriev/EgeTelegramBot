@@ -1,3 +1,4 @@
+"""This module help to parse tests from database."""
 import asyncio
 
 import psycopg2
@@ -7,6 +8,12 @@ from work_with_db.config_for_db import USER_DB, PASSWORD_DB, HOST_DB, PORT_DB
 
 
 def parse_tasks():
+    """
+    Function for starting parsing tasks from database.
+
+    Returns
+    -------
+    """
     conn = psycopg2.connect(
         dbname="subjects",
         user=USER_DB,

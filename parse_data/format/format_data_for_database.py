@@ -3,7 +3,6 @@ import re
 from typing import List, Optional
 
 from parse_data.typing_for_parsing import (
-    DataTaskOfSubtopic,
     DataIssue,
     typing_task,
     formatted_data_for_db,
@@ -23,7 +22,7 @@ def format_data_for_db(
 
     Parameters
     ----------
-    task: DataTaskOfSubtopic
+    task: typing_task
         Dataclass with data of the subtopic's task.
     number_task: int
         Number of the task.
@@ -48,7 +47,7 @@ def format_data_for_db(
             task_section = f"{number_task}/{number_subtopic}"
         else:
             task_section = f"{number_task}/0"
-        total_request = f"('{task_section}', {task.id_task}, {str(is_detailed).lower()}, '{task.task_desc_html}', '{task.file_urls_for_task}', '{task.text_for_task_html}', '{task.solution_html}', '{task.answer}')"
+        total_request = f"('{task_section}', {task.id_task}, {str(is_detailed).lower()}, '{task.task_desc_html}', '{task.file_urls_for_task}', '{task.text_for_task_html}', '{task.solution_html}', '{task.answer}')"  # pylint: disable=line-too-long
     return total_request
 
 

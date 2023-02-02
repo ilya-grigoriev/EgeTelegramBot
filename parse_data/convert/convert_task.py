@@ -3,10 +3,10 @@ from typing import Sequence, Optional
 
 import aiohttp
 
+from tenacity import RetryError
 from parse_data.format.format_html import format_html_code
 from parse_data.get_data.get_data_from_html import get_tasks_html_from_html
 from parse_data.typing_for_parsing import DataTaskOfSubtopic
-from tenacity import RetryError
 
 
 async def get_tasks_from_html(

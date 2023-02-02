@@ -5,12 +5,12 @@ import traceback
 from typing import Optional, Any
 
 import aiohttp
+from tenacity import retry, wait_fixed, stop_after_attempt
 from logger_for_project import my_logger
 from parse_data.typing_for_parsing import DataTaskOfSubtopic
 from parse_data.format.format_data_in_tag import delete_excess_data_in_tag
 from parse_data.get_data.get_answer import get_answer_task
 from parse_data.get_data.get_data_of_task import get_data_of_task_for_subtopic
-from tenacity import retry, wait_fixed, stop_after_attempt
 
 
 @retry(wait=wait_fixed(1), stop=stop_after_attempt(3))
@@ -61,7 +61,7 @@ async def format_html_code(
                 session=session,
                 is_detailed=is_detailed,
             )
-        except Exception:
+        except Exception:  # pylint: disable=broad-except
             my_logger.error(traceback.format_exc())
             return None
         else:

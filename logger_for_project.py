@@ -1,12 +1,15 @@
+"""This module is designed for creating logger."""
 import os.path
 
 import loguru
-from parse_data.config_for_parsing import path_dir
+from parse_data.config_for_parsing import PATH_DIR
 
-file_path = f"{path_dir}\\out.log"
+file_path = f"{PATH_DIR}\\out.log"
 if not os.path.isfile(file_path):
-    file = open(file_path, mode="w")
+    with open(file_path, mode="w", encoding="utf-8") as file:
+        file_out = file
 else:
-    file = open(file_path, mode="a")
+    with open(file_path, mode="a", encoding="utf-8") as file:
+        file_out = file
 my_logger = loguru.logger
-my_logger.add(file)
+my_logger.add(file_out)

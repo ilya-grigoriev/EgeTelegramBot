@@ -4,9 +4,9 @@ import traceback
 
 import aiocache
 
-from logger_for_project import my_logger
 from aiocache.serializers import PickleSerializer
-from parse_data.config_for_parsing import path_dir
+from logger_for_project import my_logger
+from parse_data.config_for_parsing import PATH_DIR
 from parse_data.browser_for_parsing import make_pdf
 from parse_data.convert.convert_pdf import convert_pdf_to_images
 from parse_data.format.format_data_in_tag import delete_excess_data_in_tag
@@ -35,43 +35,44 @@ async def convert_html_code_to_image(
     """
 
     formatted_html = html_code
-    file_path = f"{path_dir}\\{id_task}_{type_html}"
+    file_path = f"{PATH_DIR}\\{id_task}_{type_html}"
     html_file = f"{file_path}.html"
     pdf_file = f"{file_path}.pdf"
     jpg_file = f"{file_path}.jpg"
+    count = 0
+
+    while True:
+        try:
+            if count == 3:
+                break
+
+            with open(html_file, mode="w", encoding="utf-8") as file:
+                file.write(formatted_html)
+
+            await make_pdf(file_path_for_open=html_file, file_path_for_save=pdf_file)
+
+            os.remove(html_file)
+        except Exception:
+            my_logger.error(traceback.format_exc())
+            my_logger.error(f"Html file: {html_file}. Pdf file: {pdf_file}.")
+            count += 1
+        else:
+            break
+
     try:
-        while True:
-            try:
-                while True:
-                    try:
-                        with open(html_file, mode="w", encoding="utf-8") as file:
-                            file.write(formatted_html)
+        if os.path.isfile(pdf_file):
+            my_logger.info("Converting pdf to images...")
+            converted_images = convert_pdf_to_images(
+                path_pdf_file=pdf_file, path_image=jpg_file
+            )
+            my_logger.success("Converting pdf is finished")
 
-                        await make_pdf(
-                            file_path_for_open=html_file, file_path_for_save=pdf_file
-                        )
+            os.remove(pdf_file)
 
-                        os.remove(html_file)
-                    except Exception:
-                        my_logger.error(traceback.format_exc())
-                    else:
-                        break
-
-                if os.path.isfile(pdf_file):
-                    my_logger.info("Converting pdf to images...")
-                    converted_images = convert_pdf_to_images(
-                        path_pdf_file=pdf_file, path_image=jpg_file
-                    )
-                    my_logger.success("Converting pdf is finished")
-
-                    os.remove(pdf_file)
-
-                    return converted_images
-                return None
-            except Exception:
-                my_logger.error(traceback.format_exc())
+            return converted_images
     except Exception:
         my_logger.error(traceback.format_exc())
+    return None
 
 
 async def convert_html_code_to_bytes(
@@ -110,4 +111,4 @@ async def convert_html_code_to_bytes(
         type_html=type_html,
         id_task=data.id_task,
     )
-    return images
+    return images  # type: ignore

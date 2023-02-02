@@ -1,11 +1,12 @@
+"""This module help to starting Telegram bot."""
 import re
 import traceback
 
+from aiogram import types
 from aiogram.utils import executor
 
-from logger_for_project import my_logger
-from aiogram import types
 from aiogram.dispatcher import FSMContext
+from logger_for_project import my_logger
 from keyboards.menu import keyboard_menu
 from keyboards.subjects import get_keyboard_for_subjects
 from handlers import greeting, get_data_for_keyboard, handlers_for_task
@@ -22,6 +23,13 @@ from parse_data.config_for_parsing import translation_from_eng
 
 @dp.message_handler(commands=["start"], state=None)
 async def send_welcome_(message: types.Message):
+    """
+    Handling request to sending welcome.
+
+    Parameters
+    ----------
+    message: types.Message
+    """
     keyboard = get_keyboard_for_subjects(subjects=subjects_data_for_keyboard)
     await greeting.send_welcome(message=message, keyboard=keyboard)
     if keyboard:
@@ -30,11 +38,26 @@ async def send_welcome_(message: types.Message):
 
 @dp.message_handler(commands=["help"])
 async def get_help(message: types.Message):
+    """
+    Handling request to getting help.
+
+    Parameters
+    ----------
+    message: types.Message
+    """
     await message.answer("Чтобы начать использовать бота, введите команду /start")
 
 
 @dp.message_handler(state=Response.issue)
 async def get_issues(message: types.Message, state: FSMContext):
+    """
+    Handling requeset to getting issues.
+
+    Parameters
+    ----------
+    message: types.Message
+    state: FSMContext
+    """
     response = message.text.strip()
     subject_names = []
     for subject_data in subjects_data_for_keyboard:
@@ -58,6 +81,14 @@ async def get_issues(message: types.Message, state: FSMContext):
 
 @dp.message_handler(state=Response.subtopic)
 async def get_subtopics(message: types.Message, state: FSMContext):
+    """
+    Handling request to getting subtopics.
+
+    Parameters
+    ----------
+    message: types.Message
+    state: FSMContext
+    """
     data = await state.get_data()
     response = message.text
     issues_data = data.get("issues")
@@ -99,6 +130,14 @@ async def get_subtopics(message: types.Message, state: FSMContext):
 
 @dp.message_handler(state=Response.task)
 async def get_task(message: types.Message, state: FSMContext):
+    """
+    Handling request to getting task.
+
+    Parameters
+    ----------
+    message: types.Message
+    state: FSMContext
+    """
     data = await state.get_data()
     response = message.text
     keyboard_issues = data.get("keyboard_issues")
@@ -152,6 +191,14 @@ async def get_task(message: types.Message, state: FSMContext):
 
 @dp.message_handler(state=Response.back_or_get)
 async def back_or_get(message: types.Message, state: FSMContext):
+    """
+    Processing the request to return and get task.
+
+    Parameters
+    ----------
+    message: types.Message
+    state: FSMContext
+    """
     response = message.text
     data = await state.get_data()
     is_sending = data.get("is_sending")
@@ -188,6 +235,7 @@ async def back_or_get(message: types.Message, state: FSMContext):
 
 
 def main():
+    """Start scheduler working."""
     scheduler.add_job(parse_tasks, trigger="cron", hour="0")
     scheduler.start()
     executor.start_polling(dp, skip_updates=True)

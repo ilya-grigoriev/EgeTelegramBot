@@ -1,8 +1,11 @@
+"""This module is designed for config data."""
 import os
 
-from parse_data.config_for_parsing import path_dir
+import psycopg2
 
-code_for_creating_table = """CREATE TABLE {} (
+from parse_data.config_for_parsing import PATH_DIR
+
+CODE_FOR_CREATING_TABLE = """CREATE TABLE {} (
                             task_section       VARCHAR  NOT NULL,
                             id_task            INTEGER  NOT NULL UNIQUE,
                             is_detailed        BOOLEAN  NOT NULL,
@@ -13,17 +16,24 @@ code_for_creating_table = """CREATE TABLE {} (
                             answer             VARCHAR  NOT NULL
 );
 """
-code_for_insert_data_in_table = (
+CODE_FOR_INSERTING_DATA_IN_TABLE = (
     "INSERT INTO {} (task_section, id_task, "
     "is_detailed, task_desc_html, file_urls_for_task,"
     "text_for_task_html, solution_html, answer) "
     "VALUES {} ON CONFLICT DO NOTHING"
 )
-code_for_getting_task = (
-    "SELECT * FROM {} WHERE TASK_SECTION LIKE '{}' " "ORDER BY RANDOM() LIMIT 1;"
+CODE_FOR_GETTING_TASK = (
+    "SELECT * FROM {} WHERE TASK_SECTION LIKE '{}' ORDER BY RANDOM() LIMIT 1;"
 )
-file_path = rf"{path_dir}\db\tasks_for_subjects.db"
+file_path = rf"{PATH_DIR}\db\tasks_for_subjects.db"
 USER_DB = os.getenv("USER_DB")
 PASSWORD_DB = os.getenv("PASSWORD_DB")
 HOST_DB = os.getenv("HOST_DB")
 PORT_DB = os.getenv("PORT_DB")
+conn = psycopg2.connect(
+    dbname="subjects",
+    user=USER_DB,
+    password=PASSWORD_DB,
+    host=HOST_DB,
+    port=PORT_DB,
+)

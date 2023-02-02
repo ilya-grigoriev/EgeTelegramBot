@@ -2,11 +2,11 @@
 import traceback
 
 from logger_for_project import my_logger
-from work_with_db.config_for_db import code_for_creating_table
+from work_with_db.config_for_db import CODE_FOR_CREATING_TABLE
 from parse_data.config_for_parsing import subjects_en
 
 
-def create_tables(*, conn, tables_name=subjects_en):
+def create_tables(*, conn, tables_name=None):
     """
     Create tables of database.
 
@@ -14,20 +14,19 @@ def create_tables(*, conn, tables_name=subjects_en):
     ----------
     conn: psycopg2.connection
         Connection to PostgreSQL.
-    tables_name: str, default=subjects_en
+    tables_name: str
         Name of tables (default, subjects_en from config_for_db.py).
     """
+    if not tables_name:
+        tables_name = subjects_en
+
     try:
         cursor = conn.cursor()
         for table in tables_name:
-            code = code_for_creating_table.format(table)
+            code = CODE_FOR_CREATING_TABLE.format(table)
             cursor.execute(code)
-    except Exception as e:
+    except Exception:
         conn.rollback()
-        my_logger.error(traceback.format_exc(e))
+        my_logger.error(traceback.format_exc())
     else:
         conn.commit()
-
-
-if __name__ == "__main__":
-    pass

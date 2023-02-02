@@ -1,7 +1,7 @@
-import json
-from dataclasses import dataclass, field
-from pydantic import BaseModel, Field, root_validator
+"""This module is designed to create type-hints."""
+import dataclasses
 from typing import Optional, Dict, List, Any, TypedDict, NewType, IO, Tuple, Sequence
+from pydantic import BaseModel, Field, root_validator
 
 id_task_from_db = NewType("id_task_from_db", int)
 subject_id = NewType("subject_id", int)
@@ -13,13 +13,17 @@ converted_image = Optional[bytes]
 typing_converted_images = Dict[str, typing_converted_images_to_bytes]
 typing_data_payload = Dict[str, str | int]
 typing_url = str
-typing_urls_with_data = List[Tuple[typing_url, typing_data_payload]]
+typing_urls_with_data = List[
+    Tuple[typing_url, typing_data_payload]
+]  # pylint: disable=invalid-name
 typing_request_data = Tuple[typing_url, typing_data_payload]
-formatted_data_for_db = List[Optional[str]]
+formatted_data_for_db = List[Optional[str]]  # pylint: disable=invalid-name
 
 
-@dataclass
+@dataclasses.dataclass
 class DataTaskOfSubtopic:
+    """Dataclass for formatting data of subtopic's task."""
+
     id_task: int = -1
     task_desc_html: str = ""
     text_for_task_html: str = ""
@@ -28,59 +32,94 @@ class DataTaskOfSubtopic:
     answer: str = ""
 
 
-typing_task = Optional[DataTaskOfSubtopic]
-typing_data_of_tasks = Sequence[typing_task]
+typing_task = Optional[DataTaskOfSubtopic]  # pylint: disable=invalid-name
+typing_data_of_tasks = Sequence[typing_task]  # pylint: disable=invalid-name
 
 
-@dataclass
+@dataclasses.dataclass
 class DataSubtopic:
+    """Dataclass for formatting of subtopic."""
+
     number_subtopic: int = -1
     title: str = ""
     ind_subtopic: int = -1
-    tasks: typing_data_of_tasks = field(default_factory=list)
+    tasks: typing_data_of_tasks = dataclasses.field(default_factory=list)
 
 
-@dataclass
+@dataclasses.dataclass
 class DataIssue:
+    """Dataclass for formatting data of issue."""
+
     number_issue: int = -1
     title: str = ""
     is_detailed: bool = False
-    subtopics: List[DataSubtopic] = field(default_factory=list)
+    subtopics: List[DataSubtopic] = dataclasses.field(default_factory=list)
 
 
-@dataclass
+@dataclasses.dataclass
 class DataForTG:
+    """Dataclass for formatting data for Telegram."""
+
     text: str
-    id: int
+    id: int  # pylint: disable=invalid-name
     correct_answer: str
     file_path: str
     converted_image: typing_converted_images
 
 
-@dataclass(frozen=True)
-class DataFromDB:
+@dataclasses.dataclass(frozen=True)
+class DataFromDB:  # pylint: disable=too-many-instance-attributes
+    """Dataclass for formatting data from database."""
+
     task_section: str
     id_task: int
     is_detailed: bool
     task_desc_html: str
+    file_urls_for_task: str
     text_for_task_html: str
     solution_html: str
     answer: str
 
 
-class Subtopic(BaseModel):
+class Subtopic(BaseModel):  # pylint: disable=too-few-public-methods
+    """Pydantic model for formatting data of subtopics."""
+
     id: int = Field(alias="id")
     title: str = Field(alias="title")
     amount: int = Field(alias="amount")
 
 
-@dataclass
+@dataclasses.dataclass
 class DataSubtopicForTG:
+    """Dataclass for formatting data of subtopic for Telegram."""
+
     n_subtopic: str
     title: str
 
 
-class DataTask(BaseModel):
+class DataTaskDict(TypedDict):
+    """Typed dict for formatting data of task from dict."""
+
+    issue: int
+    title: str
+    type_issue: str
+    subtopics: List[Subtopic]
+
+
+class DataFromJson(TypedDict):
+    """Typed dict for formatting data of task from json."""
+
+    id_issue: Optional[str]
+    issue: int | str
+    title: str
+    type_issue: str
+    subtopics: Any
+    amount: int
+
+
+class DataTask(BaseModel):  # pylint: disable=too-few-public-methods
+    """Pydantic model for formatting data of task."""
+
     id_issue: Optional[str] = Field(alias="id")
     issue: int | str = Field(alias="issue")
     title: str = Field(alias="title")
@@ -88,8 +127,21 @@ class DataTask(BaseModel):
     subtopics: Any = Field(alias="subtopics")
     amount: int = Field(alias="amount")
 
+    @classmethod
     @root_validator
     def check_subtopics(cls, val):
+        """
+        Parameters.
+
+        ----------
+        val: DataFromJson
+            Pydantic model with all variables for formatting data.
+
+        Returns
+        -------
+        DataTaskDict
+            Typed dict with data of task.
+        """
         id_issue = val.get("id_issue")
         issue = val.get("issue")
         title = val.get("title")
@@ -107,7 +159,7 @@ class DataTask(BaseModel):
             data_issue = Subtopic(**{"id": id_issue, "title": "", "amount": amount})
             formatted_subtopics.append(data_issue)
         elif isinstance(subtopics, list):
-            for ind_subtopic, subtopic in enumerate(subtopics, start=1):
+            for subtopic in subtopics:
                 data_subtopic = Subtopic(**subtopic)
                 formatted_subtopics.append(data_subtopic)
 
@@ -120,16 +172,20 @@ class DataTask(BaseModel):
         return result
 
 
-formatted_data_subjects = Optional[List[DataTask]]
+formatted_subjects = Optional[List[DataTask]]  # pylint: disable=invalid-name
 
 
 class DataSubjectForTG(TypedDict):
+    """
+    TypedDict of data subject for Telegram.
+
+    Parameters
+    ----------
+    title: str
+        Title of subject.
+    issues: List[DataTask]
+        List of dataclass of tasks.
+    """
+
     title: str
     issues: List[DataTask]
-
-
-if __name__ == "__main__":
-    file = open("test.json", encoding="utf-8")
-    data = json.load(file)
-    for task in data.get("constructor"):
-        print(DataTask(**task).dict())

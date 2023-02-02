@@ -47,7 +47,7 @@ def check_data_of_tables(*, conn) -> None:
                         break
                 my_logger.success(f"End parsing for {subject}")
             time.sleep(3)
-    except psycopg2.errors.InFailedSqlTransaction:
+    except psycopg2.errors.InFailedSqlTransaction:  # pylint: disable=no-member
         conn.rollback()
     except Exception:
         my_logger.error(traceback.format_exc())

@@ -2,13 +2,13 @@
 from parse_data.typing_for_parsing import (
     DataTask,
     typing_data_subjects,
-    formatted_data_subjects,
+    formatted_subjects,
 )
 
 
 def get_data_subject_from_json(
     *, data_subjects: typing_data_subjects
-) -> formatted_data_subjects:
+) -> formatted_subjects:
     """
     Get list of dataclass with data of tasks.
 

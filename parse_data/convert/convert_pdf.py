@@ -8,6 +8,7 @@ from logger_for_project import my_logger
 from parse_data.convert.convert_file_to_bytes import convert_image_to_bytes
 from parse_data.typing_for_parsing import typing_converted_images_to_bytes
 from parse_data.format.format_image import crop_image
+from parse_data.config_for_parsing import PATH_DIR
 
 
 def convert_pdf_to_images(
@@ -27,7 +28,8 @@ def convert_pdf_to_images(
         List of images converted to bytes.
     """
 
-    images = convert_from_path(pdf_path=path_pdf_file)
+    path_for_poppler = rf"{PATH_DIR}\poppler-0.68.0\bin"
+    images = convert_from_path(pdf_path=path_pdf_file, poppler_path=path_for_poppler)
     converted_images = []
 
     try:
@@ -45,7 +47,7 @@ def convert_pdf_to_images(
 
             converted_images.append(image_without_empty_space)
         my_logger.success("Images saved")
-    except Exception:
+    except Exception:  # pylint: disable=broad-except
         my_logger.error(traceback.format_exc())
     finally:
         if os.path.isfile(path_image):

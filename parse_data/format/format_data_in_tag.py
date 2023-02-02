@@ -1,6 +1,11 @@
 """This module help to format data in html code."""
 import re
-from typing import Tuple
+import traceback
+from typing import Tuple, Optional
+
+from bs4 import BeautifulSoup
+
+from logger_for_project import my_logger
 
 
 def delete_excess_data_in_tag(*, template_url: str, tag: str) -> str:
@@ -110,3 +115,61 @@ def format_answer_from_tag(*, html: str) -> Tuple[str, str]:
             answer_text = " ".join(answer)
             answer_text = answer_text.strip().strip(".")
     return solution_html, answer_text.strip()
+
+
+def format_solution_html(
+    solution_html: str, soup: BeautifulSoup, template_url: str, is_detailed: bool
+) -> Optional[Tuple[str, str]]:
+    """
+    Formatting and getting data from solution html code.
+
+    Parameters
+    ----------
+    solution_html: str
+        Html code of solution.
+    soup: BeautifulSoup
+        Instance Beautiful Soup.
+    template_url: str
+        Template url for formatting internal links.
+    is_detailed: bool
+        Is the task with detailed answer?
+
+    Returns
+    -------
+    Optional[Tuple[str, str]]
+        Tuple of solution html code and answer text or html code.
+    """
+    have_table = solution_html.find("table")
+    answer_text = ""
+
+    pattern = re.compile(r"Ответ:((?!<\/p>)[\w\W])*")
+    answer_text_v1 = re.search(pattern, str(solution_html))
+
+    answer_text_v2 = soup.find("div", attrs={"class": "answer"})
+
+    if answer_text_v2:
+        if is_detailed:
+            formatted_answer = delete_excess_data_in_tag(
+                template_url=template_url, tag=str(answer_text_v2)
+            )
+            answer_text = formatted_answer
+        else:
+            answer_text_v2 = answer_text_v2.text
+            if have_table:
+                solution_html = ""
+            if "Ответ:" in answer_text_v2:
+                answer_text_v2 = ":".join(answer_text_v2.split(":")[1:]).strip()
+            answer_text = answer_text_v2
+    elif answer_text_v1:
+        solution_html, answer_text = format_answer_from_tag(html=str(solution_html))
+        if have_table:
+            solution_html = ""
+    elif have_table:
+        try:
+            solution_html, answer_text = format_table_in_html(html=solution_html)
+        except Exception:  # pylint: disable=broad-except
+            my_logger.error(traceback.format_exc())
+    solution_html_str = str(solution_html)
+    if answer_text:
+        return solution_html_str, answer_text
+    return None

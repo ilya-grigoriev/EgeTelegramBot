@@ -1,6 +1,7 @@
 """This module help to run browser for parsing."""
+import traceback
+
 import pyppeteer
-import asyncio
 from logger_for_project import my_logger
 
 
@@ -33,11 +34,5 @@ async def make_pdf(*, file_path_for_open: str, file_path_for_save: str) -> None:
         await page.pdf(path=file_path_for_save)
         await browser.close()
         my_logger.success("PDF taken")
-    except Exception as e:
-        my_logger.error(e)
-
-
-if __name__ == "__main__":
-    for_open = r"C:\Users\ilia0\PycharmProjects\EgeTelegramBot\parse_data\convert\tests\test.html"
-    for_save = r"C:\Users\ilia0\PycharmProjects\EgeTelegramBot\parse_data\convert\tests\test.pdf"
-    asyncio.run(make_pdf(file_path_for_open=for_open, file_path_for_save=for_save))
+    except Exception:
+        my_logger.error(traceback.format_exc())
