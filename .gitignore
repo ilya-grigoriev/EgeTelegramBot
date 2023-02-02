@@ -165,3 +165,4 @@ setenv.sh
 *.html
 out.log
 *.png
+*.pdf
