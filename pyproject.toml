@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "egetelegrambot"
+version = "0.1.0"
+description = "Telegram bot for solving EGE problems"
+authors = ["Ilya Grigoryev"]
+license = "GNU"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+requests = "^2.28.2"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pylint]
+disable = ['broad-except', 'no-name-in-module', 'line-too-long']
+good-names = ['typing_request_data', 'typing_urls_with_data', 'typing_url',
+    'typing_data_payload', 'typing_converted_images', 'converted_image',
+    'typing_converted_images_to_bytes', 'data_from_json',
+    'typing_data_subjects', 'data_task', 'subject_id', 'id_task_from_db']
+
+[flake8]
+max-line-length = 80
+
+[tool.ruff]
+line-length = 100
