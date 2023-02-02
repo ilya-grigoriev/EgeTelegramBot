@@ -127,7 +127,6 @@ class DataTask(BaseModel):  # pylint: disable=too-few-public-methods
     subtopics: Any = Field(alias="subtopics")
     amount: int = Field(alias="amount")
 
-    @classmethod
     @root_validator
     def check_subtopics(cls, val):
         """
