@@ -15,8 +15,12 @@ requests = "^2.28.2"
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
+[tool.pylint.MASTER]
+load-plugins = "pylint_pydantic"
+
 [tool.pylint]
-disable = ['broad-except', 'no-name-in-module', 'line-too-long']
+disable = ['broad-except', 'no-name-in-module', 'line-too-long',
+    'no-self-argument']
 good-names = ['typing_request_data', 'typing_urls_with_data', 'typing_url',
     'typing_data_payload', 'typing_converted_images', 'converted_image',
     'typing_converted_images_to_bytes', 'data_from_json',
