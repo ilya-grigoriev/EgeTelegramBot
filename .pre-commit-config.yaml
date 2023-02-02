@@ -27,6 +27,7 @@ repos:
         entry: pylint
         language: system
         types: [ python ]
+        args: [disable=no-self-argument]
   - repo: https://github.com/DanielNoord/pydocstringformatter
     rev: v0.7.3
     hooks:
