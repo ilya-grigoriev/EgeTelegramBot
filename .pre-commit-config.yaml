@@ -19,7 +19,6 @@ repos:
     hooks:
       - id: mypy
         additional_dependencies: [requests]
-        args: ["--ignore-missing-imports"]
   - repo: https://github.com/PyCQA/pylint
     rev: v2.15.9
     hooks:
