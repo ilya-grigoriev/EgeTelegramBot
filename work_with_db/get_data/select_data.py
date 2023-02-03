@@ -3,8 +3,7 @@ import asyncio
 import traceback
 from typing import Optional
 
-import psycopg2
-
+from psycopg2 import errors
 from logger_for_project import my_logger
 from parse_data.typing_for_parsing import DataFromDB
 from work_with_db.config_for_db import conn
@@ -28,7 +27,6 @@ async def select_task(*, subject_name: str, task_section: str) -> Optional[DataF
     Optional[DataFromDb]
         Dataclass with data from database.
     """
-    task = None
     try:
         with conn:
             with conn.cursor() as cursor:
@@ -42,7 +40,7 @@ async def select_task(*, subject_name: str, task_section: str) -> Optional[DataF
         if task:
             data = DataFromDB(*task)
             return data
-    except psycopg2.errors.UndefinedTable:  # pylint: disable=no-member
+    except errors.UndefinedTable:  # pylint: disable=no-member
         my_logger.error(traceback.format_exc())
         create_tables(conn=conn, tables_name=[subject_name])
         my_logger.info(f"Table {subject_name} created")

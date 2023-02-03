@@ -1,13 +1,17 @@
 """This module help to make requests."""
 import random
 import traceback
-from typing import Dict, Sequence, Optional
+from typing import Dict, Sequence, Optional, List
 import asyncio
 import aiohttp
 
 from logger_for_project import my_logger
 from parse_data.config_for_parsing import headers_for_get_data_tasks
-from parse_data.typing_for_parsing import typing_data_of_tasks, DataTaskOfSubtopic
+from parse_data.typing_for_parsing import (
+    typing_data_of_tasks,
+    DataTaskOfSubtopic,
+    typing_request_data,
+)
 from parse_data.convert.convert_task import get_tasks_from_html
 
 
@@ -77,14 +81,14 @@ async def request_to_url(
 
 
 async def main(
-    *, urls_with_data, n_issue: int, is_detailed: bool
+    *, urls_with_data: List[typing_request_data], n_issue: int, is_detailed: bool
 ) -> typing_data_of_tasks:
     """
     Run requests.
 
     Parameters
     ----------
-    urls_with_data: typing_request_data
+    urls_with_data: List[typing_request_data]
         List of urls with data payload.
     n_issue: int
         Number issue.
