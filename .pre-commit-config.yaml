@@ -19,7 +19,7 @@ repos:
     hooks:
       - id: mypy
         additional_dependencies: [ 'types-requests' ]
-        args: [ --follow-imports=strict ]
+        args: [ --follow-imports=normal ]
   - repo: https://github.com/PyCQA/pylint
     rev: v2.16.0
     hooks:
