@@ -1,8 +1,18 @@
+"""This module is designed for sending greeting."""
 from aiogram import types
 
 
-async def send_welcome(*, message: types.Message, keyboard: types.ReplyKeyboardMarkup):
-    """This handler will be called when user sends `/start` command."""
+async def send_welcome(
+    *, message: types.Message, keyboard: types.ReplyKeyboardMarkup
+) -> None:
+    """
+    Sending welcome user.
+
+    Parameters
+    ----------
+    message: types.Message
+    keyboard: types.ReplyKeyboardMarkup
+    """
     await message.reply(f"Здравствуйте, {message['from']['first_name']}!")
     await message.answer("Это неофициальный бот для подготовки к ЕГЭ")
 

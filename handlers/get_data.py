@@ -1,3 +1,4 @@
+"""This module is designed to getting data."""
 from aiogram import types, Bot
 from aiogram.dispatcher import FSMContext
 from work_with_db.get_data.select_data import select_task
@@ -6,7 +7,18 @@ from parse_data.format.format_data_from_database import (
 )
 
 
-async def get_random_task(*, message: types.Message, state: FSMContext, bot: Bot):
+async def get_random_task(
+    *, message: types.Message, state: FSMContext, bot: Bot
+) -> None:
+    """
+    Getting random task from database and sending it.
+
+    Parameters
+    ----------
+    message: types.Message
+    state: FSMContext
+    bot: Bot
+    """
     data = await state.get_data()
     task_section = data.get("task_section")
     subject_name = data.get("subject")

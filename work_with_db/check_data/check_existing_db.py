@@ -5,7 +5,7 @@ from work_with_db.config_for_db import conn
 from work_with_db.check_data.check_data_db import check_data_of_tables
 
 
-def check_db():
+def check_db() -> None:
     """Check PostgreSQL database (data from environment of Python)."""
     my_logger.info("Connect with postgres db...")
     check_existing_tables_db(conn=conn)
