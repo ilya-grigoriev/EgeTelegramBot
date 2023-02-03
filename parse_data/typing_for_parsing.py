@@ -13,11 +13,9 @@ converted_image = Optional[bytes]
 typing_converted_images = Dict[str, typing_converted_images_to_bytes]
 typing_data_payload = Dict[str, str | int]
 typing_url = str
-typing_urls_with_data = List[
-    Tuple[typing_url, typing_data_payload]
-]  # pylint: disable=invalid-name
+typing_urls_with_data = List[Tuple[typing_url, typing_data_payload]]
 typing_request_data = Tuple[typing_url, typing_data_payload]
-formatted_data_for_db = List[Optional[str]]  # pylint: disable=invalid-name
+formatted_data_for_db = List[Optional[str]]
 
 
 @dataclasses.dataclass
@@ -89,6 +87,9 @@ class Subtopic(BaseModel):  # pylint: disable=too-few-public-methods
     amount: int = Field(alias="amount")
 
 
+typing_subtopics = List[Optional[Subtopic]]
+
+
 @dataclasses.dataclass
 class DataSubtopicForTG:
     """Dataclass for formatting data of subtopic for Telegram."""
@@ -103,7 +104,7 @@ class DataTaskDict(TypedDict):
     issue: int
     title: str
     type_issue: str
-    subtopics: List[Subtopic]
+    subtopics: typing_subtopics
 
 
 class DataFromJson(TypedDict):
@@ -128,7 +129,7 @@ class DataTask(BaseModel):  # pylint: disable=too-few-public-methods
     amount: int = Field(alias="amount")
 
     @root_validator
-    def check_subtopics(cls, val):
+    def check_subtopics(cls, val: DataFromJson) -> DataTaskDict:
         """
         Parameters.
 
@@ -149,11 +150,11 @@ class DataTask(BaseModel):  # pylint: disable=too-few-public-methods
         amount = val.get("amount")
 
         if isinstance(issue, str):
-            issue = issue if issue.isdigit() else 0
+            issue = int(issue) if issue.isdigit() else 0
         else:
             issue = issue if isinstance(issue, int) else 0
 
-        formatted_subtopics = []
+        formatted_subtopics: typing_subtopics = []
         if not isinstance(subtopics, list):
             data_issue = Subtopic(**{"id": id_issue, "title": "", "amount": amount})
             formatted_subtopics.append(data_issue)
@@ -162,12 +163,12 @@ class DataTask(BaseModel):  # pylint: disable=too-few-public-methods
                 data_subtopic = Subtopic(**subtopic)
                 formatted_subtopics.append(data_subtopic)
 
-        result = {
-            "issue": issue,
-            "title": title,
-            "type_issue": type_issue,
-            "subtopics": formatted_subtopics,
-        }
+        result = DataTaskDict(
+            issue=issue,
+            title=title if title else "",
+            type_issue=type_issue if type_issue else "",
+            subtopics=formatted_subtopics,
+        )
         return result
 
 
