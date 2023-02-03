@@ -65,14 +65,14 @@ def delete_excess_data_in_tag(*, template_url: str, tag: str) -> str:
     return tag
 
 
-def format_table_in_html(*, html) -> Tuple[str, str]:
+def format_table_in_html(*, html: BeautifulSoup) -> Tuple[str, str]:
     """
     Format tag table in html code.
 
     Parameters
     ----------
-    html: str
-        Html code.
+    html: BeautifulSoup
+        Beautiful Soup instance.
 
     Returns
     -------

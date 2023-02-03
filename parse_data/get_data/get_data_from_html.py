@@ -5,7 +5,7 @@ from typing import List
 from bs4 import BeautifulSoup
 
 
-def get_tasks_html_from_html(*, html, n_issue: int) -> List[str]:
+def get_tasks_html_from_html(*, html: str, n_issue: int) -> List[str]:
     """
     Get task html codes from html code.
 
@@ -28,7 +28,7 @@ def get_tasks_html_from_html(*, html, n_issue: int) -> List[str]:
     return formatted_tasks
 
 
-def get_file_urls_from_html(*, html: str, template_url: str):
+def get_file_urls_from_html(*, html: str, template_url: str) -> str:
     """
     Get file urls from html code.
 
