@@ -24,10 +24,15 @@ disable = ['broad-except', 'no-name-in-module', 'line-too-long',
 good-names = ['typing_request_data', 'typing_urls_with_data', 'typing_url',
     'typing_data_payload', 'typing_converted_images', 'converted_image',
     'typing_converted_images_to_bytes', 'data_from_json',
-    'typing_data_subjects', 'data_task', 'subject_id', 'id_task_from_db']
+    'typing_data_subjects', 'data_task', 'subject_id', 'id_task_from_db',
+    'formatted_data_for_db', 'typing_subtopics']
 
 [flake8]
 max-line-length = 80
 
 [tool.ruff]
 line-length = 80
+
+[tool.pyright]
+typeCheckingMode = ""
+useLibraryCodeForTypes = true
