@@ -4,21 +4,26 @@ import random
 import time
 import traceback
 
+from collections.abc import Sequence
 import aiohttp.client_exceptions
-import psycopg2.errors
+from psycopg2 import extensions, errors
 from logger_for_project import my_logger
 from parse_data.config_for_parsing import subjects_en
 from parse_data.format.parse_data_and_update_database import parse_data_and_update_db
 
 
-def check_data_of_tables(*, conn) -> None:
+class ResponseIsNoneException(Exception):
+    """Exception raised when response from database is None."""
+
+
+def check_data_of_tables(*, conn: extensions.connection) -> None:
     """
     Check tables of database.
 
     Parameters
     ----------
-    conn: psycopg2.connection
-        Connection to PostgreSQL.
+    conn: extensions.connection
+        Psycopg2 connection to PostgreSQL.
     """
 
     try:
@@ -27,7 +32,12 @@ def check_data_of_tables(*, conn) -> None:
             my_logger.info(f"Selecting data. Subject: {subject}")
             cursor.execute(f"SELECT count(task_section) FROM {subject}")
             my_logger.success(f"Selecting data is finished. Subject: {subject}")
-            if cursor.fetchone()[0] == 0:
+
+            response = cursor.fetchone()
+            if not response or not isinstance(response, Sequence):
+                raise ResponseIsNoneException("ResponseIsNoneException")
+
+            if response[0] == 0:
                 my_logger.info(f"Parsing for {subject}...")
                 count_time = 5
                 while True:
@@ -45,9 +55,9 @@ def check_data_of_tables(*, conn) -> None:
                         count_time += 2
                     else:
                         break
-                my_logger.success(f"End parsing for {subject}")
+                    my_logger.success(f"End parsing for {subject}")
             time.sleep(3)
-    except psycopg2.errors.InFailedSqlTransaction:  # pylint: disable=no-member
+    except errors.InFailedSqlTransaction:  # pylint: disable=no-member
         conn.rollback()
     except Exception:
         my_logger.error(traceback.format_exc())

@@ -6,6 +6,10 @@ from work_with_db.config_for_db import conn, CODE_FOR_INSERTING_DATA_IN_TABLE
 from logger_for_project import my_logger
 
 
+class ConnectionIsNoneException(Exception):
+    """Raised when Psycopg2 connection is None."""
+
+
 async def insert_tasks(
     *, subject_name_en: str, values_for_inserting: List[Optional[str]]
 ) -> None:
@@ -21,22 +25,20 @@ async def insert_tasks(
     """
     with conn:
         try:
-            # transact = conn.transaction()
             my_logger.info("Insert values in database")
             try:
-                # await transact.start()
                 for task in values_for_inserting:
                     request = CODE_FOR_INSERTING_DATA_IN_TABLE.format(
                         subject_name_en, task
                     )
                     await conn.execute(request)
             except Exception:
-                # if transact:
-                #     await transact.rollback()
                 my_logger.error(traceback.format_exc())
             else:
-                # await transact.commit()
-                await conn.commit()
-                my_logger.success("Values inserted in database")
+                if conn is not None:
+                    await conn.commit()
+                    my_logger.success("Values inserted in database")
+                else:
+                    raise ConnectionIsNoneException("ConnectionIsNoneException")
         except Exception:
             my_logger.error(traceback.format_exc())
