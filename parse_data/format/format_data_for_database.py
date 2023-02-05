@@ -1,7 +1,9 @@
 """This module help to format data for database."""
 import re
+import traceback
 from typing import List, Optional
 
+from logger_for_project import my_logger
 from parse_data.typing_for_parsing import (
     DataIssue,
     typing_task,
@@ -39,9 +41,12 @@ def format_data_for_db(
 
     total_request = None
     if task:
-        task.task_desc_html = re.sub("'", '"', task.task_desc_html)
-        task.text_for_task_html = re.sub("'", '"', task.text_for_task_html)
-        task.solution_html = re.sub("'", '"', task.solution_html)
+        try:
+            task.task_desc_html = re.sub("'", '"', str(task.task_desc_html))
+            task.text_for_task_html = re.sub("'", '"', str(task.text_for_task_html))
+            task.solution_html = re.sub("'", '"', str(task.solution_html))
+        except TypeError:
+            my_logger.error(traceback.format_exc())
 
         if number_subtopic != -1:
             task_section = f"{number_task}/{number_subtopic}"
