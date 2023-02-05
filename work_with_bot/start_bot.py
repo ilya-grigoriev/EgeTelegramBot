@@ -207,7 +207,6 @@ async def back_or_get(message: types.Message, state: FSMContext):
     if is_sending:
         await message.answer("Задание ещё не отправлено. Подождите немного")
     elif response == "Получить задание":
-
         try:
             await handlers_for_task.send_task(message=message, state=state, bot=bot)
         except Exception:

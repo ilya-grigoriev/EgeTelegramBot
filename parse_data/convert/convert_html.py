@@ -98,6 +98,9 @@ async def convert_html_code_to_bytes(
         List of images is converted to bytes.
     """
 
+    if not html_code:
+        return None
+
     if type_html == "answer":
         converted_text_to_html = f"<p>Ответ: {data.answer}</p>"
     else:

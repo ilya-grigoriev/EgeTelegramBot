@@ -23,7 +23,7 @@ async def insert_tasks(
     values_for_inserting: List[str]
         List of values for inserting.
     """
-    with conn:
+    with conn.cursor() as cursor:
         try:
             my_logger.info("Insert values in database")
             try:
@@ -31,12 +31,12 @@ async def insert_tasks(
                     request = CODE_FOR_INSERTING_DATA_IN_TABLE.format(
                         subject_name_en, task
                     )
-                    await conn.execute(request)
+                    cursor.execute(request)
             except Exception:
                 my_logger.error(traceback.format_exc())
             else:
                 if conn is not None:
-                    await conn.commit()
+                    conn.commit()
                     my_logger.success("Values inserted in database")
                 else:
                     raise ConnectionIsNoneException("ConnectionIsNoneException")

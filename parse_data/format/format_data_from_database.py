@@ -40,31 +40,29 @@ async def format_data_for_tg_and_send_photo(
             for task_image in task_images:
                 await bot.send_photo(chat_id=chat_id, photo=task_image)
 
-        if data.text_for_task_html:
-            text_for_task_images = await convert_html_code_to_bytes(
-                html_code=data.text_for_task_html,
-                type_html="text_for_task",
-                data=data,
-                template_url=template_url,
-            )
+        text_for_task_images = await convert_html_code_to_bytes(
+            html_code=data.text_for_task_html,
+            type_html="text_for_task",
+            data=data,
+            template_url=template_url,
+        )
 
+        if text_for_task_images:
             await bot.send_message(chat_id=chat_id, text="Текст задания:")
-            if text_for_task_images:
-                for text_for_task_image in text_for_task_images:
-                    await bot.send_photo(chat_id=chat_id, photo=text_for_task_image)
+            for text_for_task_image in text_for_task_images:
+                await bot.send_photo(chat_id=chat_id, photo=text_for_task_image)
 
-        if not data.solution_html:
-            answer_images = await convert_html_code_to_bytes(
-                html_code=data.answer,
-                type_html="answer",
-                data=data,
-                template_url=template_url,
-            )
+        answer_images = await convert_html_code_to_bytes(
+            html_code=data.answer,
+            type_html="answer",
+            data=data,
+            template_url=template_url,
+        )
 
+        if answer_images:
             await bot.send_message(chat_id=chat_id, text="Ответ на задание:")
-            if answer_images:
-                for answer_image in answer_images:
-                    await bot.send_photo(chat_id=chat_id, photo=answer_image)
+            for answer_image in answer_images:
+                await bot.send_photo(chat_id=chat_id, photo=answer_image)
         else:
             solution_images = await convert_html_code_to_bytes(
                 html_code=data.solution_html,
@@ -73,9 +71,16 @@ async def format_data_for_tg_and_send_photo(
                 template_url=template_url,
             )
 
-            await bot.send_message(chat_id=chat_id, text="Пояснение к задаче:")
             if solution_images:
+                await bot.send_message(chat_id=chat_id, text="Пояснение к задаче:")
                 for solution_image in solution_images:
                     await bot.send_photo(chat_id=chat_id, photo=solution_image)
+
+            if data.file_urls_for_task:
+                await bot.send_message(
+                    chat_id=chat_id, text="Ссылки с файлами из задания:"
+                )
+                file_urls = data.file_urls_for_task.split(", ")
+                await bot.send_message(chat_id=chat_id, text="\n".join(file_urls))
     except Exception:  # pylint: disable=broad-except
         my_logger.error(traceback.format_exc())

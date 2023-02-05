@@ -3,11 +3,17 @@ import asyncio
 import traceback
 from typing import Optional
 
+import psycopg2
 from psycopg2 import errors
 from logger_for_project import my_logger
 from parse_data.typing_for_parsing import DataFromDB
-from work_with_db.config_for_db import conn
-from work_with_db.config_for_db import CODE_FOR_GETTING_TASK
+from work_with_db.config_for_db import (
+    CODE_FOR_GETTING_TASK,
+    USER_DB,
+    PASSWORD_DB,
+    HOST_DB,
+    PORT_DB,
+)
 from work_with_db.create_data.create_db_or_tables import create_tables
 
 
@@ -28,7 +34,13 @@ async def select_task(*, subject_name: str, task_section: str) -> Optional[DataF
         Dataclass with data from database.
     """
     try:
-        with conn:
+        with psycopg2.connect(
+            dbname="subjects",
+            user=USER_DB,
+            host=HOST_DB,
+            password=PASSWORD_DB,
+            port=PORT_DB,
+        ) as conn:
             with conn.cursor() as cursor:
                 my_logger.info("Getting task from db...")
                 request = CODE_FOR_GETTING_TASK.format(subject_name, task_section)
@@ -37,9 +49,9 @@ async def select_task(*, subject_name: str, task_section: str) -> Optional[DataF
                 my_logger.success("Getting task is finished")
 
                 task = cursor.fetchone()
-        if task:
-            data = DataFromDB(*task)
-            return data
+                if task:
+                    data = DataFromDB(*task)
+                    return data
     except errors.UndefinedTable:  # pylint: disable=no-member
         my_logger.error(traceback.format_exc())
         create_tables(conn=conn, tables_name=[subject_name])

@@ -9,6 +9,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from keyboards.get_data_for_keyboard.get_data_for_telegram_subjects import (
     get_subjects_data,
 )
+from work_with_db.check_data.check_existing_db import check_db
 
 load_dotenv()
 
@@ -16,7 +17,7 @@ TELEGRAM_TOKEN = os.getenv("TOKEN")
 bot = Bot(token=TELEGRAM_TOKEN)
 storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
-# check_db()
+check_db()
 scheduler = AsyncIOScheduler()
 subjects_data_for_keyboard = get_subjects_data()
 

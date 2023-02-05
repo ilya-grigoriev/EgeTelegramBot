@@ -63,18 +63,21 @@ translation_from_eng = {
     "rus": "Русский язык",
     "math": "Математика профильная",
     "inf": "Информатика",
+    "phys": "Физика",
 }
 
 translation_from_rus = {
     "Русский язык": "rus",
     "Математика профильная": "math",
     "Информатика": "inf",
+    "Физика": "phys",
 }
 
 translation_for_requests = {
     "Русский язык": "rus",
     "Математика": "math",
     "Информатика": "inf",
+    "Физика": "phys",
 }
 
 json_data = {
@@ -96,5 +99,5 @@ json_data = {
 }
 
 PATH_DIR = "\\".join(str(__file__).rsplit("\\")[:-2])
-subjects_ru = ["Русский язык", "Математика профильная", "Информатика"]
-subjects_en = ["inf"]
+subjects_ru = ["Русский язык", "Математика профильная", "Информатика", "Физика"]
+subjects_en = ["inf", "math", "rus", "phys"]
