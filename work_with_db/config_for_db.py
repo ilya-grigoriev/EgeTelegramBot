@@ -3,7 +3,10 @@ import os
 
 import psycopg2
 
+from dotenv import load_dotenv
 from parse_data.config_for_parsing import PATH_DIR
+
+load_dotenv()
 
 CODE_FOR_CREATING_TABLE = """CREATE TABLE {} (
                             task_section       VARCHAR  NOT NULL,
