@@ -11,7 +11,7 @@ def crop_image(*, image_to_bytes: bytes) -> IO[bytes]:
 
     Parameters
     ----------
-    image_to_bytes: bytes
+    image_to_bytes : bytes
         Image is converted to bytes.
 
     Returns

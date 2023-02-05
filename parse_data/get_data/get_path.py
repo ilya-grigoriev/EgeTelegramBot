@@ -8,7 +8,7 @@ def get_path_for_file(*, path_dir_file: str) -> str:
 
     Parameters
     ----------
-    path_dir_file: str
+    path_dir_file : str
         Path name to file with directory (example, 'db\\db.sql').
 
     Returns

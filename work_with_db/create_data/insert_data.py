@@ -18,9 +18,9 @@ async def insert_tasks(
 
     Parameters
     ----------
-    subject_name_en: str
+    subject_name_en : str
         Name of table for database.
-    values_for_inserting: List[str]
+    values_for_inserting : List[str]
         List of values for inserting.
     """
     with conn.cursor() as cursor:

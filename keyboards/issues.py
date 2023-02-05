@@ -14,7 +14,7 @@ def get_keyboard_for_issue(*, issues_data: List[DataTask]) -> ReplyKeyboardMarku
 
     Parameters
     ----------
-    issues_data: List[DataTask]
+    issues_data : List[DataTask]
         List of Pydantic model with data of tasks.
 
     Returns

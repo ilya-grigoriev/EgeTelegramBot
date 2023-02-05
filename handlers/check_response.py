@@ -10,8 +10,8 @@ async def check_answer_from_user(*, message: types.Message, state: FSMContext) -
 
     Parameters
     ----------
-    message: types.Message
-    state: FSMContext
+    message : types.Message
+    state : FSMContext
     """
     data = await state.get_data()
     correct_answer = data.get("correct_answer")

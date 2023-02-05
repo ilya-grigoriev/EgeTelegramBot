@@ -23,12 +23,12 @@ async def request_to_url(
 
     Parameters
     ----------
-    url: str
-    data: Dict[str, str | int]
+    url : str
+    data : Dict[str, str | int]
         Data payload for request.
-    n_issue: int
+    n_issue : int
         Number issue.
-    is_detailed: bool
+    is_detailed : bool
         Is the task with detailed answer?
 
     Returns
@@ -88,11 +88,11 @@ async def main(
 
     Parameters
     ----------
-    urls_with_data: List[typing_request_data]
+    urls_with_data : List[typing_request_data]
         List of urls with data payload.
-    n_issue: int
+    n_issue : int
         Number issue.
-    is_detailed: bool
+    is_detailed : bool
         Is the task with detailed answer?
 
     Returns

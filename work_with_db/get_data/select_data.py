@@ -23,9 +23,9 @@ async def select_task(*, subject_name: str, task_section: str) -> Optional[DataF
 
     Parameters
     ----------
-    subject_name: str
+    subject_name : str
         Name of table.
-    task_section: str
+    task_section : str
         Task section (example, '1/5').
 
     Returns

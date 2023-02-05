@@ -15,7 +15,7 @@ def get_keyboard_for_subjects(
 
     Parameters
     ----------
-    subjects: List[DataSubjectForTG]
+    subjects : List[DataSubjectForTG]
         List of TypedDict with data of subject for Telegram.
 
     Returns

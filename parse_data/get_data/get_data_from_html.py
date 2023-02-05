@@ -11,9 +11,9 @@ def get_tasks_html_from_html(*, html: str, n_issue: int) -> List[str]:
 
     Parameters
     ----------
-    html: str
+    html : str
         Html code.
-    n_issue: int
+    n_issue : int
         Number issue.
 
     Returns
@@ -34,9 +34,9 @@ def get_file_urls_from_html(*, html: str, template_url: str) -> str:
 
     Parameters
     ----------
-    html: str
+    html : str
         Html code.
-    template_url: str
+    template_url : str
         Template url for formatting internal links.
 
     Returns

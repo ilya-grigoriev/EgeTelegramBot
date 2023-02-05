@@ -15,13 +15,13 @@ async def format_data_for_tg_and_send_photo(
 
     Parameters
     ----------
-    data: DataFromDB
+    data : DataFromDB
         Dataclass DataFromDB.
-    bot: aiogram.Bot
+    bot : aiogram.Bot
         Telegram bot from aiogram.
-    chat_id: int
+    chat_id : int
         Telegram chat id.
-    subject_name_en: str
+    subject_name_en : str
         The name of the subject in English.
     """
 

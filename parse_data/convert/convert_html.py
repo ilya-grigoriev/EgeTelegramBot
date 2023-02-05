@@ -23,14 +23,14 @@ async def convert_html_code_to_image(
     ----------
     html_code : str
         Html code in string.
-    id_task: int
+    id_task : int
         Id_task column from database.
-    type_html: str
+    type_html : str
         Part of the task (list of parts: 'task', 'text', 'solution', 'answer').
 
     Returns
     -------
-    converted_images_to_bytes: Optional[List[bytes]]
+    converted_images_to_bytes : Optional[List[bytes]]
         List of images converted to bytes.
     """
 
@@ -83,13 +83,13 @@ async def convert_html_code_to_bytes(
 
     Parameters
     ----------
-    html_code: str
+    html_code : str
         Html code.
-    type_html: str
+    type_html : str
         Part of the task (list of parts: 'task', 'text', 'solution', 'answer').
-    data: DataFromDB
+    data : DataFromDB
         Dataclass with data from database.
-    template_url: str
+    template_url : str
         Template url for formatting internal links.
 
     Returns

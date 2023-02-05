@@ -14,9 +14,9 @@ def delete_excess_data_in_tag(*, template_url: str, tag: str) -> str:
 
     Parameters
     ----------
-    template_url: str
+    template_url : str
         Template url for formatting internal links.
-    tag: str
+    tag : str
         Html code.
 
     Returns
@@ -71,7 +71,7 @@ def format_table_in_html(*, html: BeautifulSoup) -> Tuple[str, str]:
 
     Parameters
     ----------
-    html: BeautifulSoup
+    html : BeautifulSoup
         Beautiful Soup instance.
 
     Returns
@@ -93,7 +93,7 @@ def format_answer_from_tag(*, html: str) -> Tuple[str, str]:
 
     Parameters
     ----------
-    html: str
+    html : str
         Html code.
 
     Returns
@@ -125,13 +125,13 @@ def format_solution_html(
 
     Parameters
     ----------
-    solution_html: str
+    solution_html : str
         Html code of solution.
-    soup: BeautifulSoup
+    soup : BeautifulSoup
         Instance Beautiful Soup.
-    template_url: str
+    template_url : str
         Template url for formatting internal links.
-    is_detailed: bool
+    is_detailed : bool
         Is the task with detailed answer?
 
     Returns

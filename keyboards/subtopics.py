@@ -13,9 +13,9 @@ def get_keyboard_for_subtopic(
 
     Parameters
     ----------
-    issue_data: DataTask
+    issue_data : DataTask
         Pydantic model with data of issue.
-    num_issue: int
+    num_issue : int
         Number issue.
 
     Returns

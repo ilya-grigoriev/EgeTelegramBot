@@ -22,15 +22,15 @@ async def get_tasks_from_html(
 
     Parameters
     ----------
-    html: str
+    html : str
         Html code.
-    template_url: str
+    template_url : str
         Template url for formatting internal links.
-    session: aiohttp.ClientSession
+    session : aiohttp.ClientSession
         Aiohttp client session.
-    n_issue: int
+    n_issue : int
         Number issue.
-    is_detailed: bool
+    is_detailed : bool
         Is the task with detailed answer?
 
     Returns

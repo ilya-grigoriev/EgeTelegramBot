@@ -16,7 +16,7 @@ async def parse_data_and_update_db(*, subject_name_en: str) -> None:
 
     Parameters
     ----------
-    subject_name_en: str
+    subject_name_en : str
         The name of the subject in English.
     """
     my_logger.info("Getting json of subject data...")

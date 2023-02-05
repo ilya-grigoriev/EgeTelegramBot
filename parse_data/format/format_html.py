@@ -26,13 +26,13 @@ async def format_html_code(
 
     Parameters
     ----------
-    html_code: str
+    html_code : str
         Html code.
-    template_url: str
+    template_url : str
         Template url for formatting internal links.
-    session: aiohttp.ClientSession
+    session : aiohttp.ClientSession
         Aiohttp client session.
-    is_detailed: bool
+    is_detailed : bool
         Is the task with detailed answer?
 
     Returns

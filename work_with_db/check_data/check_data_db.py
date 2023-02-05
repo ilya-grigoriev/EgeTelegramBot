@@ -22,7 +22,7 @@ def check_data_of_tables(*, conn: extensions.connection) -> None:
 
     Parameters
     ----------
-    conn: extensions.connection
+    conn : extensions.connection
         Psycopg2 connection to PostgreSQL.
     """
 

@@ -18,13 +18,14 @@ def convert_pdf_to_images(
 
     Parameters
     ----------
-    path_pdf_file: str
+    path_pdf_file : str
         Path existing pdf file.
-    path_image: str
+    path_image : str
         Path existing image.
+
     Returns
     -------
-    type_converted_images_to_bytes: Optional[List[bytes]]
+    type_converted_images_to_bytes : Optional[List[bytes]]
         List of images converted to bytes.
     """
 

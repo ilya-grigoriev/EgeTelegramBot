@@ -14,7 +14,7 @@ def get_json_of_data_subject(*, subject_name_en: str) -> typing_data_subjects | 
 
     Parameters
     ----------
-    subject_name_en: str
+    subject_name_en : str
         The name of the subject in English.
 
     Returns

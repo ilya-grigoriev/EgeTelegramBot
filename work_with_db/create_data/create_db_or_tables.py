@@ -15,9 +15,9 @@ def create_tables(*, conn: extensions.connection, tables_name: List[str]) -> Non
 
     Parameters
     ----------
-    conn: extensions.connection
+    conn : extensions.connection
         Psycopg2 connection to PostgreSQL.
-    tables_name: List[str]
+    tables_name : List[str]
         List of table's name (default, subjects_en from config_for_db.py).
     """
     if not tables_name:

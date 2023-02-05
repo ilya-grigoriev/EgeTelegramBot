@@ -13,7 +13,7 @@ def check_existing_tables_db(*, conn: extensions.connection) -> None:
 
     Parameters
     ----------
-    conn: extensions.connection
+    conn : extensions.connection
         Psycopg2 connection to PostgreSQL.
     """
     cursor = conn.cursor()

@@ -14,7 +14,7 @@ def get_data_subject_from_json(
 
     Parameters
     ----------
-    data_subjects: typing_data_subjects
+    data_subjects : typing_data_subjects
         List of data of subjects.
 
     Returns

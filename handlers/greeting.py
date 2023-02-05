@@ -10,8 +10,8 @@ async def send_welcome(
 
     Parameters
     ----------
-    message: types.Message
-    keyboard: types.ReplyKeyboardMarkup
+    message : types.Message
+    keyboard : types.ReplyKeyboardMarkup
     """
     await message.reply(f"Здравствуйте, {message['from']['first_name']}!")
     await message.answer("Это неофициальный бот для подготовки к ЕГЭ")

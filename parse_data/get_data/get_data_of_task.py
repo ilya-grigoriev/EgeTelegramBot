@@ -12,7 +12,7 @@ def get_data_of_task_for_subtopic(*, html: str) -> Tuple[str, DataTaskOfSubtopic
 
     Parameters
     ----------
-    html: str
+    html : str
         Html code.
 
     Returns
