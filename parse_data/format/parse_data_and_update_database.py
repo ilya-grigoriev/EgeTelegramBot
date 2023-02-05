@@ -64,6 +64,4 @@ async def parse_data_and_update_db(*, subject_name_en: str) -> None:
 
 
 if __name__ == "__main__":
-    # asyncio.run(
-    #     parse_data_and_update_db(subject_name_en='rus'))
-    asyncio.run(parse_data_and_update_db(subject_name_en="inf"))
+    asyncio.run(parse_data_and_update_db(subject_name_en="phys"))
