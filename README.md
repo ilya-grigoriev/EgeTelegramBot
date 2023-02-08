@@ -1,6 +1,6 @@
 # Ege Telegram Bot
 
-![Build status](https://github.com/Ilya-Grigoriev/EgeTelegramBot/actions/workflows/checks.yaml/badge.svg?branch=main)
+[![Build status](https://github.com/Ilya-Grigoriev/EgeTelegramBot/actions/workflows/checks.yaml/badge.svg?branch=main)](https://github.com/Ilya-Grigoriev/EgeTelegramBot/actions/workflows/checks.yaml)
 ---
 Этот бот предназначен для решения задач ЕГЭ с сайта https://ege.sdamgia.ru/.
 
