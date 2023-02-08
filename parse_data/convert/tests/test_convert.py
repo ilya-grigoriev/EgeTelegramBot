@@ -1,3 +1,4 @@
+# pylint: skip-file
 import asyncio
 
 from parse_data.convert import convert_html
