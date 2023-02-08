@@ -1,4 +1,4 @@
-"""This module help to get data for Telegram keyboard."""
+"""Module help to get data for Telegram keyboard."""
 import re
 from typing import List
 
@@ -15,8 +15,7 @@ from work_with_bot.init_for_bot import subjects_data_for_keyboard
 async def get_data_for_issues(
     *, message: types.Message, state: FSMContext, subject_rus: str
 ) -> None:
-    """
-    Getting data for keyboard of issues.
+    """Get data for keyboard of issues.
 
     Parameters
     ----------
@@ -50,8 +49,7 @@ async def get_data_for_subtopics(
     response: str,
     issues_data: List[DataTask]
 ) -> None:
-    """
-    Getting data for keyboard of subtopics.
+    """Get data for keyboard of subtopics.
 
     Parameters
     ----------

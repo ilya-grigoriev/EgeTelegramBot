@@ -1,4 +1,4 @@
-"""This module help to getting data for subjects."""
+"""Module help to getting data for subjects."""
 from typing import List
 
 from parse_data.config_for_parsing import subjects_en
@@ -7,8 +7,7 @@ from parse_data.typing_for_parsing import DataTask, DataSubjectForTG
 
 
 def get_subjects_data() -> List[DataSubjectForTG]:
-    """
-    Getting data of subjects.
+    """Get data of subjects.
 
     Returns
     -------

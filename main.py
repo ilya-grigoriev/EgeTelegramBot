@@ -1,5 +1,5 @@
-"""This module is designed for launching program."""
-# pylint: skip-file
+"""Module is designed for launching program."""
+# flake8: noqa
 from work_with_bot.init_for_bot import scheduler, dp
 from work_with_bot.start_bot import parse_tasks
 from aiogram import executor

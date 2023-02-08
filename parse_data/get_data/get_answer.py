@@ -1,4 +1,4 @@
-"""This module help to get answer task."""
+"""Module help to get answer task."""
 import asyncio
 import random
 import traceback
@@ -20,8 +20,7 @@ async def get_answer_task(
     session: aiohttp.ClientSession,
     is_detailed: bool,
 ) -> Optional[Tuple[str, str, str, int]]:
-    """
-    Get answer task from html code.
+    """Get answer task from html code.
 
     Parameters
     ----------
@@ -39,7 +38,6 @@ async def get_answer_task(
     Optional[Tuple[str, str, int]]
         Solution html code, answer html code and task id.
     """
-
     soup = BeautifulSoup(html_code, "html.parser")
     num_and_id_task = soup.find("span", attrs={"class": "prob_nums"}).text
     _, id_task = tuple(map(lambda x: x.strip(), num_and_id_task.split("№")))

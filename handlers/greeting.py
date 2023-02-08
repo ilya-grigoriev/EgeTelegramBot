@@ -1,12 +1,11 @@
-"""This module is designed for sending greeting."""
+"""Module is designed for sending greeting."""
 from aiogram import types
 
 
 async def send_welcome(
     *, message: types.Message, keyboard: types.ReplyKeyboardMarkup
 ) -> None:
-    """
-    Sending welcome user.
+    """Send welcome user.
 
     Parameters
     ----------

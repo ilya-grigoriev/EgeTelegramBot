@@ -1,4 +1,4 @@
-"""This module help to get data of task for subtopic."""
+"""Module help to get data of task for subtopic."""
 import re
 from typing import Tuple
 
@@ -7,8 +7,7 @@ from parse_data.typing_for_parsing import DataTaskOfSubtopic
 
 
 def get_data_of_task_for_subtopic(*, html: str) -> Tuple[str, DataTaskOfSubtopic]:
-    """
-    Get data of task for subtopic from html code.
+    """Get data of task for subtopic from html code.
 
     Parameters
     ----------

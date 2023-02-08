@@ -15,20 +15,17 @@ requests = "^2.28.2"
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
-[tool.pylint.MASTER]
-load-plugins = "pylint_pydantic"
+#[tool.pylint.MASTER]
+#load-plugins = "pylint_pydantic"
 
-[tool.pylint]
-disable = ['broad-except', 'no-name-in-module', 'line-too-long',
-    'no-self-argument']
-good-names = ['typing_request_data', 'typing_urls_with_data', 'typing_url',
-    'typing_data_payload', 'typing_converted_images', 'converted_image',
-    'typing_converted_images_to_bytes', 'data_from_json',
-    'typing_data_subjects', 'data_task', 'subject_id', 'id_task_from_db',
-    'formatted_data_for_db', 'typing_subtopics']
-
-[flake8]
-max-line-length = 80
+#[tool.pylint]
+#disable = ['broad-except', 'no-name-in-module', 'line-too-long',
+#    'no-self-argument']
+#good-names = ['typing_request_data', 'typing_urls_with_data', 'typing_url',
+#    'typing_data_payload', 'typing_converted_images', 'converted_image',
+#    'typing_converted_images_to_bytes', 'data_from_json',
+#    'typing_data_subjects', 'data_task', 'subject_id', 'id_task_from_db',
+#    'formatted_data_for_db', 'typing_subtopics']
 
 [tool.ruff]
 line-length = 80

@@ -1,12 +1,11 @@
-"""This module is designed to checking response."""
+"""Module is designed to checking response."""
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from keyboards.menu import keyboard_menu
 
 
 async def check_answer_from_user(*, message: types.Message, state: FSMContext) -> None:
-    """
-    Checking answer from user's message.
+    """Check answer from user's message.
 
     Parameters
     ----------

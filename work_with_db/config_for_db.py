@@ -1,4 +1,4 @@
-"""This module is designed for config data."""
+"""Module is designed for config data."""
 import os
 
 import psycopg2

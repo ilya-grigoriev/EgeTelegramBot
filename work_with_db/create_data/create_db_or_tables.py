@@ -1,4 +1,4 @@
-"""This module help to create database or tables of database."""
+"""Module help to create database or tables of database."""
 import traceback
 from typing import List
 

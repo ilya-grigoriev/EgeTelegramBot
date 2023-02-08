@@ -1,4 +1,4 @@
-"""This module help to format data in html code."""
+"""Module help to format data in html code."""
 import re
 import traceback
 from typing import Tuple, Optional
@@ -9,8 +9,7 @@ from logger_for_project import my_logger
 
 
 def delete_excess_data_in_tag(*, template_url: str, tag: str) -> str:
-    """
-    Delete excess data from html code.
+    """Delete excess data from html code.
 
     Parameters
     ----------
@@ -24,7 +23,6 @@ def delete_excess_data_in_tag(*, template_url: str, tag: str) -> str:
     str
         Formatting html code.
     """
-
     tag = re.sub(r"\s{2,}", " ", tag)
     tag = re.sub("'", '"', tag)
 
@@ -66,8 +64,7 @@ def delete_excess_data_in_tag(*, template_url: str, tag: str) -> str:
 
 
 def format_table_in_html(*, html: BeautifulSoup) -> Tuple[str, str]:
-    """
-    Format tag table in html code.
+    """Format tag table in html code.
 
     Parameters
     ----------
@@ -79,7 +76,6 @@ def format_table_in_html(*, html: BeautifulSoup) -> Tuple[str, str]:
     Tuple[str, str]
         Solution text without information and answer text.
     """
-
     answer = []
     table_with_answer = html.find_all("tr")[-1]
     for number in table_with_answer.find_all("td"):
@@ -88,8 +84,7 @@ def format_table_in_html(*, html: BeautifulSoup) -> Tuple[str, str]:
 
 
 def format_answer_from_tag(*, html: str) -> Tuple[str, str]:
-    """
-    Format answer from html code.
+    """Format answer from html code.
 
     Parameters
     ----------
@@ -120,8 +115,7 @@ def format_answer_from_tag(*, html: str) -> Tuple[str, str]:
 def format_solution_html(
     solution_html: str, soup: BeautifulSoup, template_url: str, is_detailed: bool
 ) -> Optional[Tuple[str, str]]:
-    """
-    Formatting and getting data from solution html code.
+    """Format and getting data from solution html code.
 
     Parameters
     ----------

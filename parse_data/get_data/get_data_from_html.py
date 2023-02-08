@@ -1,4 +1,4 @@
-"""This module help to get data from html code."""
+"""Module help to get data from html code."""
 import re
 from typing import List
 
@@ -29,8 +29,7 @@ def get_tasks_html_from_html(*, html: str, n_issue: int) -> List[str]:
 
 
 def get_file_urls_from_html(*, html: str, template_url: str) -> str:
-    """
-    Get file urls from html code.
+    """Get file urls from html code.
 
     Parameters
     ----------

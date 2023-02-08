@@ -1,4 +1,4 @@
-"""This module help to get data of keyboard for subtopics."""
+"""Module help to get data of keyboard for subtopics."""
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from keyboards.btn_back import BTN_BACK
 from keyboards.btn_random_task import BTN_RANDOM_TASK
@@ -8,8 +8,7 @@ from parse_data.typing_for_parsing import DataTask
 def get_keyboard_for_subtopic(
     *, issue_data: DataTask, num_issue: str
 ) -> ReplyKeyboardMarkup:
-    """
-    Getting keyboards for subtopics.
+    """Get keyboards for subtopics.
 
     Parameters
     ----------

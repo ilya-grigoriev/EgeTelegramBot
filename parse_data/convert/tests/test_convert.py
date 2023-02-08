@@ -1,4 +1,4 @@
-# pylint: skip-file
+# flake8: noqa
 import asyncio
 
 from parse_data.convert import convert_html

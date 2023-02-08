@@ -1,4 +1,4 @@
-"""This module help to converting pdf to other data."""
+"""Module help to converting pdf to other data."""
 import os
 import traceback
 
@@ -14,7 +14,7 @@ from parse_data.config_for_parsing import PATH_DIR
 def convert_pdf_to_images(
     *, path_pdf_file: str, path_image: str
 ) -> typing_converted_images_to_bytes:
-    """Converting pdf to images.
+    """Convert pdf file to images.
 
     Parameters
     ----------
@@ -28,7 +28,6 @@ def convert_pdf_to_images(
     type_converted_images_to_bytes : Optional[List[bytes]]
         List of images converted to bytes.
     """
-
     path_for_poppler = rf"{PATH_DIR}\poppler-0.68.0\bin"
     images = convert_from_path(pdf_path=path_pdf_file, poppler_path=path_for_poppler)
     converted_images = []

@@ -1,4 +1,4 @@
-"""This module is designed for initializing Telegram bot."""
+"""Module is designed for initializing Telegram bot."""
 import os
 from dotenv import load_dotenv
 

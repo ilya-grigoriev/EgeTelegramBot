@@ -1,4 +1,4 @@
-"""This module help to convert task."""
+"""Module help to convert task."""
 from typing import Sequence, Optional
 
 import aiohttp
@@ -17,8 +17,7 @@ async def get_tasks_from_html(
     n_issue: int,
     is_detailed: bool,
 ) -> Sequence[Optional[DataTaskOfSubtopic]]:
-    """
-    Converted tasks to dataclass subtopic's tasks.
+    """Convert tasks to dataclass subtopic's tasks.
 
     Parameters
     ----------
@@ -38,7 +37,6 @@ async def get_tasks_from_html(
     Sequence[Optional[DataTaskOfSubtopic]]
         List of dataclass subtopic's tasks.
     """
-
     tasks = get_tasks_html_from_html(html=html, n_issue=n_issue)
     formatted_tasks = []
 

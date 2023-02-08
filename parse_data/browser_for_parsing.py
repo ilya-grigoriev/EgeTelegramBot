@@ -1,4 +1,4 @@
-"""This module help to run browser for parsing."""
+"""Module help to run browser for parsing."""
 import traceback
 
 import pyppeteer

@@ -1,4 +1,4 @@
-"""This module is designed for button menu."""
+"""Module is designed for button menu."""
 from aiogram.types import ReplyKeyboardMarkup
 from keyboards.btn_get_task import BTN_GET_TASK
 from keyboards.btn_back_home import BTN_BACK_HOME
