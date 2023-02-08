@@ -11,11 +11,11 @@ async def get_data_of_tasks_for_subtopic(
 
     Parameters
     ----------
-    urls: typing_request_data
+    urls : typing_request_data
         Request data (url, data payload).
-    n_issue: int
+    n_issue : int
         Number issue.
-    is_detailed: bool
+    is_detailed : bool
         Is the task with detailed answer?
 
     Returns

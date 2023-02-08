@@ -16,10 +16,11 @@ async def create_urls_for_request(
 
     Parameters
     ----------
-    url: typing_url
+    url : typing_url
         Link to the website.
-    max_skip: int
+    max_skip : int
         Value for data payload of request.
+
     Returns
     -------
     type_urls_with_data

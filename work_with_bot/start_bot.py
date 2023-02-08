@@ -28,7 +28,7 @@ async def send_welcome_(message: types.Message):
 
     Parameters
     ----------
-    message: types.Message
+    message : types.Message
     """
     keyboard = get_keyboard_for_subjects(subjects=subjects_data_for_keyboard)
     await greeting.send_welcome(message=message, keyboard=keyboard)
@@ -43,7 +43,7 @@ async def get_help(message: types.Message):
 
     Parameters
     ----------
-    message: types.Message
+    message : types.Message
     """
     await message.answer("Чтобы начать использовать бота, введите команду /start")
 
@@ -55,8 +55,8 @@ async def get_issues(message: types.Message, state: FSMContext):
 
     Parameters
     ----------
-    message: types.Message
-    state: FSMContext
+    message : types.Message
+    state : FSMContext
     """
     response = message.text.strip()
     subject_names = []
@@ -86,8 +86,8 @@ async def get_subtopics(message: types.Message, state: FSMContext):
 
     Parameters
     ----------
-    message: types.Message
-    state: FSMContext
+    message : types.Message
+    state : FSMContext
     """
     data = await state.get_data()
     response = message.text
@@ -135,8 +135,8 @@ async def get_task(message: types.Message, state: FSMContext):
 
     Parameters
     ----------
-    message: types.Message
-    state: FSMContext
+    message : types.Message
+    state : FSMContext
     """
     data = await state.get_data()
     response = message.text
@@ -196,8 +196,8 @@ async def back_or_get(message: types.Message, state: FSMContext):
 
     Parameters
     ----------
-    message: types.Message
-    state: FSMContext
+    message : types.Message
+    state : FSMContext
     """
     response = message.text
     data = await state.get_data()

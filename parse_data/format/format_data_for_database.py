@@ -24,13 +24,13 @@ def format_data_for_db(
 
     Parameters
     ----------
-    task: typing_task
+    task : typing_task
         Dataclass with data of the subtopic's task.
-    number_task: int
+    number_task : int
         Number of the task.
-    is_detailed: bool
+    is_detailed : bool
         Is the task with detailed answer?
-    number_subtopic: int
+    number_subtopic : int
         Number of the subtopic.
 
     Returns
@@ -64,9 +64,9 @@ async def format_and_insert_tasks(
 
     Parameters
     ----------
-    issues: List[DataIssue]
+    issues : List[DataIssue]
         List of issues.
-    subject_name_en: str
+    subject_name_en : str
         The name of the subject in English.
     """
 

@@ -36,3 +36,6 @@ line-length = 80
 [tool.pyright]
 typeCheckingMode = ""
 useLibraryCodeForTypes = true
+
+[tool.pydocstringformatter]
+write = true

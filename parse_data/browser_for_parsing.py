@@ -11,9 +11,9 @@ async def make_pdf(*, file_path_for_open: str, file_path_for_save: str) -> None:
 
     Parameters
     ----------
-    file_path_for_open: str
+    file_path_for_open : str
         Existing file path for open file.
-    file_path_for_save: str
+    file_path_for_save : str
         File path for save file.
     """
     try:

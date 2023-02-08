@@ -20,9 +20,9 @@ async def get_data_for_issues(
 
     Parameters
     ----------
-    message: types.Message
-    state: FSMContext
-    subject_rus: str
+    message : types.Message
+    state : FSMContext
+    subject_rus : str
         Name subject in Russian.
     """
     subject_en = translation_from_rus.get(subject_rus)
@@ -55,11 +55,11 @@ async def get_data_for_subtopics(
 
     Parameters
     ----------
-    message: types.Message
-    state: FSMContext
-    response: str
+    message : types.Message
+    state : FSMContext
+    response : str
         Title of issue.
-    issues_data: List[DataTask]
+    issues_data : List[DataTask]
         List of Pydantic models with task's data.
     """
     result_search = re.search(r"\d+\.", response)

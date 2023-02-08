@@ -9,7 +9,7 @@ def get_img_url_from_tag(tag: str) -> Sequence[Any]:
 
     Parameters
     ----------
-    tag: str
+    tag : str
         Html code.
 
     Returns

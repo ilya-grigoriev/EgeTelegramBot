@@ -25,13 +25,13 @@ async def get_answer_task(
 
     Parameters
     ----------
-    template_url: str
+    template_url : str
         Template url for formatting internal links.
     html_code:
         Html code.
-    session: aiohttp.ClientSession
+    session : aiohttp.ClientSession
         Aiohttp client session.
-    is_detailed: bool
+    is_detailed : bool
         Is the task with detailed answer?
 
     Returns

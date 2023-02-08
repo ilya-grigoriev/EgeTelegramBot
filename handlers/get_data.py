@@ -15,9 +15,9 @@ async def get_random_task(
 
     Parameters
     ----------
-    message: types.Message
-    state: FSMContext
-    bot: Bot
+    message : types.Message
+    state : FSMContext
+    bot : Bot
     """
     data = await state.get_data()
     task_section = data.get("task_section")
