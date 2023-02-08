@@ -54,7 +54,7 @@ async def format_html_code(
     while True:
         if time > 5:
             return None
-        try:
+        try:  # pylint: disable=no-else-return
             response = await get_answer_task(
                 template_url=template_url,
                 html_code=task_html,

@@ -27,7 +27,7 @@ def get_json_of_data_subject(*, subject_name_en: str) -> typing_data_subjects | 
         {"authority": f"{subject_name_en}-ege.sdamgia.ru"}
     )
 
-    try:
+    try:  # pylint: disable=no-else-return
         response = requests.get(url, headers=headers_for_get_subject_ids, timeout=5)
     except requests.exceptions.ReadTimeout:
         my_logger.error(traceback.format_exc())
