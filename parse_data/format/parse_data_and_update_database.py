@@ -1,4 +1,4 @@
-"""This module help to parse data and insert them to database."""
+"""Module help to parse data and insert them to database."""
 import asyncio
 import time
 
@@ -11,8 +11,7 @@ from parse_data.typing_for_parsing import DataIssue
 
 
 async def parse_data_and_update_db(*, subject_name_en: str) -> None:
-    """
-    Parse data from https://ege.sdamgia.ru/ and insert them to database.
+    """Parse data from https://ege.sdamgia.ru/ and insert them to database.
 
     Parameters
     ----------

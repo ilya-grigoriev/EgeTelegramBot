@@ -1,4 +1,4 @@
-"""This module help to select data from database."""
+"""Module help to select data from database."""
 import asyncio
 import traceback
 from typing import Optional
@@ -18,8 +18,7 @@ from work_with_db.create_data.create_db_or_tables import create_tables
 
 
 async def select_task(*, subject_name: str, task_section: str) -> Optional[DataFromDB]:
-    """
-    Select data of task from database.
+    """Select data of task from database.
 
     Parameters
     ----------

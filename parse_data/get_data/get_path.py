@@ -1,15 +1,14 @@
-"""This module help to get path name."""
+"""Module help to get path name."""
 import os
 
 
 def get_path_for_file(*, path_dir_file: str) -> str:
-    """
-    Get absolute path name for file.
+    r"""Get absolute path name for file.
 
     Parameters
     ----------
     path_dir_file : str
-        Path name to file with directory (example, 'db\\db.sql').
+        Path name to file with directory (example, "db\\db.sql").
 
     Returns
     -------

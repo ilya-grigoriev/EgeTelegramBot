@@ -1,4 +1,4 @@
-"""This module help to format image."""
+"""Module help to format image."""
 import io
 
 from typing import IO
@@ -6,8 +6,7 @@ from PIL import Image, ImageDraw, ImageOps
 
 
 def crop_image(*, image_to_bytes: bytes) -> IO[bytes]:
-    """
-    Remove empty space in the image.
+    """Remove empty space in the image.
 
     Parameters
     ----------
@@ -19,7 +18,6 @@ def crop_image(*, image_to_bytes: bytes) -> IO[bytes]:
     IO[bytes]
         Image without empty space converted to bytes.
     """
-
     image = Image.open(io.BytesIO(image_to_bytes))
     image = image.convert("RGB")
     ImageDraw.floodfill(image, xy=(0, 0), value=(255, 255, 255), thresh=10)

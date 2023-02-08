@@ -1,4 +1,4 @@
-"""This module help to format data from database."""
+"""Module help to format data from database."""
 import traceback
 
 import aiogram
@@ -10,8 +10,7 @@ from parse_data.typing_for_parsing import DataFromDB
 async def format_data_for_tg_and_send_photo(
     *, data: DataFromDB, bot: aiogram.Bot, chat_id: str, subject_name_en: str
 ) -> None:
-    """
-    Format data for Telegram and sending converted images to bytes.
+    """Format data for Telegram and sending converted images to bytes.
 
     Parameters
     ----------
@@ -24,7 +23,6 @@ async def format_data_for_tg_and_send_photo(
     subject_name_en : str
         The name of the subject in English.
     """
-
     template_url = f"https://{subject_name_en}-ege.sdamgia.ru"
 
     try:

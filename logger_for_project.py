@@ -1,4 +1,4 @@
-"""This module is designed for creating logger."""
+"""Module is designed for creating logger."""
 import loguru
 from parse_data.config_for_parsing import PATH_DIR
 

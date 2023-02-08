@@ -1,11 +1,10 @@
-"""This module help to get image src from html code."""
+"""Module help to get image src from html code."""
 import re
 from typing import Sequence, Any
 
 
 def get_img_url_from_tag(tag: str) -> Sequence[Any]:
-    """
-    Get internal links to images from html code.
+    """Get internal links to images from html code.
 
     Parameters
     ----------

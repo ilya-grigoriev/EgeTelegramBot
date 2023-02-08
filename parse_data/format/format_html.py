@@ -1,4 +1,4 @@
-"""This module help to format html code."""
+"""Module help to format html code."""
 import asyncio
 import random
 import traceback
@@ -21,8 +21,7 @@ async def format_html_code(
     session: aiohttp.ClientSession,
     is_detailed: bool
 ) -> Optional[DataTaskOfSubtopic] | Any:
-    """
-    Parse tasks from html code and formatting them.
+    """Parse tasks from html code and formatting them.
 
     Parameters
     ----------
@@ -40,7 +39,6 @@ async def format_html_code(
     Optional[DataTaskOfSubtopic] | Any
         Dataclass with data of subtopic's task.
     """
-
     my_logger.info("Format html code...")
     formatted_html = delete_excess_data_in_tag(template_url=template_url, tag=html_code)
     my_logger.success("Html code formatted")

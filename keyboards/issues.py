@@ -1,4 +1,4 @@
-"""This module help to get keyboard for issues."""
+"""Module help to get keyboard for issues."""
 from typing import List
 
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
@@ -9,8 +9,7 @@ from parse_data.typing_for_parsing import DataTask
 
 
 def get_keyboard_for_issue(*, issues_data: List[DataTask]) -> ReplyKeyboardMarkup:
-    """
-    Getting keyboards for issues.
+    """Get keyboards for issues.
 
     Parameters
     ----------

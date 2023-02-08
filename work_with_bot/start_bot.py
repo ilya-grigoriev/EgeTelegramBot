@@ -1,4 +1,4 @@
-"""This module help to starting Telegram bot."""
+"""Module help to starting Telegram bot."""
 import re
 import traceback
 
@@ -23,8 +23,7 @@ from parse_data.config_for_parsing import translation_from_eng
 
 @dp.message_handler(commands=["start"], state=None)
 async def send_welcome_(message: types.Message):
-    """
-    Handling request to sending welcome.
+    """Handle request to sending welcome.
 
     Parameters
     ----------
@@ -38,8 +37,7 @@ async def send_welcome_(message: types.Message):
 
 @dp.message_handler(commands=["help"])
 async def get_help(message: types.Message):
-    """
-    Handling request to getting help.
+    """Handle request to getting help.
 
     Parameters
     ----------
@@ -50,8 +48,7 @@ async def get_help(message: types.Message):
 
 @dp.message_handler(state=Response.issue)
 async def get_issues(message: types.Message, state: FSMContext):
-    """
-    Handling requeset to getting issues.
+    """Handle request to getting issues.
 
     Parameters
     ----------
@@ -81,8 +78,7 @@ async def get_issues(message: types.Message, state: FSMContext):
 
 @dp.message_handler(state=Response.subtopic)
 async def get_subtopics(message: types.Message, state: FSMContext):
-    """
-    Handling request to getting subtopics.
+    """Handle request to getting subtopics.
 
     Parameters
     ----------
@@ -130,8 +126,7 @@ async def get_subtopics(message: types.Message, state: FSMContext):
 
 @dp.message_handler(state=Response.task)
 async def get_task(message: types.Message, state: FSMContext):
-    """
-    Handling request to getting task.
+    """Handle request to getting task.
 
     Parameters
     ----------
@@ -191,8 +186,7 @@ async def get_task(message: types.Message, state: FSMContext):
 
 @dp.message_handler(state=Response.back_or_get)
 async def back_or_get(message: types.Message, state: FSMContext):
-    """
-    Processing the request to return and get task.
+    """Return and get task.
 
     Parameters
     ----------

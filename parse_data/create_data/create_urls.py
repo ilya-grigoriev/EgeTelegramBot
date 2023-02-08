@@ -1,4 +1,4 @@
-"""This module help to create urls."""
+"""Module help to create urls."""
 import asyncio
 
 from parse_data.typing_for_parsing import (
@@ -11,8 +11,7 @@ from parse_data.typing_for_parsing import (
 async def create_urls_for_request(
     *, url: typing_url, max_skip: int
 ) -> typing_urls_with_data:
-    """
-    Create urls to https://ege.sdamgia.ru/ for request.
+    """Create urls to https://ege.sdamgia.ru/ for request.
 
     Parameters
     ----------
@@ -26,7 +25,6 @@ async def create_urls_for_request(
     type_urls_with_data
         List of urls with data payload for request.
     """
-
     urls_with_data = []
     skip = 5
     max_amount = max_skip

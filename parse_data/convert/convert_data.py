@@ -1,4 +1,4 @@
-"""This module help to converting data to dataclass."""
+"""Module help to converting data to dataclass."""
 from typing import Optional
 
 from logger_for_project import my_logger
@@ -15,7 +15,7 @@ async def convert_subtopic_to_dataclass(
     n_subtopic: int,
     is_detailed: bool,
 ) -> Optional[DataSubtopic]:
-    """Function for converting pydantic model to dataclass.
+    """Convert pydantic model to dataclass.
 
     Parameters
     ----------
@@ -30,7 +30,6 @@ async def convert_subtopic_to_dataclass(
     is_detailed : bool
         Check issue for non-text answer.
     """
-
     url = f"https://{subject_name_en}-ege.sdamgia.ru/test?theme={data_subtopic.id}"
     urls = await create_urls_for_request(url=url, max_skip=data_subtopic.amount)
 

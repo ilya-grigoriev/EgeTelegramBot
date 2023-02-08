@@ -1,4 +1,4 @@
-"""This module help to check existing database."""
+"""Module help to check existing database."""
 from logger_for_project import my_logger
 from work_with_db.check_data.check_tables_db import check_existing_tables_db
 from work_with_db.config_for_db import conn

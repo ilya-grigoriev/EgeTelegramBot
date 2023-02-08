@@ -1,4 +1,4 @@
-"""This module help to format data for database."""
+"""Module help to format data for database."""
 import re
 import traceback
 from typing import List, Optional
@@ -19,8 +19,7 @@ def format_data_for_db(
     is_detailed: bool,
     number_subtopic: int,
 ) -> Optional[str]:
-    """
-    Format object DataTaskOfSubtopic for database.
+    """Format object DataTaskOfSubtopic for database.
 
     Parameters
     ----------
@@ -38,7 +37,6 @@ def format_data_for_db(
     Optional[str]
         Values for request for database.
     """
-
     total_request = None
     if task:
         try:
@@ -59,8 +57,7 @@ def format_data_for_db(
 async def format_and_insert_tasks(
     *, issues: List[DataIssue], subject_name_en: str
 ) -> None:
-    """
-    Format list of issues and insert them to database.
+    """Format list of issues and insert them to database.
 
     Parameters
     ----------
@@ -69,7 +66,6 @@ async def format_and_insert_tasks(
     subject_name_en : str
         The name of the subject in English.
     """
-
     if issues:
         data_for_db: formatted_data_for_db = []
         for issue in issues:

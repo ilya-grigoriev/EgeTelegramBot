@@ -1,4 +1,4 @@
-"""This module help to get keyboards for subjects."""
+"""Module help to get keyboards for subjects."""
 from typing import List, Optional
 
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
@@ -10,8 +10,7 @@ from parse_data.config_for_parsing import translation_from_eng
 def get_keyboard_for_subjects(
     *, subjects: List[DataSubjectForTG]
 ) -> Optional[ReplyKeyboardMarkup]:
-    """
-    Getting keyboard for subjects.
+    """Get keyboard for subjects.
 
     Parameters
     ----------

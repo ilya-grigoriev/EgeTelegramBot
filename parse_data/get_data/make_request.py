@@ -1,4 +1,4 @@
-"""This module help to make requests."""
+"""Module help to make requests."""
 import random
 import traceback
 from typing import Dict, Sequence, Optional, List
@@ -18,8 +18,7 @@ from parse_data.convert.convert_task import get_tasks_from_html
 async def request_to_url(
     *, url: str, data: Dict[str, str | int], n_issue: int, is_detailed: bool
 ) -> typing_data_of_tasks:
-    """
-    Make request to url.
+    """Make request to url.
 
     Parameters
     ----------
@@ -83,8 +82,7 @@ async def request_to_url(
 async def main(
     *, urls_with_data: List[typing_request_data], n_issue: int, is_detailed: bool
 ) -> typing_data_of_tasks:
-    """
-    Run requests.
+    """Run requests.
 
     Parameters
     ----------

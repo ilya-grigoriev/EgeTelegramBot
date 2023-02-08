@@ -1,4 +1,4 @@
-"""This module is designed to create type-hints."""
+"""Module is designed to create type-hints."""
 import dataclasses
 from typing import Optional, Dict, List, Any, TypedDict, NewType, IO, Tuple, Sequence
 from pydantic import BaseModel, Field, root_validator
@@ -20,7 +20,7 @@ formatted_data_for_db = List[Optional[str]]
 
 @dataclasses.dataclass
 class DataTaskOfSubtopic:
-    """Dataclass for formatting data of subtopic's task."""
+    """Format data of subtopic's task."""
 
     id_task: int = -1
     task_desc_html: str = ""
@@ -36,7 +36,7 @@ typing_data_of_tasks = Sequence[typing_task]  # pylint: disable=invalid-name
 
 @dataclasses.dataclass
 class DataSubtopic:
-    """Dataclass for formatting of subtopic."""
+    """For formatting of subtopic."""
 
     number_subtopic: int = -1
     title: str = ""
@@ -46,7 +46,7 @@ class DataSubtopic:
 
 @dataclasses.dataclass
 class DataIssue:
-    """Dataclass for formatting data of issue."""
+    """For formatting data of issue."""
 
     number_issue: int = -1
     title: str = ""
@@ -56,7 +56,7 @@ class DataIssue:
 
 @dataclasses.dataclass
 class DataForTG:
-    """Dataclass for formatting data for Telegram."""
+    """For formatting data for Telegram."""
 
     text: str
     id: int  # pylint: disable=invalid-name
@@ -67,7 +67,7 @@ class DataForTG:
 
 @dataclasses.dataclass(frozen=True)
 class DataFromDB:  # pylint: disable=too-many-instance-attributes
-    """Dataclass for formatting data from database."""
+    """For formatting data from database."""
 
     task_section: str
     id_task: int
@@ -80,7 +80,7 @@ class DataFromDB:  # pylint: disable=too-many-instance-attributes
 
 
 class Subtopic(BaseModel):  # pylint: disable=too-few-public-methods
-    """Pydantic model for formatting data of subtopics."""
+    """Model for formatting data of subtopics."""
 
     id: int = Field(alias="id")
     title: str = Field(alias="title")
@@ -92,14 +92,14 @@ typing_subtopics = List[Optional[Subtopic]]
 
 @dataclasses.dataclass
 class DataSubtopicForTG:
-    """Dataclass for formatting data of subtopic for Telegram."""
+    """For formatting data of subtopic for Telegram."""
 
     n_subtopic: str
     title: str
 
 
 class DataTaskDict(TypedDict):
-    """Typed dict for formatting data of task from dict."""
+    """Dict for formatting data of task from dict."""
 
     issue: int
     title: str
@@ -108,7 +108,7 @@ class DataTaskDict(TypedDict):
 
 
 class DataFromJson(TypedDict):
-    """Typed dict for formatting data of task from json."""
+    """Dict for formatting data of task from json."""
 
     id_issue: Optional[str]
     issue: int | str
@@ -119,7 +119,7 @@ class DataFromJson(TypedDict):
 
 
 class DataTask(BaseModel):  # pylint: disable=too-few-public-methods
-    """Pydantic model for formatting data of task."""
+    """Model for formatting data of task."""
 
     id_issue: Optional[str] = Field(alias="id")
     issue: int | str = Field(alias="issue")
@@ -176,8 +176,7 @@ formatted_subjects = Optional[List[DataTask]]  # pylint: disable=invalid-name
 
 
 class DataSubjectForTG(TypedDict):
-    """
-    TypedDict of data subject for Telegram.
+    """TypedDict of data subject for Telegram.
 
     Parameters
     ----------

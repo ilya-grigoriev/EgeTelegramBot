@@ -1,4 +1,4 @@
-"""This module help to check tables of database."""
+"""Module help to check tables of database."""
 import traceback
 from psycopg2 import extensions, errors
 

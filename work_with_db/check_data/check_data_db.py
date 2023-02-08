@@ -1,4 +1,4 @@
-"""This module help to check database."""
+"""Module help to check database."""
 import asyncio
 import random
 import time
@@ -17,15 +17,13 @@ class ResponseIsNoneException(Exception):
 
 
 def check_data_of_tables(*, conn: extensions.connection) -> None:
-    """
-    Check tables of database.
+    """Check tables of database.
 
     Parameters
     ----------
     conn : extensions.connection
         Psycopg2 connection to PostgreSQL.
     """
-
     try:
         cursor = conn.cursor()
         for subject in subjects_en:

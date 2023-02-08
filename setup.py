@@ -1,4 +1,4 @@
-# pylint: skip-file
+# flake8: noqa
 from distutils.core import setup
 
 setup(

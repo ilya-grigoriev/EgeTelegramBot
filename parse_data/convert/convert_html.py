@@ -1,4 +1,4 @@
-"""This module help to converting html."""
+"""Module help to converting html."""
 import os
 import traceback
 
@@ -17,7 +17,7 @@ from parse_data.typing_for_parsing import typing_converted_images_to_bytes, Data
 async def convert_html_code_to_image(
     *, html_code: str, id_task: int, type_html: str
 ) -> typing_converted_images_to_bytes:
-    """Converting html code to image.
+    """Convert html code to image.
 
     Parameters
     ----------
@@ -33,7 +33,6 @@ async def convert_html_code_to_image(
     converted_images_to_bytes : Optional[List[bytes]]
         List of images converted to bytes.
     """
-
     formatted_html = html_code
     file_path = f"{PATH_DIR}\\{id_task}_{type_html}"
     html_file = f"{file_path}.html"
@@ -78,8 +77,7 @@ async def convert_html_code_to_image(
 async def convert_html_code_to_bytes(
     *, html_code: str, type_html: str, data: DataFromDB, template_url: str
 ) -> typing_converted_images_to_bytes:
-    """
-    Converting html code to list of images is converted to bytes.
+    """Convert html code to list of images is converted to bytes.
 
     Parameters
     ----------
@@ -97,7 +95,6 @@ async def convert_html_code_to_bytes(
     Optional[List[IO[bytes]]]
         List of images is converted to bytes.
     """
-
     if not html_code:
         return None
 

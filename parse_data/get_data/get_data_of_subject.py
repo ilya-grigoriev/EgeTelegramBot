@@ -1,4 +1,4 @@
-"""This module help to get json of data subject."""
+"""Module help to get json of data subject."""
 import traceback
 
 from typing import Any
@@ -9,8 +9,7 @@ from parse_data.config_for_parsing import headers_for_get_subject_ids
 
 
 def get_json_of_data_subject(*, subject_name_en: str) -> typing_data_subjects | Any:
-    """
-    Get json of data subject.
+    """Get json of data subject.
 
     Parameters
     ----------

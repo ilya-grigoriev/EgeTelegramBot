@@ -1,4 +1,4 @@
-"""This module help to insert data to database."""
+"""Module help to insert data to database."""
 import traceback
 from typing import List, Optional
 
