@@ -13,7 +13,7 @@
 1. Скачайте все необходимые зависимости:
 
 ```python
-pip install - r requirements.txt
+pip install -r requirements.txt
 ```
 
 2. Создайте файл `.env` и скопируйте в него переменные из файла `.env.example`.
