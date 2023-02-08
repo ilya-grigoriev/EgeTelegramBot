@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "egetelegrambot"
-version = "0.2.3"
+version = "0.2.4"
 description = "Telegram bot for solving EGE problems"
 authors = ["Ilya Grigoryev"]
 license = "GNU"
