@@ -23,3 +23,4 @@ flake8~=6.0.0
 pydocstringformatter~=0.7.3
 pyupgrade~=3.3.1
 pylint_pydantic~=0.1.6
+hypothesis~=6.68.0
