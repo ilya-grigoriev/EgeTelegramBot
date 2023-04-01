@@ -29,7 +29,6 @@ repos:
           - flake8-docstrings
         args:
           - --docstring-convention=numpy
-          - --append-config ~/.flake8
   - repo: https://github.com/DanielNoord/pydocstringformatter
     rev: v0.7.3
     hooks:
