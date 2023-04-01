@@ -1,4 +1,4 @@
 [flake8]
 ignore = E501
 max-line-length = 80
-exclude = /tests
+exclude = parse_data/convert/tests
