@@ -2,9 +2,10 @@
 from typing import Optional
 
 from logger_for_project import my_logger
+from parse_data.check.check_data import check_args
 from parse_data.create_data.create_urls import create_urls_for_request
-from parse_data.typing_for_parsing import DataSubtopic, Subtopic
 from parse_data.get_data.get_data_of_tasks import get_data_of_tasks_for_subtopic
+from parse_data.typing_for_parsing import DataSubtopic, Subtopic
 
 
 async def convert_subtopic_to_dataclass(
@@ -15,7 +16,8 @@ async def convert_subtopic_to_dataclass(
     n_subtopic: int,
     is_detailed: bool,
 ) -> Optional[DataSubtopic]:
-    """Convert pydantic model to dataclass.
+    """
+    Convert pydantic model to dataclass.
 
     Parameters
     ----------
@@ -30,6 +32,14 @@ async def convert_subtopic_to_dataclass(
     is_detailed : bool
         Check issue for non-text answer.
     """
+    check_args(
+        data_subtopic=data_subtopic,
+        subject_name_en=subject_name_en,
+        n_issue=n_issue,
+        n_subtopic=n_subtopic,
+        is_detailed=is_detailed,
+    )
+
     url = f"https://{subject_name_en}-ege.sdamgia.ru/test?theme={data_subtopic.id}"
     urls = await create_urls_for_request(url=url, max_skip=data_subtopic.amount)
 

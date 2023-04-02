@@ -1,12 +1,12 @@
 """Module help to convert task."""
-from typing import Sequence, Optional
+from typing import Optional, Sequence
 
 import aiohttp
-
-from tenacity import RetryError
+from parse_data.check.check_data import check_args
 from parse_data.format.format_html import format_html_code
 from parse_data.get_data.get_data_from_html import get_tasks_html_from_html
 from parse_data.typing_for_parsing import DataTaskOfSubtopic
+from tenacity import RetryError
 
 
 async def get_tasks_from_html(
@@ -17,7 +17,8 @@ async def get_tasks_from_html(
     n_issue: int,
     is_detailed: bool,
 ) -> Sequence[Optional[DataTaskOfSubtopic]]:
-    """Convert tasks to dataclass subtopic's tasks.
+    """
+    Convert tasks to dataclass subtopic's tasks.
 
     Parameters
     ----------
@@ -37,6 +38,14 @@ async def get_tasks_from_html(
     Sequence[Optional[DataTaskOfSubtopic]]
         List of dataclass subtopic's tasks.
     """
+    check_args(
+        html=html,
+        template_url=template_url,
+        session=session,
+        n_issue=n_issue,
+        is_detailed=is_detailed,
+    )
+
     tasks = get_tasks_html_from_html(html=html, n_issue=n_issue)
     formatted_tasks = []
 

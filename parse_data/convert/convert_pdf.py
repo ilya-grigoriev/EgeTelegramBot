@@ -2,19 +2,20 @@
 import os
 import traceback
 
-from pdf2image import convert_from_path
-
 from logger_for_project import my_logger
-from parse_data.convert.convert_file_to_bytes import convert_image_to_bytes
-from parse_data.typing_for_parsing import typing_converted_images_to_bytes
-from parse_data.format.format_image import crop_image
+from parse_data.check.check_data import check_args
 from parse_data.config_for_parsing import PATH_DIR
+from parse_data.convert.convert_file_to_bytes import convert_image_to_bytes
+from parse_data.format.format_image import crop_image
+from parse_data.typing_for_parsing import typing_converted_images_to_bytes
+from pdf2image import convert_from_path
 
 
 def convert_pdf_to_images(
     *, path_pdf_file: str, path_image: str
 ) -> typing_converted_images_to_bytes:
-    """Convert pdf file to images.
+    """
+    Convert pdf file to images.
 
     Parameters
     ----------
@@ -26,8 +27,10 @@ def convert_pdf_to_images(
     Returns
     -------
     type_converted_images_to_bytes : Optional[List[bytes]]
-        List of images converted to bytes.
+        Listp of images converted to bytes.
     """
+    check_args(path_pdf=path_pdf_file, path_image=path_image)
+
     path_for_poppler = rf"{PATH_DIR}\poppler-0.68.0\bin"
     images = convert_from_path(pdf_path=path_pdf_file, poppler_path=path_for_poppler)
     converted_images = []

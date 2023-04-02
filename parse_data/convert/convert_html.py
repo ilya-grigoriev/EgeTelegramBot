@@ -3,21 +3,22 @@ import os
 import traceback
 
 import aiocache
-
 from aiocache.serializers import PickleSerializer
 from logger_for_project import my_logger
-from parse_data.config_for_parsing import PATH_DIR
 from parse_data.browser_for_parsing import make_pdf
+from parse_data.check.check_data import check_args
+from parse_data.config_for_parsing import PATH_DIR
 from parse_data.convert.convert_pdf import convert_pdf_to_images
 from parse_data.format.format_data_in_tag import delete_excess_data_in_tag
-from parse_data.typing_for_parsing import typing_converted_images_to_bytes, DataFromDB
+from parse_data.typing_for_parsing import DataFromDB, typing_converted_images_to_bytes
 
 
 @aiocache.cached(serializer=PickleSerializer())
 async def convert_html_code_to_image(
     *, html_code: str, id_task: int, type_html: str
 ) -> typing_converted_images_to_bytes:
-    """Convert html code to image.
+    """
+    Convert html code to image.
 
     Parameters
     ----------
@@ -33,6 +34,8 @@ async def convert_html_code_to_image(
     converted_images_to_bytes : Optional[List[bytes]]
         List of images converted to bytes.
     """
+    check_args(html=html_code, id_task=id_task, type_html=type_html)
+
     formatted_html = html_code
     file_path = f"{PATH_DIR}\\{id_task}_{type_html}"
     html_file = f"{file_path}.html"
@@ -77,7 +80,8 @@ async def convert_html_code_to_image(
 async def convert_html_code_to_bytes(
     *, html_code: str, type_html: str, data: DataFromDB, template_url: str
 ) -> typing_converted_images_to_bytes:
-    """Convert html code to list of images is converted to bytes.
+    """
+    Convert html code to list of images is converted to bytes.
 
     Parameters
     ----------
@@ -95,8 +99,12 @@ async def convert_html_code_to_bytes(
     Optional[List[IO[bytes]]]
         List of images is converted to bytes.
     """
-    if not html_code:
-        return None
+    check_args(
+        html=html_code,
+        type_html=type_html,
+        data_from_db=data,
+        template_url=template_url,
+    )
 
     if type_html == "answer":
         converted_text_to_html = f"<p>Ответ: {data.answer}</p>"
