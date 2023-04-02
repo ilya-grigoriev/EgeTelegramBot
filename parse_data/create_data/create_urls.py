@@ -1,10 +1,11 @@
 """Module help to create urls."""
 import asyncio
 
+from parse_data.check.check_data import check_args
 from parse_data.typing_for_parsing import (
-    typing_urls_with_data,
-    typing_url,
     typing_data_payload,
+    typing_url,
+    typing_urls_with_data,
 )
 
 
@@ -25,6 +26,8 @@ async def create_urls_for_request(
     type_urls_with_data
         List of urls with data payload for request.
     """
+    check_args(url=url, max_skip=max_skip)
+
     urls_with_data = []
     skip = 5
     max_amount = max_skip
