@@ -63,3 +63,7 @@ class WrongMaxSkip(Exception):
 
 class WrongTaskDataclass(Exception):
     """Raise when task is not DataTaskOfSubtopic dataclass."""
+
+
+class WrongDataIssue(Exception):
+    """Raise when issues is not DataIssue dataclass."""
