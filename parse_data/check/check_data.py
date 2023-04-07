@@ -3,6 +3,7 @@ import aiohttp
 from parse_data import exceptions_for_parsing
 from parse_data.check.check_data_object import (
     check_arg_data_from_db,
+    check_arg_data_issue,
     check_arg_data_subtopic,
     check_arg_task,
 )
@@ -96,3 +97,8 @@ def check_args(**kwargs):
     if "task" in kwargs:
         task: typing_task = kwargs["task"]  # type: ignore
         check_arg_task(task=task)
+
+    if "data_issues" in kwargs:
+        data_issues = kwargs["data_issues"]
+        for issue in data_issues:
+            check_arg_data_issue(issue=issue)
