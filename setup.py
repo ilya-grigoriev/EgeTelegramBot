@@ -9,7 +9,7 @@ with open("LICENSE", encoding="utf-8") as f:
 
 setup(
     name="EgeTelegramBot",
-    version="0.2.4",
+    version="0.2.6",
     description="Telegram bot created to solve the tasks of the USE",
     long_description=readme,
     author="Ilya Grigoryev",
