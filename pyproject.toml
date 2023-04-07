@@ -36,3 +36,6 @@ useLibraryCodeForTypes = true
 
 [tool.pydocstringformatter]
 write = true
+
+[tool.black]
+line-length = 80

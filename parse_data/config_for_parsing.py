@@ -101,3 +101,4 @@ json_data = {
 PATH_DIR = "\\".join(str(__file__).rsplit("\\")[:-2])
 subjects_ru = ["Русский язык", "Математика профильная", "Информатика", "Физика"]
 subjects_en = ["inf", "math", "rus", "phys"]
+list_types = ["task", "text", "solution", "answer"]
