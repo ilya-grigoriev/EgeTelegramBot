@@ -15,7 +15,6 @@ def check_arg_html(html: str):
     try:
         pattern = r"<\w+>[\w\d:;\.,\+\*\w\-А-Яа-яё]+<\/\w+>"
         searching = re.search(pattern, html)
-        if searching:
-            searching.group()
+        searching.group()  # type: ignore
     except Exception:
         raise exceptions_for_parsing.WrongHtmlCode
