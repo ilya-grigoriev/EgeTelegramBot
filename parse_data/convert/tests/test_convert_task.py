@@ -1,6 +1,7 @@
 import aiohttp
 import pytest
-from hypothesis import given, strategies as st
+from hypothesis import given
+from hypothesis import strategies as st
 from parse_data.convert.convert_task import get_tasks_from_html
 
 
