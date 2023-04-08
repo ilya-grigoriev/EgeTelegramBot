@@ -1,4 +1,4 @@
-[![Build status](https://github.com/Ilya-Grigoriev/EgeTelegramBot/actions/workflows/checks.yaml/badge.svg?branch=main)](https://github.com/Ilya-Grigoriev/EgeTelegramBot/actions/workflows/checks.yaml)[![Build status](https://github.com/Ilya-Grigoriev/EgeTelegramBot/actions/workflows/checks.yaml/badge.svg?branch=main)](https://github.com/Ilya-Grigoriev/EgeTelegramBot/actions/workflows/tests.yaml)
+[![Build status](https://github.com/Ilya-Grigoriev/EgeTelegramBot/actions/workflows/checks.yaml/badge.svg?branch=main)](https://github.com/Ilya-Grigoriev/EgeTelegramBot/actions/workflows/checks.yaml)[![Build status](https://github.com/Ilya-Grigoriev/EgeTelegramBot/actions/workflows/tests.yaml/badge.svg?branch=main)](https://github.com/Ilya-Grigoriev/EgeTelegramBot/actions/workflows/tests.yaml)
 
 
 
