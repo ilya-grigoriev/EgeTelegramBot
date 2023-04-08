@@ -5,7 +5,11 @@ from typing import List, Optional
 
 from logger_for_project import my_logger
 from parse_data.check.check_data import check_args
-from parse_data.typing_for_parsing import DataIssue, formatted_data_for_db, typing_task
+from parse_data.typing_for_parsing import (
+    DataIssue,
+    formatted_data_for_db,
+    typing_task,
+)
 from work_with_db.create_data.insert_data import insert_tasks
 
 
@@ -34,13 +38,20 @@ def format_data_for_db(
     Optional[str]
         Values for request for database.
     """
-    check_args(task=task, is_detailed=is_detailed, n_subtopic=number_subtopic)
+    check_args(
+        task=task,
+        n_task=number_task,
+        is_detailed=is_detailed,
+        n_subtopic=number_subtopic,
+    )
 
     total_request = None
     if task:
         try:
             task.task_desc_html = re.sub("'", '"', str(task.task_desc_html))
-            task.text_for_task_html = re.sub("'", '"', str(task.text_for_task_html))
+            task.text_for_task_html = re.sub(
+                "'", '"', str(task.text_for_task_html)
+            )
             task.solution_html = re.sub("'", '"', str(task.solution_html))
         except TypeError:
             my_logger.error(traceback.format_exc())
