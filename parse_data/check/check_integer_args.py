@@ -60,3 +60,18 @@ def check_arg_number_subtopic(n_subtopic: int):
             raise exceptions_for_parsing.WrongNumberSubtopic
     except TypeError:
         raise exceptions_for_parsing.WrongNumberSubtopic
+
+
+def check_arg_number_task(n_task: int):
+    """
+    Check argument of number subtopic.
+
+    Parameters
+    ----------
+    n_subtopic : int
+    """
+    try:
+        if n_task <= 0:
+            raise exceptions_for_parsing.WrongNumberTask
+    except TypeError:
+        raise exceptions_for_parsing.WrongNumberTask
