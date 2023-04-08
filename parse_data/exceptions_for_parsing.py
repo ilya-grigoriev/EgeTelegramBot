@@ -67,3 +67,7 @@ class WrongTaskDataclass(Exception):
 
 class WrongDataIssue(Exception):
     """Raise when issues is not DataIssue dataclass."""
+
+
+class WrongNumberTask(Exception):
+    """Raise when task is incorrect."""
