@@ -13,6 +13,7 @@ from parse_data.check.check_integer_args import (
     check_arg_max_skip,
     check_arg_number_issue,
     check_arg_number_subtopic,
+    check_arg_number_task,
 )
 from parse_data.check.check_path import (
     check_arg_file_name,
@@ -102,3 +103,7 @@ def check_args(**kwargs):
         data_issues = kwargs["data_issues"]
         for issue in data_issues:
             check_arg_data_issue(issue=issue)
+
+    if "n_task" in kwargs:
+        n_task = kwargs["n_task"]
+        check_arg_number_task(n_task=n_task)
