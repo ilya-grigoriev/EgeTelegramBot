@@ -22,7 +22,7 @@ from parse_data.check.check_path import (
 from parse_data.check.check_session import check_arg_session
 from parse_data.check.check_subject_name import check_arg_subject_name
 from parse_data.check.check_urls import check_arg_template_url, check_arg_url
-from parse_data.config_for_parsing import list_types  # type: ignore
+from parse_data.config_for_parsing import list_types
 from parse_data.typing_for_parsing import DataFromDB, Subtopic, typing_task
 
 
