@@ -1,2 +1,2 @@
 """Package help to get keyboard for tasks."""
-print("__init__.py keyboard")
+print(__file__)

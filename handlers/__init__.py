@@ -1,2 +1,2 @@
 """Package is designed to work with Aiogram handlers."""
-print("__init__.py handlers")
+print(__file__)
