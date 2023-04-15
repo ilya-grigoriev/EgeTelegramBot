@@ -70,5 +70,8 @@ async def test_correct_data_convert_html_code_to_bytes():
     )
     template_url = "https://a-ege.sdamgia.ru"
     await convert_html.convert_html_code_to_bytes(
-        html_code="<p>a</p>", type_html="task", data=data, template_url=template_url
+        html_code="<p>a</p>",
+        type_html="task",
+        data=data,
+        template_url=template_url,
     )

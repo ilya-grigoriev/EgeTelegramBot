@@ -8,7 +8,9 @@ from keyboards.btn_random_task import BTN_RANDOM_TASK
 from parse_data.typing_for_parsing import DataTask
 
 
-def get_keyboard_for_issue(*, issues_data: List[DataTask]) -> ReplyKeyboardMarkup:
+def get_keyboard_for_issue(
+    *, issues_data: List[DataTask]
+) -> ReplyKeyboardMarkup:
     """Get keyboards for issues.
 
     Parameters

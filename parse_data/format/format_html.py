@@ -40,7 +40,9 @@ async def format_html_code(
         Dataclass with data of subtopic's task.
     """
     my_logger.info("Format html code...")
-    formatted_html = delete_excess_data_in_tag(template_url=template_url, tag=html_code)
+    formatted_html = delete_excess_data_in_tag(
+        template_url=template_url, tag=html_code
+    )
     my_logger.success("Html code formatted")
 
     my_logger.info("Getting data of task...")

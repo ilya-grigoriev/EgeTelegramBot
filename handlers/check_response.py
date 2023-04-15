@@ -4,7 +4,9 @@ from aiogram.dispatcher import FSMContext
 from keyboards.menu import keyboard_menu
 
 
-async def check_answer_from_user(*, message: types.Message, state: FSMContext) -> None:
+async def check_answer_from_user(
+    *, message: types.Message, state: FSMContext
+) -> None:
     """Check answer from user's message.
 
     Parameters

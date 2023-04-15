@@ -1,6 +1,16 @@
 """Module is designed to create type-hints."""
 import dataclasses
-from typing import Optional, Dict, List, Any, TypedDict, NewType, IO, Tuple, Sequence
+from typing import (
+    Optional,
+    Dict,
+    List,
+    Any,
+    TypedDict,
+    NewType,
+    IO,
+    Tuple,
+    Sequence,
+)
 from pydantic import BaseModel, Field, root_validator
 
 id_task_from_db = NewType("id_task_from_db", int)
@@ -156,7 +166,9 @@ class DataTask(BaseModel):  # pylint: disable=too-few-public-methods
 
         formatted_subtopics: typing_subtopics = []
         if not isinstance(subtopics, list):
-            data_issue = Subtopic(**{"id": id_issue, "title": "", "amount": amount})
+            data_issue = Subtopic(
+                **{"id": id_issue, "title": "", "amount": amount}
+            )
             formatted_subtopics.append(data_issue)
         elif isinstance(subtopics, list):
             for subtopic in subtopics:

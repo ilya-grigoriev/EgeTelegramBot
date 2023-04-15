@@ -9,7 +9,9 @@ import aiohttp.client_exceptions
 from psycopg2 import extensions, errors
 from logger_for_project import my_logger
 from parse_data.config_for_parsing import subjects_en
-from parse_data.format.parse_data_and_update_database import parse_data_and_update_db
+from parse_data.format.parse_data_and_update_database import (
+    parse_data_and_update_db,
+)
 
 
 class ResponseIsNoneException(Exception):
@@ -43,8 +45,12 @@ def check_data_of_tables(*, conn: extensions.connection) -> None:
                         break
                     try:
                         my_logger.info(f"Starting parsing data for {subject}")
-                        asyncio.run(parse_data_and_update_db(subject_name_en=subject))
-                        my_logger.success(f"Parsing data for {subject} is finished")
+                        asyncio.run(
+                            parse_data_and_update_db(subject_name_en=subject)
+                        )
+                        my_logger.success(
+                            f"Parsing data for {subject} is finished"
+                        )
                     except aiohttp.client_exceptions.ClientError:
                         my_logger.error(traceback.format_exc())
                         my_logger.info(f"Repeat parsing data for {subject}...")

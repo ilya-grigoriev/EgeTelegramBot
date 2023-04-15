@@ -40,13 +40,9 @@ def delete_excess_data_in_tag(*, template_url: str, tag: str) -> str:
 
     tag = re.sub(r"<input[\w\s\dА-Яа-яЁё=\"_\\]+>", "", tag)
 
-    pattern = (
-        r'<script language="javascript"> ShowPictureQ\([\w\d\/_\.\"]+\);<\/script>'
-    )
+    pattern = r'<script language="javascript"> ShowPictureQ\([\w\d\/_\.\"]+\);<\/script>'
     sources = re.findall(pattern, tag)
-    pattern_for_href = (
-        r"(docs\/[\d\w]+\/[\d\w]+\/[\d\w]+\/[\d\w]+\.(png|jpg|gif|jpeg|webp|svg))"
-    )
+    pattern_for_href = r"(docs\/[\d\w]+\/[\d\w]+\/[\d\w]+\/[\d\w]+\.(png|jpg|gif|jpeg|webp|svg))"
     for source in sources:
         result_search = re.search(pattern_for_href, source)
         if result_search:
@@ -113,7 +109,10 @@ def format_answer_from_tag(*, html: str) -> Tuple[str, str]:
 
 
 def format_solution_html(
-    solution_html: str, soup: BeautifulSoup, template_url: str, is_detailed: bool
+    solution_html: str,
+    soup: BeautifulSoup,
+    template_url: str,
+    is_detailed: bool,
 ) -> Optional[Tuple[str, str]]:
     """Format and getting data from solution html code.
 
@@ -155,12 +154,16 @@ def format_solution_html(
                 answer_text_v2 = ":".join(answer_text_v2.split(":")[1:]).strip()
             answer_text = answer_text_v2
     elif answer_text_v1:
-        solution_html, answer_text = format_answer_from_tag(html=str(solution_html))
+        solution_html, answer_text = format_answer_from_tag(
+            html=str(solution_html)
+        )
         if have_table:
             solution_html = ""
     elif have_table:
         try:
-            solution_html, answer_text = format_table_in_html(html=solution_html)
+            solution_html, answer_text = format_table_in_html(
+                html=solution_html
+            )
         except Exception:  # pylint: disable=broad-except
             my_logger.error(traceback.format_exc())
     solution_html_str = str(solution_html)

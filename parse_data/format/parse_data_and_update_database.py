@@ -39,7 +39,9 @@ async def parse_data_and_update_db(*, subject_name_en: str) -> None:
                     n_subtopic=ind_subtopic,
                     is_detailed=is_detailed,
                 )
-                for ind_subtopic, subtopic in enumerate(num_issue.subtopics, start=1)
+                for ind_subtopic, subtopic in enumerate(
+                    num_issue.subtopics, start=1
+                )
             ]
             my_logger.info("Start converting subtopic in dataclass...")
             formatted_subtopics = await asyncio.gather(*async_subtopics)

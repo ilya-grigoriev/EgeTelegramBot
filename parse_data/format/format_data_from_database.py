@@ -70,7 +70,9 @@ async def format_data_for_tg_and_send_photo(
             )
 
             if solution_images:
-                await bot.send_message(chat_id=chat_id, text="Пояснение к задаче:")
+                await bot.send_message(
+                    chat_id=chat_id, text="Пояснение к задаче:"
+                )
                 for solution_image in solution_images:
                     await bot.send_photo(chat_id=chat_id, photo=solution_image)
 
@@ -79,6 +81,8 @@ async def format_data_for_tg_and_send_photo(
                     chat_id=chat_id, text="Ссылки с файлами из задания:"
                 )
                 file_urls = data.file_urls_for_task.split(", ")
-                await bot.send_message(chat_id=chat_id, text="\n".join(file_urls))
+                await bot.send_message(
+                    chat_id=chat_id, text="\n".join(file_urls)
+                )
     except Exception:  # pylint: disable=broad-except
         my_logger.error(traceback.format_exc())

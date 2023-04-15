@@ -1,6 +1,9 @@
 """Module help to get data of tasks for subtopic."""
 from parse_data.get_data import make_request
-from parse_data.typing_for_parsing import typing_urls_with_data, typing_data_of_tasks
+from parse_data.typing_for_parsing import (
+    typing_urls_with_data,
+    typing_data_of_tasks,
+)
 
 
 async def get_data_of_tasks_for_subtopic(

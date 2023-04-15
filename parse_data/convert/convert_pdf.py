@@ -32,7 +32,9 @@ def convert_pdf_to_images(
     check_args(path_pdf=path_pdf_file, path_image=path_image)
 
     path_for_poppler = rf"{PATH_DIR}\poppler-0.68.0\bin"
-    images = convert_from_path(pdf_path=path_pdf_file, poppler_path=path_for_poppler)
+    images = convert_from_path(
+        pdf_path=path_pdf_file, poppler_path=path_for_poppler
+    )
     converted_images = []
 
     try:
@@ -45,7 +47,9 @@ def convert_pdf_to_images(
             my_logger.success("Converting image is finished")
 
             my_logger.info("Start cropping image...")
-            image_without_empty_space = crop_image(image_to_bytes=converted_image)
+            image_without_empty_space = crop_image(
+                image_to_bytes=converted_image
+            )
             my_logger.success("Cropping image is finished")
 
             converted_images.append(image_without_empty_space)

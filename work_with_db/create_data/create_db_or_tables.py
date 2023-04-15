@@ -9,7 +9,9 @@ from work_with_db.config_for_db import CODE_FOR_CREATING_TABLE
 from parse_data.config_for_parsing import subjects_en
 
 
-def create_tables(*, conn: extensions.connection, tables_name: List[str]) -> None:
+def create_tables(
+    *, conn: extensions.connection, tables_name: List[str]
+) -> None:
     """
     Create tables of database.
 

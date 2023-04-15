@@ -24,7 +24,9 @@ def get_tasks_html_from_html(*, html: str, n_issue: int) -> List[str]:
     html = re.sub(r"\s{2,}", " ", html)
     soup = BeautifulSoup(html, "html.parser")
     tasks = soup.find_all("div", attrs={"class": "prob_maindiv"})
-    formatted_tasks = [str(task) for task in tasks if f"Тип {n_issue} " in str(task)]
+    formatted_tasks = [
+        str(task) for task in tasks if f"Тип {n_issue} " in str(task)
+    ]
     return formatted_tasks
 
 

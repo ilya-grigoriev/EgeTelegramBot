@@ -17,7 +17,9 @@ from work_with_db.config_for_db import (
 from work_with_db.create_data.create_db_or_tables import create_tables
 
 
-async def select_task(*, subject_name: str, task_section: str) -> Optional[DataFromDB]:
+async def select_task(
+    *, subject_name: str, task_section: str
+) -> Optional[DataFromDB]:
     """Select data of task from database.
 
     Parameters
@@ -42,7 +44,9 @@ async def select_task(*, subject_name: str, task_section: str) -> Optional[DataF
         ) as conn:
             with conn.cursor() as cursor:
                 my_logger.info("Getting task from db...")
-                request = CODE_FOR_GETTING_TASK.format(subject_name, task_section)
+                request = CODE_FOR_GETTING_TASK.format(
+                    subject_name, task_section
+                )
                 cursor.execute(request)
                 conn.commit()
                 my_logger.success("Getting task is finished")

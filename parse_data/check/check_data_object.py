@@ -1,6 +1,11 @@
 """Module is designed for checking arguments dataclass object."""
 from parse_data import exceptions_for_parsing
-from parse_data.typing_for_parsing import DataFromDB, DataIssue, Subtopic, typing_task
+from parse_data.typing_for_parsing import (
+    DataFromDB,
+    DataIssue,
+    Subtopic,
+    typing_task,
+)
 
 
 def check_arg_data_subtopic(data_subtopic: Subtopic) -> None:

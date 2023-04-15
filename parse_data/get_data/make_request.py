@@ -80,7 +80,10 @@ async def request_to_url(
 
 
 async def main(
-    *, urls_with_data: List[typing_request_data], n_issue: int, is_detailed: bool
+    *,
+    urls_with_data: List[typing_request_data],
+    n_issue: int,
+    is_detailed: bool,
 ) -> typing_data_of_tasks:
     """Run requests.
 
@@ -106,9 +109,9 @@ async def main(
     ]
 
     my_logger.info("Starting make requests...")
-    tasks: Sequence[Sequence[Optional[DataTaskOfSubtopic]]] = await asyncio.gather(
-        *async_requests
-    )
+    tasks: Sequence[
+        Sequence[Optional[DataTaskOfSubtopic]]
+    ] = await asyncio.gather(*async_requests)
     my_logger.success("Tasks received")
 
     formatted_tasks = []

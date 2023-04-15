@@ -8,7 +8,9 @@ from parse_data.typing_for_parsing import typing_data_subjects
 from parse_data.config_for_parsing import headers_for_get_subject_ids
 
 
-def get_json_of_data_subject(*, subject_name_en: str) -> typing_data_subjects | Any:
+def get_json_of_data_subject(
+    *, subject_name_en: str
+) -> typing_data_subjects | Any:
     """Get json of data subject.
 
     Parameters
@@ -27,7 +29,9 @@ def get_json_of_data_subject(*, subject_name_en: str) -> typing_data_subjects | 
     )
 
     try:  # pylint: disable=no-else-return
-        response = requests.get(url, headers=headers_for_get_subject_ids, timeout=5)
+        response = requests.get(
+            url, headers=headers_for_get_subject_ids, timeout=5
+        )
     except requests.exceptions.ReadTimeout:
         my_logger.error(traceback.format_exc())
         return None
