@@ -11,7 +11,7 @@ from typing import (
     Tuple,
     Sequence,
 )
-from pydantic import BaseModel, Field, root_validator
+from pydantic import BaseModel, Field, model_validator
 
 id_task_from_db = NewType("id_task_from_db", int)
 subject_id = NewType("subject_id", int)
@@ -138,7 +138,7 @@ class DataTask(BaseModel):  # pylint: disable=too-few-public-methods
     subtopics: Any = Field(alias="subtopics")
     amount: int = Field(alias="amount")
 
-    @root_validator
+    @model_validator(mode='after')
     def check_subtopics(cls, val: DataFromJson) -> DataTaskDict:
         """
         Parameters.

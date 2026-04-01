@@ -3,8 +3,8 @@ import os
 from dotenv import load_dotenv
 
 from aiogram import Bot, Dispatcher
-from aiogram.contrib.fsm_storage.memory import MemoryStorage
-from aiogram.dispatcher.filters.state import StatesGroup, State
+from aiogram.fsm.storage.memory import MemoryStorage
+from aiogram.filters.state import StatesGroup, State
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from keyboards.get_data_for_keyboard.get_data_for_telegram_subjects import (
     get_subjects_data,
