@@ -1,0 +1,33 @@
+name: ege-telegram-bot
+
+services:
+  telegram-bot:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+    environment:
+      - TOKEN=${TOKEN:?error}
+      - USER_DB=${USER_DB:-postgres}
+      - PASSWORD_DB=${PASSWORD_DB:-postgres}
+      - HOST_DB=db
+  db:
+    image: postgres:alpine
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB:-postgres}
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+    expose:
+      - "${POSTGRES_PORT:-5432}"
+    volumes:
+      - pg_data:/var/lib/postgresql/data/
+
+volumes:
+  pg_data:
