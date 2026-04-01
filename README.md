@@ -14,7 +14,7 @@
 
 1. Скачайте все необходимые зависимости:
 
-```python
+```bash
 pip install -r requirements.txt
 ```
 
@@ -26,3 +26,9 @@ pip install -r requirements.txt
     - PORT_DB - порт для PostgreSQL (по умолчанию 5432).
     - TOKEN - токен бота в Telegram.
 3. Запустите файл `main.py`. Начнётся парсинг задач с сайтов и добавление данных в базу данных, после чего запустится бот (придётся немного подождать).
+
+# Запуска бота через Docker
+
+```bash
+docker compose up --build
+```
